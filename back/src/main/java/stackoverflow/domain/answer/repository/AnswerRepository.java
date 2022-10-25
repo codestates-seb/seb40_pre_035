@@ -8,8 +8,4 @@ import java.util.Optional;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
-    @Query(value = "SELECT c FROM Answer c WHERE c.answerId = :answerId")
-    Optional<Answer> findByAnswer(Long answerId);
-
-
 }

@@ -6,6 +6,7 @@ import stackoverflow.domain.answer.repository.AnswerRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,36 +17,34 @@ public class AnswerService {
         this.answerRepository = answerRepository;
     }
 
-    public Answer createAnswer (Answer answer) {
-
+    public Answer createAnswer(Answer answer) {
         return answerRepository.save(answer);
     }
 
-    public Answer updateAnswer (Answer answer) {
+    public Answer updateAnswer(Answer answer) {
+        Optional<Answer> optionalAnswer = answerRepository.findById(answer.getAnswerId());
+        Answer verifiedAnswer = optionalAnswer.orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
 
-        return answerRepository.save(answer);
+        Optional.ofNullable(answer.getAnswerId()).ifPresent(answerId -> verifiedAnswer.setAnswerId(answerId));
+        Optional.ofNullable(answer.getTitle()).ifPresent(title -> verifiedAnswer.setTitle(title));
+        Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));
+
+        return answerRepository.save(verifiedAnswer);
     }
 
-    public Answer findAnswer (Long answerId) {
+    public Answer findAnswer(Long answerId) {
 
         return null;
     }
 
-    public Answer findAnswers () {
-//        return answerRepository.findAll();
+    public List<Answer> findAnswers() {
+
         return null;
     }
 
-    public void deleteAnswer (Long answerId) {
-        Answer answer = findVerifiedAnswer(answerId);
+    public void deleteAnswer(Long answerId) {
+        Answer answer = new Answer();
         answerRepository.delete(answer);
-    }
-
-    public Answer findVerifiedAnswer (Long answerId) {
-        Optional<Answer> optionalAnswer = answerRepository.findByAnswer(answerId);
-        Answer findAnswer = optionalAnswer.orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
-        return findAnswer;
     }
 }
 

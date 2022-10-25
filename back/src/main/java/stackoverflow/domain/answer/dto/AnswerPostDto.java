@@ -1,21 +1,20 @@
 package stackoverflow.domain.answer.dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import stackoverflow.domain.answer.entity.Answer;
 
-@Data
+@Getter
+@Setter
 public class AnswerPostDto {
     private Long answerId;
-    private Long accountId;
-    private Long questionId;
     private String title;
     private String content;
 
     public Answer setAnswer() {
         Answer answer = new Answer();
         answer.setAnswerId(answerId);
-        answer.setAccountId(accountId);
-        answer.setQuestionId(questionId);
         answer.setTitle(title);
         answer.setContent(content);
 

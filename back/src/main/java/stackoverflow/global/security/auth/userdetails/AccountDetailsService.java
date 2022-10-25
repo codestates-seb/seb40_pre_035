@@ -4,12 +4,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import stackoverflow.domain.account.Account;
 import stackoverflow.global.security.auth.utils.CustomAuthorityUtils;
 
 import java.util.Collection;
 import java.util.Optional;
 
+@Component
 public class AccountDetailsService implements UserDetailsService {
     private final CustomAuthorityUtils authorityUtils;
 //    private final AccountRepository accountRepository;
@@ -20,7 +22,6 @@ public class AccountDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
 //        Optional<Account> optionalAccount = accountRepository.findByEmail(username);
 //        Account findAccount = optionalAccount.orElseThrow(() -> new RuntimeException("No User Exist"));
 //

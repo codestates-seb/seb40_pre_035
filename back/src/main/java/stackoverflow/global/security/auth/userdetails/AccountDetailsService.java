@@ -20,6 +20,7 @@ public class AccountDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
 //        Optional<Account> optionalAccount = accountRepository.findByEmail(username);
 //        Account findAccount = optionalAccount.orElseThrow(() -> new RuntimeException("No User Exist"));
 //

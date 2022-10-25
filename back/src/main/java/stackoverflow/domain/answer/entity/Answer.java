@@ -7,8 +7,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Answer {
     @Id
     private Long answerId;

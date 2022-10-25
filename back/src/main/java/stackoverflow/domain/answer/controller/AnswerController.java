@@ -21,67 +21,99 @@ public class AnswerController {
         this.answerService = answerService;
     }
 
+    // Mock API
     @PostMapping
     public ResponseEntity postAnswer(@RequestBody AnswerPostDto answerPostDto) {
-        Answer answer = answerService.createAnswer(answerPostDto.setAnswer());
-        AnswerResponseDto response = new AnswerResponseDto(answer);
+        Answer answer = new Answer();
+        answer.setAnswerId(answerPostDto.getAnswerId());
+        answer.setTitle(answerPostDto.getTitle());
+        answer.setContent(answerPostDto.getContent());
+        Answer response = answerService.createAnswer(answer);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    // Mock API
     @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") Long answerId,
                                       @RequestBody AnswerPatchDto answerPatchDto) {
-        Answer mockAnswer = new Answer();
-        mockAnswer.setAnswerId(answerId);
-        mockAnswer.setTitle(answerPatchDto.getTitle());
-        mockAnswer.setContent(answerPatchDto.getContent());
+        Answer answer = new Answer();
+        answer.setAnswerId(answerId);
+        answer.setTitle(answerPatchDto.getTitle());
+        answer.setContent(answerPatchDto.getContent());
 
-        AnswerResponseDto mockResponse = new AnswerResponseDto(mockAnswer);
+        Answer response = answerService.updateAnswer(answer);
+        AnswerResponseDto mockResponse = new AnswerResponseDto(response);
 
         return new ResponseEntity<>(mockResponse, HttpStatus.OK);
     }
 
+    // Mock API
     @GetMapping("/{answer-id}")
     public ResponseEntity getAnswer(@PathVariable("answer-id") Long answerId) {
-//        Answer answer = answerService.findAnswer(answerId);
-//        AnswerResponseDto response = new AnswerResponseDto(answer);
-
-        Answer response = new Answer();
-        response.setAnswerId(answerId);
-        response.setTitle("mockTitle");
-        response.setContent("mockContent");
+        Answer response = answerService.findAnswer(answerId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // Mock API
     @GetMapping
     public ResponseEntity getAnswers() {
-        List<AnswerResponseDto> response = new ArrayList<>();
-
-        AnswerResponseDto answerRes1 = new AnswerResponseDto(1L, "title1","contents1");
-        AnswerResponseDto answerRes2 = new AnswerResponseDto(2L, "title2","contents2");
-        AnswerResponseDto answerRes3 = new AnswerResponseDto(3L, "title3","contents3");
-        AnswerResponseDto answerRes4 = new AnswerResponseDto(4L, "title4","contents4");
-        AnswerResponseDto answerRes5 = new AnswerResponseDto(5L, "title5","contents5");
-        response.add(answerRes1);
-        response.add(answerRes2);
-        response.add(answerRes3);
-        response.add(answerRes4);
-        response.add(answerRes5);
+        List<Answer> response = answerService.findAnswers();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    // Mock API
+    @DeleteMapping("/{answer-id}")
+    public String deleteAnswer(@PathVariable("answer-id") Long answerId) {
+        return "성공적으로 삭제되었습니다.";
+    }
+
+
+
+    // 실제 API
+//    @PostMapping
+//    public ResponseEntity postAnswer(@RequestBody AnswerPostDto answerPostDto) {
+//        Answer answer = new Answer();
+//        answer.setTitle(answerPostDto.getTitle());
+//        answer.setContent(answerPostDto.getContent());
+//        Answer response = answerService.createAnswer(answer);
+//
+//        return new ResponseEntity<>(response, HttpStatus.CREATED);
+//    }
+
+//    @PatchMapping("/{answer-id}")
+//    public ResponseEntity patchAnswer(@PathVariable("answer-id") Long answerId,
+//                                      @RequestBody AnswerPatchDto answerPatchDto) {
+//        // PatchDTO받아서 => Answer로 변환시키고 => service의 updateAnswer에 보내고 => updateAnswer한 Answer를 받아서 => ResponseDTO로
+//        Answer answer = new Answer();
+//        answer.setAnswerId(answerId);
+//        answer.setTitle(answerPatchDto.getTitle());
+//        answer.setContent(answerPatchDto.getContent());
+//        Answer reponse = answerService.updateAnswer(answer);
+//
+//        return new ResponseEntity<>(reponse, HttpStatus.OK);
+//    }
+
+//    @GetMapping("/{answer-id}")
+//    public ResponseEntity getAnswer(@PathVariable("answer-id") Long answerId) {
+//        Answer response = answerService.findAnswer(answerId);
+//
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+
+
+//    @GetMapping
+//    public ResponseEntity getAnswers() {
+//        List<Answer> response = answerService.findAnswers();
+//
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 
 //    @DeleteMapping("/{answer-id}")
 //    public ResponseEntity deleteAnswer(@PathVariable("answer-id") Long answerId) {
 //        answerService.deleteAnswer(answerId);
 //        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //    }
-
-
-    @DeleteMapping("/{answer-id}")
-    public String deleteAnswer(@PathVariable("answer-id") Long answerId) {
-        return "성공적으로 삭제되었습니다.";
-    }
 }

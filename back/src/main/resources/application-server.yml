@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${RDS_URL}
-    username: ${RDS_USERNAME}
-    password: ${RDS_PASSWORD}
+    url: jdbc:mysql://localhost:3306
+    username: root
+    password: a!3105856
   jpa:
     hibernate:
       ddl-auto: create
@@ -12,3 +12,12 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+jwt:
+  key:
+    secret: "dev1234123412341234123412341234"
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
+mail:
+  address:
+    admin: admin@gmail.com

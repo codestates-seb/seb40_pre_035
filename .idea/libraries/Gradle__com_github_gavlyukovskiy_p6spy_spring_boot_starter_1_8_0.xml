@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.gavlyukovskiy/p6spy-spring-boot-starter/1.8.0/715a5d9d1cd4423e79eee66d030d13f7fd7d410d/p6spy-spring-boot-starter-1.8.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.gavlyukovskiy/p6spy-spring-boot-starter/1.8.0/587be24df8ea50bdabc623612af96914288e926e/p6spy-spring-boot-starter-1.8.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

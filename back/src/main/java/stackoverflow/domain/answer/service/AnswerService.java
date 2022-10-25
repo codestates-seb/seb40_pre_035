@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.repository.AnswerRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
-import stackoverflow.global.exception.advice.ExceptionCode;
+import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
 import java.util.Optional;
 
@@ -44,7 +44,7 @@ public class AnswerService {
     public Answer findVerifiedAnswer (Long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findByAnswer(answerId);
         Answer findAnswer = optionalAnswer.orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));   // global Exception 구현해야함
+                new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
         return findAnswer;
     }
 }

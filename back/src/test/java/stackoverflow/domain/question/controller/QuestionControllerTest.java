@@ -19,10 +19,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static stackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
 import static stackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
@@ -149,14 +147,146 @@ class QuestionControllerTest {
     }
 
     @Test
-    void getQuestion() {
+    @DisplayName("단일 Question 조회_성공")
+    void getQuestion_Success_Test() throws Exception {
+
+        //given
+        long questionId = 1L;
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/question/{questionId}", questionId)
+        );
+
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(document(
+                        "getQuestion",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("questionId").description("Question 식별자")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("Question 생성일자"),
+                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("Question 수정일자"),
+                                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("Question 식별자"),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("Question 제목"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("Question 내용"),
+                                        fieldWithPath("totalVote").type(JsonFieldType.NUMBER).description("Question Vote"),
+                                        fieldWithPath("account").type(JsonFieldType.OBJECT).description("Question 생성자"),
+                                        fieldWithPath("account.id").type(JsonFieldType.NUMBER).description("Question 생성자 식별자"),
+                                        fieldWithPath("account.email").type(JsonFieldType.STRING).description("Question 생성자 email"),
+                                        fieldWithPath("account.profile").type(JsonFieldType.STRING).description("Question 생성자 프로필 이미지 경로"),
+                                        fieldWithPath("account.nickname").type(JsonFieldType.STRING).description("Question 생성자 별칭")
+                                )
+                        )
+                ));
     }
 
     @Test
-    void getQuestions() {
+    @DisplayName("Questions 조회_성공")
+    void getQuestions_Success_Test() throws Exception {
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/questions")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("sort", "id,desc")
+        );
+
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(document(
+                        "getQuestions",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 번호(default = 1)"),
+                                parameterWithName("size").description("페이징 size(default = 10"),
+                                parameterWithName("sort").description("정렬 조건(default = asc)")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("Question 목록"),
+                                        fieldWithPath("content[].createdAt").type(JsonFieldType.STRING).description("Question 생성일자"),
+                                        fieldWithPath("content[].modifiedAt").type(JsonFieldType.STRING).description("Question 수정일자"),
+                                        fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("Question 식별자"),
+                                        fieldWithPath("content[].title").type(JsonFieldType.STRING).description("Question 제목"),
+                                        fieldWithPath("content[].content").type(JsonFieldType.STRING).description("Question 내용"),
+                                        fieldWithPath("content[].totalVote").type(JsonFieldType.NUMBER).description("Question Vote"),
+                                        fieldWithPath("content[].account").type(JsonFieldType.OBJECT).description("Question 생성자"),
+                                        fieldWithPath("content[].account.id").type(JsonFieldType.NUMBER).description("Question 생성자 식별자"),
+                                        fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Question 생성자 email"),
+                                        fieldWithPath("content[].account.profile").type(JsonFieldType.STRING).description("Question 생성자 프로필 이미지 경로"),
+                                        fieldWithPath("content[].account.nickname").type(JsonFieldType.STRING).description("Question 생성자 별칭"),
+                                        fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
+                                        fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("전체 Question 개수"),
+                                        fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫 페이지 여부"),
+                                        fieldWithPath("last").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
+                                        fieldWithPath("sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                        fieldWithPath("size").type(JsonFieldType.NUMBER).description("페이징 size"),
+                                        fieldWithPath("pageNumber").type(JsonFieldType.NUMBER).description("페이지 번호(0부터 시작)"),
+                                        fieldWithPath("numberOfElements").type(JsonFieldType.NUMBER).description("페이징된 Question 개수")
+                                )
+                        )
+                ));
     }
 
     @Test
-    void searchQuestions() {
+    @DisplayName("Question 검색_성공")
+    void searchQuestions_Success_Test() throws Exception {
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/questions")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("sort", "id,desc")
+                        .param("keyword", "test")
+        );
+
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(document(
+                        "searchQuestions",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 번호(default = 1)"),
+                                parameterWithName("size").description("페이징 size(default = 10"),
+                                parameterWithName("sort").description("정렬 조건(default = asc)"),
+                                parameterWithName("keyword").description("검색어")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("Question 목록"),
+                                        fieldWithPath("content[].createdAt").type(JsonFieldType.STRING).description("Question 생성일자"),
+                                        fieldWithPath("content[].modifiedAt").type(JsonFieldType.STRING).description("Question 수정일자"),
+                                        fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("Question 식별자"),
+                                        fieldWithPath("content[].title").type(JsonFieldType.STRING).description("Question 제목"),
+                                        fieldWithPath("content[].content").type(JsonFieldType.STRING).description("Question 내용"),
+                                        fieldWithPath("content[].totalVote").type(JsonFieldType.NUMBER).description("Question Vote"),
+                                        fieldWithPath("content[].account").type(JsonFieldType.OBJECT).description("Question 생성자"),
+                                        fieldWithPath("content[].account.id").type(JsonFieldType.NUMBER).description("Question 생성자 식별자"),
+                                        fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Question 생성자 email"),
+                                        fieldWithPath("content[].account.profile").type(JsonFieldType.STRING).description("Question 생성자 프로필 이미지 경로"),
+                                        fieldWithPath("content[].account.nickname").type(JsonFieldType.STRING).description("Question 생성자 별칭"),
+                                        fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
+                                        fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("전체 Question 개수"),
+                                        fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫 페이지 여부"),
+                                        fieldWithPath("last").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
+                                        fieldWithPath("sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                        fieldWithPath("size").type(JsonFieldType.NUMBER).description("페이징 size"),
+                                        fieldWithPath("pageNumber").type(JsonFieldType.NUMBER).description("페이지 번호(0부터 시작)"),
+                                        fieldWithPath("numberOfElements").type(JsonFieldType.NUMBER).description("페이징된 Question 개수")
+                                )
+                        )
+                ));
     }
 }

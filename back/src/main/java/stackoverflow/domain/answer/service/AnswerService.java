@@ -1,8 +1,8 @@
-package stackoverflow.AnswerDomain.service;
+package stackoverflow.domain.answer.service;
 
 import org.springframework.stereotype.Service;
-import stackoverflow.AnswerDomain.entity.Answer;
-import stackoverflow.AnswerDomain.repository.AnswerRepository;
+import stackoverflow.domain.answer.entity.Answer;
+import stackoverflow.domain.answer.repository.AnswerRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.advice.ExceptionCode;
 

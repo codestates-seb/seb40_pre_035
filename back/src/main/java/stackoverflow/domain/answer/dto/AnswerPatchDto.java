@@ -1,4 +1,4 @@
-package stackoverflow.AnswerDomain.dto;
+package stackoverflow.domain.answer.dto;
 
 import lombok.Data;
 

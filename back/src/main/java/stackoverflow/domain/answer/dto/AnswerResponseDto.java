@@ -1,8 +1,8 @@
-package stackoverflow.AnswerDomain.dto;
+package stackoverflow.domain.answer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import stackoverflow.AnswerDomain.entity.Answer;
+import stackoverflow.domain.answer.entity.Answer;
 
 @Data
 @AllArgsConstructor

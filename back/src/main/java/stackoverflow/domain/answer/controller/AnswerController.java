@@ -1,13 +1,11 @@
-package stackoverflow.AnswerDomain.controller;
+package stackoverflow.domain.answer.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import stackoverflow.AnswerDomain.dto.AnswerPostDto;
-import stackoverflow.AnswerDomain.dto.AnswerResponseDto;
-import stackoverflow.AnswerDomain.entity.Answer;
-import stackoverflow.AnswerDomain.service.AnswerService;
+import stackoverflow.domain.answer.dto.AnswerPostDto;
+import stackoverflow.domain.answer.dto.AnswerResponseDto;
+import stackoverflow.domain.answer.entity.Answer;
+import stackoverflow.domain.answer.service.AnswerService;
 
 @RequestMapping("/answer")
 @RestController

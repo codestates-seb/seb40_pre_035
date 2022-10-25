@@ -1,4 +1,4 @@
-package stackoverflow.AnswerDomain.entity;
+package stackoverflow.domain.answer.entity;
 
 import lombok.Data;
 

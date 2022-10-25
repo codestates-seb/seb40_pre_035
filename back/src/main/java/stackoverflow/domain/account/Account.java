@@ -3,16 +3,15 @@ package stackoverflow.domain.account;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import stackoverflow.global.audit.Auditable;
+import stackoverflow.global.auditing.BaseTime;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @NoArgsConstructor
 @Getter
 @Setter
 //@Entity
-public class Account extends Auditable {
+public class Account extends BaseTime {
     @Id
     private long accountId;
 
@@ -22,7 +21,7 @@ public class Account extends Auditable {
 
     private String path;
 
-    private String nickName;
+    private String nickname;
 
     private String roles;
 }

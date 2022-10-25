@@ -1,6 +1,8 @@
 package stackoverflow.domain.answer.controller;
 
-import org.springframework.http.RequestEntity;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.answer.dto.AnswerPostDto;
 import stackoverflow.domain.answer.dto.AnswerResponseDto;
@@ -9,40 +11,35 @@ import stackoverflow.domain.answer.service.AnswerService;
 
 @RequestMapping("/answer")
 @RestController
+@AllArgsConstructor
 public class AnswerController {
     private final AnswerService answerService;
 
-    public AnswerController(AnswerService answerService) {
-        this.answerService = answerService;
-    }
-
     @PostMapping
-    public RequestEntity postAnswer(@RequestBody AnswerPostDto answerPostDto) {
+    public ResponseEntity postAnswer(@RequestBody AnswerPostDto answerPostDto) {
         Answer answer = answerService.createAnswer(answerPostDto.setAnswer());
         AnswerResponseDto response = new AnswerResponseDto(answer);
 
-        // 리턴을 위한 SingleResponseDto미완성
-//        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{answer-id}")
+    public ResponseEntity patchAnswer() {
         return null;
     }
 
-    @PatchMapping
-    public RequestEntity patchAnswer() {
+    @GetMapping("/{answer-id}")
+    public ResponseEntity getAnswer() {
         return null;
     }
 
     @GetMapping
-    public RequestEntity getAnswer() {
+    public ResponseEntity getAnswers() {
         return null;
     }
 
-    @GetMapping
-    public RequestEntity getAnswers() {
-        return null;
-    }
-
-    @DeleteMapping
-    public RequestEntity deleteAnswer() {
+    @DeleteMapping("/{answer-id}")
+    public ResponseEntity deleteAnswer() {
         return null;
     }
 }

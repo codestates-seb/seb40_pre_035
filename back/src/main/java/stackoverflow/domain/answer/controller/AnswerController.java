@@ -1,5 +1,6 @@
 package stackoverflow.domain.answer.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,16 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @RequestMapping("/answer")
 @RestController
 public class AnswerController {
     private final AnswerService answerService;
 
-    public AnswerController(AnswerService answerService) {
-        this.answerService = answerService;
-    }
 
-    // 실제 API
     @PostMapping
     public ResponseEntity postAnswer(@RequestBody AnswerRequestDto answerPostDto) {
         Answer answer = new Answer();
@@ -33,6 +31,7 @@ public class AnswerController {
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
+
 
     @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") Long answerId,
@@ -46,6 +45,7 @@ public class AnswerController {
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
 
     @GetMapping("/{answer-id}")
     public ResponseEntity getAnswer(@PathVariable("answer-id") Long answerId) {
@@ -66,6 +66,7 @@ public class AnswerController {
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{answer-id}")
     public ResponseEntity deleteAnswer(@PathVariable("answer-id") Long answerId) {

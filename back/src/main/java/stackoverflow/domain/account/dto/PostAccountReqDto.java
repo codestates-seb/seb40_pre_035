@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AccountResDto {
+public class PostAccountReqDto {
     private String email;
+    private String password;
     private String nickname;
-    private String profileImg;
 }

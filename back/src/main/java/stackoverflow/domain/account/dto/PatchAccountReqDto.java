@@ -5,8 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AccountResDto {
-    private String email;
+public class PatchAccountReqDto {
     private String nickname;
     private String profileImg;
 }

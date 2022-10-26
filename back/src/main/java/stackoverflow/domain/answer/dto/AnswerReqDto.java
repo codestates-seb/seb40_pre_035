@@ -8,8 +8,6 @@ import stackoverflow.domain.answer.entity.Answer;
 @Setter
 public class AnswerReqDto {
 
-    private Long id;
-
     private String title;
 
     private String content;
@@ -18,7 +16,6 @@ public class AnswerReqDto {
 
     public Answer toAnswer(AnswerReqDto answerReqDto) {
         Answer answer = new Answer();
-        answer.setId(answerReqDto.getId());
         answer.setTitle(answerReqDto.getTitle());
         answer.setContent(answerReqDto.getContent());
         answer.setTotalVote(answerReqDto.getTotalVote());

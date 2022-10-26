@@ -13,6 +13,7 @@ import stackoverflow.domain.answer.dto.AnswerResDto;
 import stackoverflow.domain.answer.service.AnswerService;
 import stackoverflow.global.common.dto.PageDto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class AnswerController {
     @PostMapping
     public ResponseEntity postAnswer(@RequestBody AnswerReqDto answerReqDto) {
         String title = answerReqDto.getTitle();
+
         return new ResponseEntity<>(String.format("POST request accepted. title: %s", title), HttpStatus.CREATED);
     }
 
@@ -32,6 +34,7 @@ public class AnswerController {
     @PatchMapping("/{answerId}")
     public ResponseEntity patchAnswer(@PathVariable("answerId") Long id,
                                       @RequestBody AnswerReqDto answerReqDto) {
+
         return new ResponseEntity<>(String.format("PATCH request accepted. ID: %d", id), HttpStatus.OK);
     }
 
@@ -45,6 +48,8 @@ public class AnswerController {
         account.setPath("path");
         account.setNickname("nickname");
         AnswerResDto answerResDto = new AnswerResDto(id, "title", "content",10,account);
+        answerResDto.setCreatedAt(LocalDateTime.now());
+        answerResDto.setModifiedAt(LocalDateTime.now());
 
         return new ResponseEntity<>(answerResDto, HttpStatus.OK);
     }
@@ -61,6 +66,8 @@ public class AnswerController {
             account.setPath("path"+i);
             account.setNickname("nick"+i);
             AnswerResDto answerResDto = new AnswerResDto(0L+i, "title"+i, "contents"+i, i, account);
+            answerResDto.setCreatedAt(LocalDateTime.now());
+            answerResDto.setModifiedAt(LocalDateTime.now());
 
             list.add(answerResDto);
         }

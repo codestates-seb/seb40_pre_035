@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.repository.AnswerRepository;
+import stackoverflow.global.exception.advice.BusinessLogicException;
+import stackoverflow.global.exception.exceptionCode.ExceptionCode;
+
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -52,9 +55,8 @@ public class AnswerService {
 
     public Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
-//        Answer verifiedAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
-//        return verifiedAnswer;
-        return null;
+        Answer verifiedAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND));
+        return verifiedAnswer;
     }
 }
 

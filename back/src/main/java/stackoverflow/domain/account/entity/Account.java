@@ -1,4 +1,4 @@
-package stackoverflow.domain.account;
+package stackoverflow.domain.account.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

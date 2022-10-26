@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class QuestionAccountRes {
+public class QuestionAccountResDto {
 
     private Long id;
 

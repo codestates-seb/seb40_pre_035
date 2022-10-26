@@ -2,12 +2,12 @@ package stackoverflow.domain.question.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import stackoverflow.domain.account.dto.QuestionAccountRes;
+import stackoverflow.domain.account.dto.QuestionAccountResDto;
 import stackoverflow.global.auditing.BaseTime;
 
 @Getter
 @Setter
-public class QuestionRes extends BaseTime {
+public class QuestionResDto extends BaseTime {
 
     private Long id;
 
@@ -17,5 +17,5 @@ public class QuestionRes extends BaseTime {
 
     private int totalVote;
 
-    private QuestionAccountRes account;
+    private QuestionAccountResDto account;
 }

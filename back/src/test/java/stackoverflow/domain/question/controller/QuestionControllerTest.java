@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import stackoverflow.domain.question.dto.QuestionReq;
+import stackoverflow.domain.question.dto.QuestionReqDto;
 
 import java.util.List;
 
@@ -45,11 +45,11 @@ class QuestionControllerTest {
         String content = "testQuestionContent";
         String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
 
-        QuestionReq questionReq = new QuestionReq();
-        questionReq.setTitle(title);
-        questionReq.setContent(content);
+        QuestionReqDto questionReqDto = new QuestionReqDto();
+        questionReqDto.setTitle(title);
+        questionReqDto.setContent(content);
 
-        String body = gson.toJson(questionReq);
+        String body = gson.toJson(questionReqDto);
 
         //when
         ResultActions actions = mockMvc.perform(

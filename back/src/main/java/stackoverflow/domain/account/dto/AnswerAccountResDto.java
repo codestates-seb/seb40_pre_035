@@ -5,13 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class QuestionAccountResDto {
+public class AnswerAccountResDto {
 
     private Long id;
 
     private String email;
 
-    private String profile;
+    private String path;
 
     private String nickname;
 }

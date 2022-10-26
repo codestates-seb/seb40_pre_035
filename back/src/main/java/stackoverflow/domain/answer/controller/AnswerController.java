@@ -20,6 +20,7 @@ import java.util.List;
 @RequestMapping("/answer")
 @RestController
 public class AnswerController {
+    private AnswerService answerService;
 
     @PostMapping
     public ResponseEntity postAnswer(@RequestBody AnswerReqDto answerReqDto) {
@@ -38,7 +39,14 @@ public class AnswerController {
     @GetMapping("/{answerId}")
     public ResponseEntity getAnswer(@PathVariable("answerId") Long id) {
 
-        return new ResponseEntity<>(String.format("GET request accepted. ID: %d",id), HttpStatus.OK);
+        AnswerAccountResDto account = new AnswerAccountResDto();
+        account.setId(1L);
+        account.setEmail("account@gmail.com");
+        account.setPath("path");
+        account.setNickname("nickname");
+        AnswerResDto answerResDto = new AnswerResDto(id, "title", "content",10,account);
+
+        return new ResponseEntity<>(answerResDto, HttpStatus.OK);
     }
 
 
@@ -46,18 +54,17 @@ public class AnswerController {
     public PageDto getAnswers(Pageable pageable) {
         List<AnswerResDto> list = new ArrayList<>();
 
-        for(int i =1 ; i <=20 ; i++) {
+        for(int i =1 ; i <=10 ; i++) {
             AnswerAccountResDto account = new AnswerAccountResDto();
-            account.setId(0L+i);
+            account.setId(100L+i);
             account.setEmail("mock"+i+"@gmail.com");
             account.setPath("path"+i);
             account.setNickname("nick"+i);
-
             AnswerResDto answerResDto = new AnswerResDto(0L+i, "title"+i, "contents"+i, i, account);
 
             list.add(answerResDto);
         }
-        Page<AnswerResDto> page = new PageImpl<>(list, pageable, 20);
+        Page<AnswerResDto> page = new PageImpl<>(list, pageable, 10);
 
         return new PageDto<>(page);
     }

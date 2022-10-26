@@ -3,7 +3,7 @@ package stackoverflow.domain.question.dto;
 import lombok.Data;
 
 @Data
-public class QuestionReq {
+public class QuestionReqDto {
 
     private String title;
 

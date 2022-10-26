@@ -1,14 +1,14 @@
 package stackoverflow.domain.question.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import stackoverflow.domain.account.dto.QuestionAccountRes;
-import stackoverflow.domain.answer.dto.QuestionAnswerRes;
-import stackoverflow.domain.question.dto.QuestionReq;
-import stackoverflow.domain.question.dto.QuestionRes;
+import stackoverflow.domain.account.dto.QuestionAccountResDto;
+import stackoverflow.domain.question.dto.QuestionReqDto;
+import stackoverflow.domain.question.dto.QuestionResDto;
+import stackoverflow.domain.question.dto.QuestionsResDto;
+import stackoverflow.global.common.dto.PageDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,12 +19,12 @@ import java.util.List;
 public class QuestionController {
 
     @PostMapping("/question")
-    public String createQuestion(@RequestBody QuestionReq questionReq) {
+    public String createQuestion(@RequestBody QuestionReqDto questionReqDto) {
         return "success create question";
     }
 
     @PatchMapping("/question/{questionId}")
-    public String modifyQuestion(@PathVariable Long questionId) {
+    public String modifyQuestion(@PathVariable Long questionId, @RequestBody QuestionReqDto questionReqDto) {
         return "success modify question";
     }
 
@@ -34,171 +34,114 @@ public class QuestionController {
     }
 
     @GetMapping("/question/{questionId}")
-    public QuestionRes getQuestion(@PathVariable Long questionId) {
+    public QuestionResDto getQuestion(@PathVariable Long questionId) {
 
-        QuestionRes questionRes = new QuestionRes();
-        QuestionAccountRes questionAccountRes = new QuestionAccountRes();
-        QuestionAccountRes answerAccountRes = new QuestionAccountRes();
-        List<QuestionAnswerRes> answerResList = new ArrayList<>();
-        QuestionAnswerRes answerRes1 = new QuestionAnswerRes();
-        QuestionAnswerRes answerRes2 = new QuestionAnswerRes();
+        QuestionResDto questionResDto = new QuestionResDto();
+        QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
 
-        questionAccountRes.setId(1L);
-        questionAccountRes.setEmail("mock1@mock.com");
-        questionAccountRes.setPath("mock/mock1");
-        questionAccountRes.setNickname("mockNickname1");
-        questionAccountRes.setCreatedAt(LocalDateTime.now());
-        questionAccountRes.setModifiedAt(LocalDateTime.now());
+        questionAccountResDto.setId(1L);
+        questionAccountResDto.setEmail("mock1@mock.com");
+        questionAccountResDto.setProfile("mock/mock1");
+        questionAccountResDto.setNickname("mockNickname1");
 
-        answerAccountRes.setId(2L);
-        answerAccountRes.setEmail("mock2@mock.com");
-        answerAccountRes.setPath("mock/mock2");
-        answerAccountRes.setNickname("mockNickname2");
-        answerAccountRes.setCreatedAt(LocalDateTime.now());
-        answerAccountRes.setModifiedAt(LocalDateTime.now());
+        questionResDto.setId(3L);
+        questionResDto.setTitle("testQuestionTitle3");
+        questionResDto.setContent("testQuestionContent3");
+        questionResDto.setTotalVote(10);
+        questionResDto.setAccount(questionAccountResDto);
+        questionResDto.setCreatedAt(LocalDateTime.now());
+        questionResDto.setModifiedAt(LocalDateTime.now());
 
-        answerRes1.setId(4L);
-        answerRes1.setTitle("testAnswerTitle4");
-        answerRes1.setContent("testAnswerContent4");
-        answerRes1.setAccount(answerAccountRes);
-        answerRes1.setCreatedAt(LocalDateTime.now());
-        answerRes1.setModifiedAt(LocalDateTime.now());
-
-        answerRes2.setId(5L);
-        answerRes2.setTitle("testAnswerTitle5");
-        answerRes2.setContent("testAnswerContent5");
-        answerRes2.setAccount(answerAccountRes);
-        answerRes2.setCreatedAt(LocalDateTime.now());
-        answerRes2.setModifiedAt(LocalDateTime.now());
-
-        answerResList.add(answerRes1);
-        answerResList.add(answerRes2);
-
-        questionRes.setId(3L);
-        questionRes.setTitle("testQuestionTitle3");
-        questionRes.setContent("testQuestionContent3");
-        questionRes.setTotalVote(10);
-        questionRes.setAccount(questionAccountRes);
-        questionRes.setAnswers(answerResList);
-        questionRes.setCreatedAt(LocalDateTime.now());
-        questionRes.setModifiedAt(LocalDateTime.now());
-
-        return questionRes;
+        return questionResDto;
     }
 
     @GetMapping("/questions")
-    public Page<QuestionRes> getQuestions(Pageable pageable) {
-        List<QuestionRes> questionResList = new ArrayList<>();
+    public PageDto<QuestionsResDto> getQuestions(Pageable pageable) {
+        List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            QuestionRes questionRes = new QuestionRes();
-            QuestionAccountRes questionAccountRes = new QuestionAccountRes();
-            QuestionAccountRes answerAccountRes = new QuestionAccountRes();
-            List<QuestionAnswerRes> answerResList = new ArrayList<>();
-            QuestionAnswerRes answerRes1 = new QuestionAnswerRes();
-            QuestionAnswerRes answerRes2 = new QuestionAnswerRes();
+            QuestionsResDto questionsResDto = new QuestionsResDto();
+            QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
 
-            questionAccountRes.setId(1L + (i * 5));
-            questionAccountRes.setEmail("mock" + (i * 5) + "@mock.com");
-            questionAccountRes.setPath("mock/mock" + (i * 5));
-            questionAccountRes.setNickname("mockNickname" + (i * 5));
-            questionAccountRes.setCreatedAt(LocalDateTime.now());
-            questionAccountRes.setModifiedAt(LocalDateTime.now());
+            questionAccountResDto.setId(1L + (i * 5));
+            questionAccountResDto.setEmail("mock" + (i * 5) + "@mock.com");
+            questionAccountResDto.setProfile("mock/mock" + (i * 5));
+            questionAccountResDto.setNickname("mockNickname" + (i * 5));
 
-            answerAccountRes.setId(2L + (i * 5));
-            answerAccountRes.setEmail("mock" + (2 + i * 5) + "@test.com");
-            answerAccountRes.setPath("mock/mock" + (2 + i * 5));
-            answerAccountRes.setNickname("mockNickname" + (2 + i * 5));
-            answerAccountRes.setCreatedAt(LocalDateTime.now());
-            answerAccountRes.setModifiedAt(LocalDateTime.now());
+            questionsResDto.setId(3L + (i * 5));
+            questionsResDto.setTitle("testQuestionTitle" + (3 + i * 5));
+            questionsResDto.setContent("testQuestionContent" + (3 + i * 5));
+            questionsResDto.setTotalVote(10);
+            questionsResDto.setAnswerCount(5);
+            questionsResDto.setSelectedAnswer(true);
+            questionsResDto.setAccount(questionAccountResDto);
+            questionsResDto.setCreatedAt(LocalDateTime.now());
+            questionsResDto.setModifiedAt(LocalDateTime.now());
 
-            answerRes1.setId(4L + (i * 5));
-            answerRes1.setTitle("testAnswerTitle" + (4 + i * 5));
-            answerRes1.setContent("testAnswerContent" + (4 + i * 5));
-            answerRes1.setAccount(answerAccountRes);
-            answerRes1.setCreatedAt(LocalDateTime.now());
-            answerRes1.setModifiedAt(LocalDateTime.now());
-
-            answerRes2.setId(5L + (i * 5));
-            answerRes2.setTitle("testAnswerTitle" + (5 + i * 5));
-            answerRes2.setContent("testAnswerContent" + (5 + i * 5));
-            answerRes2.setAccount(answerAccountRes);
-            answerRes2.setCreatedAt(LocalDateTime.now());
-            answerRes2.setModifiedAt(LocalDateTime.now());
-
-            answerResList.add(answerRes1);
-            answerResList.add(answerRes2);
-
-            questionRes.setId(3L + (i * 5));
-            questionRes.setTitle("testQuestionTitle" + (3 + i * 5));
-            questionRes.setContent("testQuestionContent" + (3 + i * 5));
-            questionRes.setTotalVote(10);
-            questionRes.setAccount(questionAccountRes);
-            questionRes.setAnswers(answerResList);
-            questionRes.setCreatedAt(LocalDateTime.now());
-            questionRes.setModifiedAt(LocalDateTime.now());
-
-            questionResList.add(questionRes);
+            questionsResDtoList.add(questionsResDto);
         }
 
-        return new PageImpl<>(questionResList, pageable, 100);
+        PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
+        return new PageDto<>(questionRes);
     }
 
     @GetMapping("/questions/search")
-    public Page<QuestionRes> searchQuestions(Pageable pageable, @RequestParam String keyword) {
-        List<QuestionRes> questionResList = new ArrayList<>();
+    public PageDto<QuestionsResDto> searchQuestions(Pageable pageable, @RequestParam String keyword) {
+        List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            QuestionRes questionRes = new QuestionRes();
-            QuestionAccountRes questionAccountRes = new QuestionAccountRes();
-            QuestionAccountRes answerAccountRes = new QuestionAccountRes();
-            List<QuestionAnswerRes> answerResList = new ArrayList<>();
-            QuestionAnswerRes answerRes1 = new QuestionAnswerRes();
-            QuestionAnswerRes answerRes2 = new QuestionAnswerRes();
+            QuestionsResDto questionsResDto = new QuestionsResDto();
+            QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
 
-            questionAccountRes.setId(1L + (i * 5));
-            questionAccountRes.setEmail("mock" + (i * 5) + "@mock.com");
-            questionAccountRes.setPath("mock/mock" + (i * 5));
-            questionAccountRes.setNickname("mockNickname" + (i * 5));
-            questionAccountRes.setCreatedAt(LocalDateTime.now());
-            questionAccountRes.setModifiedAt(LocalDateTime.now());
+            questionAccountResDto.setId(1L + (i * 5));
+            questionAccountResDto.setEmail("mock" + (i * 5) + "@mock.com");
+            questionAccountResDto.setProfile("mock/mock" + (i * 5));
+            questionAccountResDto.setNickname("mockNickname" + (i * 5));
 
-            answerAccountRes.setId(2L + (i * 5));
-            answerAccountRes.setEmail("mock" + (2 + i * 5) + "@test.com");
-            answerAccountRes.setPath("mock/mock" + (2 + i * 5));
-            answerAccountRes.setNickname("mockNickname" + (2 + i * 5));
-            answerAccountRes.setCreatedAt(LocalDateTime.now());
-            answerAccountRes.setModifiedAt(LocalDateTime.now());
+            questionsResDto.setId(3L + (i * 5));
+            questionsResDto.setTitle("testQuestionTitle" + (3 + i * 5));
+            questionsResDto.setContent("testQuestionContent" + (3 + i * 5));
+            questionsResDto.setTotalVote(10);
+            questionsResDto.setAnswerCount(5);
+            questionsResDto.setSelectedAnswer(true);
+            questionsResDto.setAccount(questionAccountResDto);
+            questionsResDto.setCreatedAt(LocalDateTime.now());
+            questionsResDto.setModifiedAt(LocalDateTime.now());
 
-            answerRes1.setId(4L + (i * 5));
-            answerRes1.setTitle("testAnswerTitle" + (4 + i * 5));
-            answerRes1.setContent("testAnswerContent" + (4 + i * 5));
-            answerRes1.setAccount(answerAccountRes);
-            answerRes1.setCreatedAt(LocalDateTime.now());
-            answerRes1.setModifiedAt(LocalDateTime.now());
-
-            answerRes2.setId(5L + (i * 5));
-            answerRes2.setTitle("testAnswerTitle" + (5 + i * 5));
-            answerRes2.setContent("testAnswerContent" + (5 + i * 5));
-            answerRes2.setAccount(answerAccountRes);
-            answerRes2.setCreatedAt(LocalDateTime.now());
-            answerRes2.setModifiedAt(LocalDateTime.now());
-
-            answerResList.add(answerRes1);
-            answerResList.add(answerRes2);
-
-            questionRes.setId(3L + (i * 5));
-            questionRes.setTitle("testQuestionTitle" + (3 + i * 5));
-            questionRes.setContent("testQuestionContent" + (3 + i * 5));
-            questionRes.setTotalVote(10);
-            questionRes.setAccount(questionAccountRes);
-            questionRes.setAnswers(answerResList);
-            questionRes.setCreatedAt(LocalDateTime.now());
-            questionRes.setModifiedAt(LocalDateTime.now());
-
-            questionResList.add(questionRes);
+            questionsResDtoList.add(questionsResDto);
         }
 
-        return new PageImpl<>(questionResList, pageable, 100);
+        PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
+        return new PageDto<>(questionRes);
+    }
+
+    @GetMapping("/questions/account/{accountId}")
+    public PageDto<QuestionsResDto> getQuestionsAccount(@PathVariable Long accountId, Pageable pageable) {
+        List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            QuestionsResDto questionsResDto = new QuestionsResDto();
+            QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
+
+            questionAccountResDto.setId(1L + (i * 5));
+            questionAccountResDto.setEmail("mock" + (i * 5) + "@mock.com");
+            questionAccountResDto.setProfile("mock/mock" + (i * 5));
+            questionAccountResDto.setNickname("mockNickname" + (i * 5));
+
+            questionsResDto.setId(3L + (i * 5));
+            questionsResDto.setTitle("testQuestionTitle" + (3 + i * 5));
+            questionsResDto.setContent("testQuestionContent" + (3 + i * 5));
+            questionsResDto.setTotalVote(10);
+            questionsResDto.setAnswerCount(5);
+            questionsResDto.setSelectedAnswer(true);
+            questionsResDto.setAccount(questionAccountResDto);
+            questionsResDto.setCreatedAt(LocalDateTime.now());
+            questionsResDto.setModifiedAt(LocalDateTime.now());
+
+            questionsResDtoList.add(questionsResDto);
+        }
+
+        PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
+        return new PageDto<>(questionRes);
     }
 }

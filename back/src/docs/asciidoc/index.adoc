@@ -145,3 +145,17 @@ include::{snippets}/getQuestionsAccount/response-fields.adoc[]
 ***
 == FileController
 === FileUpload
+.curl-request
+include::{snippets}/uploadFile/curl-request.adoc[]
+
+.http-request
+include::{snippets}/uploadFile/http-request.adoc[]
+
+.request-parts
+include::{snippets}/uploadFile/request-parts.adoc[]
+
+.http-response
+include::{snippets}/uploadFile/http-response.adoc[]
+
+.response-fields
+include::{snippets}/uploadFile/response-fields.adoc[]

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.AnswerAccountResDto;
 import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.domain.answer.dto.AnswerResDto;
-import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.service.AnswerService;
 import stackoverflow.global.common.dto.PageDto;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,26 +20,25 @@ import java.util.List;
 @RequestMapping("/answer")
 @RestController
 public class AnswerController {
-    private final AnswerService answerService;
-
 
     @PostMapping
-    public String postAnswer(@RequestBody AnswerReqDto answerReqDto) {
-
-        return "POST request accepted";
+    public ResponseEntity postAnswer(@RequestBody AnswerReqDto answerReqDto) {
+        String title = answerReqDto.getTitle();
+        return new ResponseEntity<>(String.format("POST request accepted. title: %s", title), HttpStatus.CREATED);
     }
 
 
     @PatchMapping("/{answerId}")
-    public String patchAnswer(@PathVariable("answerId") Long answerId,
+    public ResponseEntity patchAnswer(@PathVariable("answerId") Long id,
                                       @RequestBody AnswerReqDto answerReqDto) {
-        return "PATCH request accepted";
+        return new ResponseEntity<>(String.format("PATCH request accepted. ID: %d", id), HttpStatus.OK);
     }
 
 
     @GetMapping("/{answerId}")
-    public String getAnswer(@PathVariable("answerId") Long id) {
-        return "GET request accepted";
+    public ResponseEntity getAnswer(@PathVariable("answerId") Long id) {
+
+        return new ResponseEntity<>(String.format("GET request accepted. ID: %d",id), HttpStatus.OK);
     }
 
 
@@ -67,7 +66,7 @@ public class AnswerController {
 
     @DeleteMapping("/{answerId}")
     public ResponseEntity deleteAnswer(@PathVariable("answerId") Long id) {
-        answerService.deleteAnswer(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(String.format("DELETE request accepted. ID: %d",id), HttpStatus.OK);  /// 추후 NO_CONTENT로 변경해야함
     }
 }

@@ -19,4 +19,6 @@ public class Answer extends BaseTime {
     private String content;
 
     private int totalVote;
+
+    private boolean pick;
 }

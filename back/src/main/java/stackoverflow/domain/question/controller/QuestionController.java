@@ -23,7 +23,7 @@ public class QuestionController {
     }
 
     @PatchMapping("/question/{questionId}")
-    public String modifyQuestion(@PathVariable Long questionId) {
+    public String modifyQuestion(@PathVariable Long questionId, @RequestBody QuestionReqDto questionReqDto) {
         return "success modify question";
     }
 
@@ -37,7 +37,6 @@ public class QuestionController {
 
         QuestionResDto questionResDto = new QuestionResDto();
         QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
-        QuestionAccountResDto answerAccountRes = new QuestionAccountResDto();
 
         questionAccountResDto.setId(1L);
         questionAccountResDto.setEmail("mock1@mock.com");
@@ -62,17 +61,11 @@ public class QuestionController {
         for (int i = 0; i < 10; i++) {
             QuestionResDto questionResDto = new QuestionResDto();
             QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
-            QuestionAccountResDto answerAccountRes = new QuestionAccountResDto();
 
             questionAccountResDto.setId(1L + (i * 5));
             questionAccountResDto.setEmail("mock" + (i * 5) + "@mock.com");
             questionAccountResDto.setProfile("mock/mock" + (i * 5));
             questionAccountResDto.setNickname("mockNickname" + (i * 5));
-
-            answerAccountRes.setId(2L + (i * 5));
-            answerAccountRes.setEmail("mock" + (2 + i * 5) + "@test.com");
-            answerAccountRes.setProfile("mock/mock" + (2 + i * 5));
-            answerAccountRes.setNickname("mockNickname" + (2 + i * 5));
 
             questionResDto.setId(3L + (i * 5));
             questionResDto.setTitle("testQuestionTitle" + (3 + i * 5));
@@ -96,17 +89,11 @@ public class QuestionController {
         for (int i = 0; i < 10; i++) {
             QuestionResDto questionResDto = new QuestionResDto();
             QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
-            QuestionAccountResDto answerAccountRes = new QuestionAccountResDto();
 
             questionAccountResDto.setId(1L + (i * 5));
             questionAccountResDto.setEmail("mock" + (i * 5) + "@mock.com");
             questionAccountResDto.setProfile("mock/mock" + (i * 5));
             questionAccountResDto.setNickname("mockNickname" + (i * 5));
-
-            answerAccountRes.setId(2L + (i * 5));
-            answerAccountRes.setEmail("mock" + (2 + i * 5) + "@test.com");
-            answerAccountRes.setProfile("mock/mock" + (2 + i * 5));
-            answerAccountRes.setNickname("mockNickname" + (2 + i * 5));
 
             questionResDto.setId(3L + (i * 5));
             questionResDto.setTitle("testQuestionTitle" + (3 + i * 5));

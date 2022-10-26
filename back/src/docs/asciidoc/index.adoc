@@ -33,6 +33,9 @@ include::{snippets}/createQuestion/curl-request.adoc[]
 .http-request
 include::{snippets}/modifyQuestion/http-request.adoc[]
 
+.request-fields
+include::{snippets}/modifyQuestion/request-fields.adoc[]
+
 .request-header
 include::{snippets}/modifyQuestion/request-headers.adoc[]
 

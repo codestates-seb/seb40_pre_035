@@ -88,12 +88,23 @@ class QuestionControllerTest {
 
         //given
         long questionId = 1L;
+        String title = "testQuestionTitle";
+        String content = "testQuestionContent";
         String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+
+        QuestionReqDto questionReqDto = new QuestionReqDto();
+        questionReqDto.setTitle(title);
+        questionReqDto.setContent(content);
+
+        String body = gson.toJson(questionReqDto);
 
         //when
         ResultActions actions = mockMvc.perform(
                 patch("/question/{questionId}", questionId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", jwt)
+                        .content(body)
         );
 
         //then
@@ -109,6 +120,13 @@ class QuestionControllerTest {
                         requestHeaders(
                                 List.of(
                                         headerWithName("Authorization").description("JWT")
+                                )
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용")
+
                                 )
                         )
                 ));

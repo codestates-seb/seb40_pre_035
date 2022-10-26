@@ -7,23 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-<<<<<<< HEAD
-=======
 import stackoverflow.domain.account.dto.AnswerAccountResDto;
->>>>>>> feat/#4_1
 import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.domain.answer.dto.AnswerResDto;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.service.AnswerService;
 import stackoverflow.global.common.dto.PageDto;
-<<<<<<< HEAD
-import javax.validation.constraints.Positive;
-=======
-
-import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> feat/#4_1
 
 @RequiredArgsConstructor
 @RequestMapping("/answer")
@@ -33,46 +24,22 @@ public class AnswerController {
 
 
     @PostMapping
-<<<<<<< HEAD
-    public ResponseEntity postAnswer(@RequestBody AnswerReqDto answerReqDto) {
-        Answer answer = answerReqDto.toAnswer(answerReqDto);
-        Answer response = answerService.createAnswer(answer);
-
-        return new ResponseEntity<>(new AnswerResDto(response), HttpStatus.CREATED);
-=======
     public String postAnswer(@RequestBody AnswerReqDto answerReqDto) {
+
         return "POST request accepted";
->>>>>>> feat/#4_1
     }
 
 
     @PatchMapping("/{answerId}")
-<<<<<<< HEAD
-    public ResponseEntity patchAnswer(@PathVariable("answerId") Long answerId,
-                                      @RequestBody AnswerReqDto answerReqDto) {
-        Answer answer = answerReqDto.setAnswer(answerId, answerReqDto);
-        Answer reponse = answerService.updateAnswer(answer);
-
-        return new ResponseEntity<>(new AnswerResDto(reponse), HttpStatus.OK);
-=======
     public String patchAnswer(@PathVariable("answerId") Long answerId,
                                       @RequestBody AnswerReqDto answerReqDto) {
         return "PATCH request accepted";
->>>>>>> feat/#4_1
     }
 
 
     @GetMapping("/{answerId}")
-<<<<<<< HEAD
-    public ResponseEntity getAnswer(@PathVariable("answerId") Long id) {
-        Answer response = answerService.findAnswer(id);
-        AnswerResDto responseDto = new AnswerResDto(response);
-
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
-=======
     public String getAnswer(@PathVariable("answerId") Long id) {
         return "GET request accepted";
->>>>>>> feat/#4_1
     }
 
 

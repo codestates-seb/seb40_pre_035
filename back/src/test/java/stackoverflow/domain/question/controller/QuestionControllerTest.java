@@ -225,7 +225,7 @@ class QuestionControllerTest {
                         getResponsePreProcessor(),
                         requestParameters(
                                 parameterWithName("page").description("페이지 번호(default = 1)"),
-                                parameterWithName("size").description("페이징 size(default = 10"),
+                                parameterWithName("size").description("페이징 size(default = 10)"),
                                 parameterWithName("sort").description("정렬 조건(default = asc)")
                         ),
                         responseFields(
@@ -237,6 +237,8 @@ class QuestionControllerTest {
                                         fieldWithPath("content[].title").type(JsonFieldType.STRING).description("Question 제목"),
                                         fieldWithPath("content[].content").type(JsonFieldType.STRING).description("Question 내용"),
                                         fieldWithPath("content[].totalVote").type(JsonFieldType.NUMBER).description("Question Vote"),
+                                        fieldWithPath("content[].answerCount").type(JsonFieldType.NUMBER).description("Question의 Answer 개수"),
+                                        fieldWithPath("content[].selectedAnswer").type(JsonFieldType.BOOLEAN).description("Question의 Answer 채택 여부"),
                                         fieldWithPath("content[].account").type(JsonFieldType.OBJECT).description("Question 생성자"),
                                         fieldWithPath("content[].account.id").type(JsonFieldType.NUMBER).description("Question 생성자 식별자"),
                                         fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Question 생성자 email"),
@@ -277,7 +279,7 @@ class QuestionControllerTest {
                         getResponsePreProcessor(),
                         requestParameters(
                                 parameterWithName("page").description("페이지 번호(default = 1)"),
-                                parameterWithName("size").description("페이징 size(default = 10"),
+                                parameterWithName("size").description("페이징 size(default = 10)"),
                                 parameterWithName("sort").description("정렬 조건(default = asc)"),
                                 parameterWithName("keyword").description("검색어")
                         ),
@@ -290,6 +292,68 @@ class QuestionControllerTest {
                                         fieldWithPath("content[].title").type(JsonFieldType.STRING).description("Question 제목"),
                                         fieldWithPath("content[].content").type(JsonFieldType.STRING).description("Question 내용"),
                                         fieldWithPath("content[].totalVote").type(JsonFieldType.NUMBER).description("Question Vote"),
+                                        fieldWithPath("content[].answerCount").type(JsonFieldType.NUMBER).description("Question의 Answer 개수"),
+                                        fieldWithPath("content[].selectedAnswer").type(JsonFieldType.BOOLEAN).description("Question의 Answer 채택 여부"),
+                                        fieldWithPath("content[].account").type(JsonFieldType.OBJECT).description("Question 생성자"),
+                                        fieldWithPath("content[].account.id").type(JsonFieldType.NUMBER).description("Question 생성자 식별자"),
+                                        fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Question 생성자 email"),
+                                        fieldWithPath("content[].account.profile").type(JsonFieldType.STRING).description("Question 생성자 프로필 이미지 경로"),
+                                        fieldWithPath("content[].account.nickname").type(JsonFieldType.STRING).description("Question 생성자 별칭"),
+                                        fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
+                                        fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("전체 Question 개수"),
+                                        fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫 페이지 여부"),
+                                        fieldWithPath("last").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
+                                        fieldWithPath("sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                        fieldWithPath("size").type(JsonFieldType.NUMBER).description("페이징 size"),
+                                        fieldWithPath("pageNumber").type(JsonFieldType.NUMBER).description("페이지 번호(0부터 시작)"),
+                                        fieldWithPath("numberOfElements").type(JsonFieldType.NUMBER).description("페이징된 Question 개수")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("특정 Account의 Questions 검색_성공")
+    void getQuestionsAccount_Success_Test() throws Exception {
+
+        //given
+        Long accountId = 1L;
+
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/questions/account/{accountId}", accountId)
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("sort", "id,desc")
+        );
+
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andDo(document(
+                        "getQuestionsAccount",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("accountId").description("Account 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 번호(default = 1)"),
+                                parameterWithName("size").description("페이징 size(default = 10)"),
+                                parameterWithName("sort").description("정렬 조건(default = asc)")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("Question 목록"),
+                                        fieldWithPath("content[].createdAt").type(JsonFieldType.STRING).description("Question 생성일자"),
+                                        fieldWithPath("content[].modifiedAt").type(JsonFieldType.STRING).description("Question 수정일자"),
+                                        fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("Question 식별자"),
+                                        fieldWithPath("content[].title").type(JsonFieldType.STRING).description("Question 제목"),
+                                        fieldWithPath("content[].content").type(JsonFieldType.STRING).description("Question 내용"),
+                                        fieldWithPath("content[].totalVote").type(JsonFieldType.NUMBER).description("Question Vote"),
+                                        fieldWithPath("content[].answerCount").type(JsonFieldType.NUMBER).description("Question의 Answer 개수"),
+                                        fieldWithPath("content[].selectedAnswer").type(JsonFieldType.BOOLEAN).description("Question의 Answer 채택 여부"),
                                         fieldWithPath("content[].account").type(JsonFieldType.OBJECT).description("Question 생성자"),
                                         fieldWithPath("content[].account.id").type(JsonFieldType.NUMBER).description("Question 생성자 식별자"),
                                         fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Question 생성자 email"),

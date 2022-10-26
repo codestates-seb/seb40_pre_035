@@ -33,14 +33,15 @@ include::{snippets}/createQuestion/curl-request.adoc[]
 .http-request
 include::{snippets}/modifyQuestion/http-request.adoc[]
 
-.request-fields
-include::{snippets}/modifyQuestion/request-fields.adoc[]
-
 .request-header
 include::{snippets}/modifyQuestion/request-headers.adoc[]
 
 .request-path_parameters
 include::{snippets}/modifyQuestion/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/modifyQuestion/request-fields.adoc[]
+
 
 .http-response
 include::{snippets}/modifyQuestion/http-response.adoc[]
@@ -112,3 +113,23 @@ include::{snippets}/searchQuestions/http-response.adoc[]
 
 .response-fields
 include::{snippets}/searchQuestions/response-fields.adoc[]
+
+***
+=== 특정 Account의 Questions 검색
+.curl-request
+include::{snippets}/getQuestionsAccount/curl-request.adoc[]
+
+.http-request
+include::{snippets}/getQuestionsAccount/http-request.adoc[]
+
+.request-path_parameters
+include::{snippets}/getQuestionsAccount/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/getQuestionsAccount/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/getQuestionsAccount/http-response.adoc[]
+
+.response-fields
+include::{snippets}/getQuestionsAccount/response-fields.adoc[]

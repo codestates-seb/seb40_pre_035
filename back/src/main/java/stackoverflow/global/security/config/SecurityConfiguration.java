@@ -17,7 +17,6 @@ import stackoverflow.global.security.auth.handler.AccountAuthenticationEntryPoin
 import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 import stackoverflow.global.security.auth.filter.JwtVerificationFilter;
 import stackoverflow.global.security.auth.handler.AccountAuthenticationFailureHandler;
-import stackoverflow.global.security.auth.handler.AccountAuthenticationSuccessHandler;
 import stackoverflow.global.security.auth.filter.JwtAuthenticationFilter;
 import stackoverflow.global.security.auth.utils.CustomAuthorityUtils;
 
@@ -40,13 +39,11 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .headers().frameOptions().sameOrigin()  //h2 웹콘솔을 정상적으로 사용할 수 있도록 설정
-                .and()
                 .csrf().disable()           //개발 환경 이후 설정해야할
                 .cors(withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 생성을 하지 않도록 설정
                 .and()
-                .formLogin().disable()      //JSON 포맷으로 Username과 Password를 전송하는 방식을 사용할 것이므로 비활성화
+                .formLogin().disable()      //Username과 Password를 JSON 형식으로 전송하는 방식을 사용할 것이므로 비활성화
                 .httpBasic().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(new AccountAuthenticationEntryPoint())
@@ -55,7 +52,7 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()
+                        .anyRequest().permitAll()   //현재 모든 권한 열려 있음
                 );
         return http.build();
     }
@@ -83,7 +80,6 @@ public class SecurityConfiguration {
 
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new AccountAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new AccountAuthenticationFailureHandler());
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);

@@ -60,10 +60,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private String delegateAccessToken(Account account) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", account.getEmail());
-        claims.put("roles", account.getRoles());
-        claims.put("id", account.getAccountId());   //claim에 id 넣는게 좋을까? subject 대신에
+        claims.put("role", account.getRole());
+        claims.put("id", account.getId());   //claim에 id 넣는게 좋을까? subject 대신에
 
-        String subject = String.valueOf(account.getAccountId());
+        String subject = String.valueOf(account.getId());
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     private String delegateRefreshToken(Account account) {
-        String subject = String.valueOf(account.getAccountId());
+        String subject = String.valueOf(account.getId());
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 

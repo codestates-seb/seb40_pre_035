@@ -32,40 +32,40 @@ public class AccountDetailsService implements UserDetailsService {
     private final class AccountDetails extends Account implements UserDetails {
 
         AccountDetails(Account account) {
-            setAccountId(account.getAccountId());
+            setId(account.getId());
             setEmail(account.getEmail());
             setPassword(account.getPassword());
-            setRoles(account.getRoles());
+            setRole(account.getRole());
         }
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return authorityUtils.createAuthorities(this.getRoles());
+            return authorityUtils.createAuthorities(this.getRole());
         }
 
         @Override
         public String getUsername() {
-            return null;
+            return getEmail();
         }
 
         @Override
         public boolean isAccountNonExpired() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean isAccountNonLocked() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean isCredentialsNonExpired() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean isEnabled() {
-            return false;
+            return true;
         }
     }
 }

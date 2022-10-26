@@ -5,15 +5,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import stackoverflow.global.auditing.BaseTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @NoArgsConstructor
 @Getter
 @Setter
-//@Entity
+@Entity
 public class Account extends BaseTime {
-    @Id
-    private long accountId;
+    @Id @GeneratedValue
+    @Column(name = "account_id")
+    private long id;
 
     private String email;
 
@@ -23,5 +27,5 @@ public class Account extends BaseTime {
 
     private String nickname;
 
-    private String roles;
+    private String role;
 }

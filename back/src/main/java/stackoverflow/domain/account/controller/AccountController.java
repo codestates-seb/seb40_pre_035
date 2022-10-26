@@ -34,7 +34,7 @@ public class AccountController {
     public String patchAccount(@PathVariable("account-id") long accountId, @RequestBody PatchAccountReqDto modifyAccountReqDto) {
 
         // 회원 정보 수정하는 로직
-        // 현재는 별명 수정만 추가
+        // 현재는 requestDto 에 별명, 프로필 경로만 추가
 
         return "Modify Success";
     }

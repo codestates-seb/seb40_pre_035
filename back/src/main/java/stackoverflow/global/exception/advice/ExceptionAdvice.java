@@ -13,26 +13,18 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class ExceptionAdvice {
 
-    // DTO 유효성검사 실패시 에러 처리
+    // 에러 발생시, 에러 구분 없이 에러 메세지가 가도록 통합했습니다.
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse ExceptionHandler (MethodArgumentNotValidException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getBindingResult());
-        return response;
+    public ResponseEntity<ErrorResponse> ExceptionHandler(Exception e) {
+        ErrorResponse errorResponse = new ErrorResponse(400, e.getClass().getSimpleName(), e.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    // 유효하지 않은 URI 요청시 유효성 검증
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse ExceptionHandler (ConstraintViolationException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getConstraintViolations());
-        return response;
-    }
-
+    // 비즈니스 로직 예외
     @ExceptionHandler
     public ResponseEntity BusinessLogicExceptionHandler (BusinessLogicException e) {
-        System.out.println(e.getExceptionCode().getStatus());
-        System.out.println(e.getMessage());
-        return new ResponseEntity<>(HttpStatus.valueOf(e.getExceptionCode().getStatus()));
+        String message = e.getExceptionCode().getMessage();
+        return new ResponseEntity<>(message, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
 }

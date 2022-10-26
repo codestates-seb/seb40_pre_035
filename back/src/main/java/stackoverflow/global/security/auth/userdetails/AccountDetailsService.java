@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import stackoverflow.domain.account.Account;
 import stackoverflow.global.security.auth.utils.CustomAuthorityUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -40,7 +41,9 @@ public class AccountDetailsService implements UserDetailsService {
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return authorityUtils.createAuthorities(this.getRole());
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(this::getRole);
+            return authorities;
         }
 
         @Override

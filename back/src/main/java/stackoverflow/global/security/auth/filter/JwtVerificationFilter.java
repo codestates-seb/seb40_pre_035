@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import stackoverflow.global.security.auth.dto.TokenPrincipalDto;
 import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 import stackoverflow.global.security.auth.utils.CustomAuthorityUtils;
 
@@ -58,8 +59,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String email = (String) claims.get("email");
-        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((String) claims.get("role"));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, authorities);
+        long id = (long) claims.get("id");
+        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List) claims.get("role"));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(new TokenPrincipalDto(id, email), null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

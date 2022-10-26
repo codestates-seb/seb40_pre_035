@@ -57,7 +57,6 @@ public class AnswerController {
 
             list.add(answerResDto);
         }
-
         Page<AnswerResDto> page = new PageImpl<>(list, pageable, 20);
 
         return new PageDto<>(page);

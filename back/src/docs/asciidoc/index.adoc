@@ -25,6 +25,9 @@ include::{snippets}/createQuestion/request-fields.adoc[]
 .http-response
 include::{snippets}/createQuestion/http-response.adoc[]
 
+.response-fields
+include::{snippets}/createQuestion/response-fields.adoc[]
+
 ***
 === Question 수정
 .curl-request
@@ -42,9 +45,11 @@ include::{snippets}/modifyQuestion/path-parameters.adoc[]
 .request-fields
 include::{snippets}/modifyQuestion/request-fields.adoc[]
 
-
 .http-response
 include::{snippets}/modifyQuestion/http-response.adoc[]
+
+.response-fields
+include::{snippets}/modifyQuestion/response-fields.adoc[]
 
 ***
 === Question 삭제
@@ -62,6 +67,9 @@ include::{snippets}/deleteQuestion/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/deleteQuestion/http-response.adoc[]
+
+.response-fields
+include::{snippets}/deleteQuestion/response-fields.adoc[]
 
 ***
 === 단일 Question 조회
@@ -133,3 +141,7 @@ include::{snippets}/getQuestionsAccount/http-response.adoc[]
 
 .response-fields
 include::{snippets}/getQuestionsAccount/response-fields.adoc[]
+
+***
+== FileController
+=== FileUpload

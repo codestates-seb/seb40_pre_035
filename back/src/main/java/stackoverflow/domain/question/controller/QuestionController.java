@@ -3,12 +3,15 @@ package stackoverflow.domain.question.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.QuestionAccountResDto;
 import stackoverflow.domain.question.dto.QuestionReqDto;
 import stackoverflow.domain.question.dto.QuestionResDto;
 import stackoverflow.domain.question.dto.QuestionsResDto;
 import stackoverflow.global.common.dto.PageDto;
+import stackoverflow.global.common.dto.SingleResDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,22 +22,22 @@ import java.util.List;
 public class QuestionController {
 
     @PostMapping("/question")
-    public String createQuestion(@RequestBody QuestionReqDto questionReqDto) {
-        return "success create question";
+    public ResponseEntity<SingleResDto<String>> createQuestion(@RequestBody QuestionReqDto questionReqDto) {
+        return new ResponseEntity<>(new SingleResDto<>("success create question"), HttpStatus.CREATED);
     }
 
     @PatchMapping("/question/{questionId}")
-    public String modifyQuestion(@PathVariable Long questionId, @RequestBody QuestionReqDto questionReqDto) {
-        return "success modify question";
+    public ResponseEntity<SingleResDto<String>> modifyQuestion(@PathVariable Long questionId, @RequestBody QuestionReqDto questionReqDto) {
+        return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 
     @DeleteMapping("/question/{questionId}")
-    public String deleteQuestion(@PathVariable Long questionId) {
-        return "success delete question";
+    public ResponseEntity<SingleResDto<String>> deleteQuestion(@PathVariable Long questionId) {
+        return new ResponseEntity<>(new SingleResDto<>("success delete question"), HttpStatus.OK);
     }
 
     @GetMapping("/question/{questionId}")
-    public QuestionResDto getQuestion(@PathVariable Long questionId) {
+    public ResponseEntity<QuestionResDto> getQuestion(@PathVariable Long questionId) {
 
         QuestionResDto questionResDto = new QuestionResDto();
         QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
@@ -52,11 +55,11 @@ public class QuestionController {
         questionResDto.setCreatedAt(LocalDateTime.now());
         questionResDto.setModifiedAt(LocalDateTime.now());
 
-        return questionResDto;
+        return new ResponseEntity<>(questionResDto, HttpStatus.OK);
     }
 
     @GetMapping("/questions")
-    public PageDto<QuestionsResDto> getQuestions(Pageable pageable) {
+    public ResponseEntity<PageDto<QuestionsResDto>> getQuestions(Pageable pageable) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -82,11 +85,11 @@ public class QuestionController {
         }
 
         PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
-        return new PageDto<>(questionRes);
+        return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 
     @GetMapping("/questions/search")
-    public PageDto<QuestionsResDto> searchQuestions(Pageable pageable, @RequestParam String keyword) {
+    public ResponseEntity<PageDto<QuestionsResDto>> searchQuestions(Pageable pageable, @RequestParam String keyword) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -112,11 +115,11 @@ public class QuestionController {
         }
 
         PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
-        return new PageDto<>(questionRes);
+        return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 
     @GetMapping("/questions/account/{accountId}")
-    public PageDto<QuestionsResDto> getQuestionsAccount(@PathVariable Long accountId, Pageable pageable) {
+    public ResponseEntity<PageDto<QuestionsResDto>> getQuestionsAccount(@PathVariable Long accountId, Pageable pageable) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -142,6 +145,6 @@ public class QuestionController {
         }
 
         PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
-        return new PageDto<>(questionRes);
+        return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 }

@@ -62,7 +62,7 @@ class QuestionControllerTest {
 
         //then
         actions
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(document(
                         "createQuestion",
                         getRequestPreProcessor(),
@@ -77,6 +77,11 @@ class QuestionControllerTest {
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("내용")
 
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.STRING).description("Api 성공 메시지")
                                 )
                         )
                 ));
@@ -128,6 +133,11 @@ class QuestionControllerTest {
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("내용")
 
                                 )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.STRING).description("Api 성공 메시지")
+                                )
                         )
                 ));
     }
@@ -159,6 +169,11 @@ class QuestionControllerTest {
                         requestHeaders(
                                 List.of(
                                         headerWithName("Authorization").description("JWT")
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.STRING).description("Api 성공 메시지")
                                 )
                         )
                 ));

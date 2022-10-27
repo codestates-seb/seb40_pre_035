@@ -22,6 +22,12 @@ spring:
         default_batch_fetch_size: 100
     defer-datasource-initialization: true
 
+jwt:
+  key:
+    secret: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
+
 #  sql:
 #    init:
 #      data-locations: classpath:static/db/data.sql

@@ -45,9 +45,9 @@ public class AnswerController {
         AnswerAccountResDto account = new AnswerAccountResDto();
         account.setId(1L);
         account.setEmail("account@gmail.com");
-        account.setPath("path");
+        account.setPath("profile");
         account.setNickname("nickname");
-        AnswerResDto answerResDto = new AnswerResDto(id, "title", "content",10, account, false);
+        AnswerResDto answerResDto = new AnswerResDto(id, "title", "content",10, account);
         answerResDto.setCreatedAt(LocalDateTime.now());
         answerResDto.setModifiedAt(LocalDateTime.now());
 
@@ -63,41 +63,15 @@ public class AnswerController {
             AnswerAccountResDto account = new AnswerAccountResDto();
             account.setId(100L+i);
             account.setEmail("mock"+i+"@gmail.com");
-            account.setPath("path"+i);
+            account.setPath("profile"+i);
             account.setNickname("nick"+i);
-            AnswerResDto answerResDto = new AnswerResDto(0L+i, "title"+i, "contents"+i, 2, account, false);
+            AnswerResDto answerResDto = new AnswerResDto(0L+i, "title"+i, "contents"+i, 2, account);
             answerResDto.setCreatedAt(LocalDateTime.now());
             answerResDto.setModifiedAt(LocalDateTime.now());
 
             list.add(answerResDto);
         }
         Page<AnswerResDto> page = new PageImpl<>(list, pageable, 10);
-
-        return new PageDto<>(page);
-    }
-
-
-    @GetMapping("/account/{accountId}")
-    public PageDto getAnswersAccount(@PathVariable Long accountId, Pageable pageable) {
-        List<AnswerResDto> list = new ArrayList<>();
-        AnswerAccountResDto account = new AnswerAccountResDto();
-        for(int i=1 ; i <= 10 ; i++) {
-            account.setId(100L+i);
-            account.setEmail("mock"+i+"@gmail.com");
-            account.setPath("path"+i);
-            account.setNickname("nick"+i);
-
-            AnswerResDto answerResDto = new AnswerResDto(0L + i, "title"+i, "content"+i, 2, account, false);
-            answerResDto.setCreatedAt(LocalDateTime.now());
-            answerResDto.setModifiedAt(LocalDateTime.now());
-
-            if(account.getId()==accountId) {
-                list.add(answerResDto);
-            }
-
-        }
-
-        Page<AnswerResDto> page = new PageImpl<>(list, pageable,10);
 
         return new PageDto<>(page);
     }

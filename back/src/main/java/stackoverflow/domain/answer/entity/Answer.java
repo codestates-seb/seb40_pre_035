@@ -20,5 +20,4 @@ public class Answer extends BaseTime {
 
     private int totalVote;
 
-    private boolean pick;
 }

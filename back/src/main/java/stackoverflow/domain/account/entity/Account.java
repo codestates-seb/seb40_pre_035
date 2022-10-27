@@ -23,7 +23,7 @@ public class Account extends BaseTime {
 
     private String password;
 
-    private String profileImg;
+    private String profile;
 
     private String nickname;
 

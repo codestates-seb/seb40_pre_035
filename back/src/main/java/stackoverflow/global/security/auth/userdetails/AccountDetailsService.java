@@ -1,32 +1,38 @@
 package stackoverflow.global.security.auth.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import stackoverflow.domain.account.entity.Account;
+import stackoverflow.domain.account.repository.AccountRepository;
+import stackoverflow.global.exception.advice.BusinessLogicException;
+import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 import stackoverflow.global.security.auth.utils.CustomAuthorityUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class AccountDetailsService implements UserDetailsService {
     private final CustomAuthorityUtils authorityUtils;
-//    private final AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
-    public AccountDetailsService(CustomAuthorityUtils authorityUtils) {
+    public AccountDetailsService(CustomAuthorityUtils authorityUtils, AccountRepository accountRepository) {
         this.authorityUtils = authorityUtils;
+        this.accountRepository = accountRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Optional<Account> optionalAccount = accountRepository.findByEmail(username);
-//        Account findAccount = optionalAccount.orElseThrow(() -> new RuntimeException("No User Exist"));
-//
-//        return new AccountDetails(findAccount);
-        return null;
+        Optional<Account> optionalAccount = accountRepository.findByEmail(username);
+        Account findAccount = optionalAccount.orElseThrow(() -> new RuntimeException("No User Exist"));
+
+        return new AccountDetails(findAccount);
     }
 
     private final class AccountDetails extends Account implements UserDetails {

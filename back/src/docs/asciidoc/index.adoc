@@ -143,6 +143,29 @@ include::{snippets}/getQuestionsAccount/http-response.adoc[]
 include::{snippets}/getQuestionsAccount/response-fields.adoc[]
 
 ***
+=== Question_Vote 생성
+.curl-request
+include::{snippets}/addQuestionVote/curl-request.adoc[]
+
+.http-request
+include::{snippets}/addQuestionVote/http-request.adoc[]
+
+.request-header
+include::{snippets}/addQuestionVote/request-headers.adoc[]
+
+.request-path_parameters
+include::{snippets}/addQuestionVote/path-parameters.adoc[]
+
+.request-field
+include::{snippets}/addQuestionVote/request-fields.adoc[]
+
+.http-response
+include::{snippets}/addQuestionVote/http-response.adoc[]
+
+.response-fields
+include::{snippets}/addQuestionVote/response-fields.adoc[]
+
+***
 == FileController
 === FileUpload
 .curl-request

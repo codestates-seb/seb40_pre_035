@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.QuestionAccountResDto;
+import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
 import stackoverflow.domain.question.dto.QuestionReqDto;
 import stackoverflow.domain.question.dto.QuestionResDto;
 import stackoverflow.domain.question.dto.QuestionsResDto;
@@ -148,5 +149,11 @@ public class QuestionController {
 
         PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
         return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
+    }
+
+    @PostMapping("/questionVote/{questionId}")
+    public ResponseEntity<SingleResDto<String>> questionVoteAdd(@PathVariable Long questionId,
+                                                                @RequestBody AddQuestionVoteReqDto addQuestionVoteReqDto) {
+        return new ResponseEntity<>(new SingleResDto<>("success add vote"), HttpStatus.CREATED);
     }
 }

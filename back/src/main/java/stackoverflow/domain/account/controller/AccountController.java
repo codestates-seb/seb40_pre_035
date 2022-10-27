@@ -7,21 +7,22 @@ import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.AccountResDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
+import stackoverflow.global.common.dto.SingleResDto;
 
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
 
     @PostMapping
-    public String postAccount(@RequestBody PostAccountReqDto createAccountReqDto) {
+    public ResponseEntity<SingleResDto<String>> accountAdd(@RequestBody PostAccountReqDto createAccountReqDto) {
 
         //DB에 회원 정보를 저장하는 로직
 
-        return "Create Success";
+        return new ResponseEntity<>(new SingleResDto<>("success create account"), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{account-id}")
-    public ResponseEntity getAccount(@PathVariable("account-id") long accountId) {
+    @GetMapping("/{accountId}")
+    public ResponseEntity<AccountResDto> accountDetails(@PathVariable long accountId) {
 
         // DB에서 회원 찾는 로직
 
@@ -30,21 +31,21 @@ public class AccountController {
         return new ResponseEntity(mockResDto, HttpStatus.OK);
     }
 
-    @PatchMapping("/{account-id}")
-    public String patchAccount(@PathVariable("account-id") long accountId, @RequestBody PatchAccountReqDto modifyAccountReqDto) {
+    @PatchMapping("/{accountId}")
+    public ResponseEntity<SingleResDto<String>> accountModify(@PathVariable long accountId, @RequestBody PatchAccountReqDto modifyAccountReqDto) {
 
         // 회원 정보 수정하는 로직
         // 현재는 requestDto 에 별명, 프로필 경로만 추가
 
-        return "Modify Success";
+        return new ResponseEntity<>(new SingleResDto<>("success modify account"), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{account-id}")
-    public String deleteAccount(@PathVariable("account-id") long accountId) {
+    @DeleteMapping("/{accountId}")
+    public ResponseEntity<SingleResDto<String>> accountRemove(@PathVariable long accountId) {
 
         //회원 정보 삭제하는 로직
 
-        return "Delete Success";
+        return new ResponseEntity<>(new SingleResDto<>("success delete account"), HttpStatus.OK);
     }
 
 

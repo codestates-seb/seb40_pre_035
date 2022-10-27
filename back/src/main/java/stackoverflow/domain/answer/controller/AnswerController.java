@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/answer")
+@RequestMapping("/answers")
 @RestController
 public class AnswerController {
     private AnswerService answerService;

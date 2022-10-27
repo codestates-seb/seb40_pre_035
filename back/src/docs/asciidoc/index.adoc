@@ -106,21 +106,21 @@ include::{snippets}/getQuestions/http-response.adoc[]
 include::{snippets}/getQuestions/response-fields.adoc[]
 
 ***
-=== Questions 검색
+=== Questions 조회_UnAnswered
 .curl-request
-include::{snippets}/searchQuestions/curl-request.adoc[]
+include::{snippets}/getQuestionsUnAnswered/curl-request.adoc[]
 
 .http-request
-include::{snippets}/searchQuestions/http-request.adoc[]
+include::{snippets}/getQuestionsUnAnswered/http-request.adoc[]
 
 .request-parameters
-include::{snippets}/searchQuestions/request-parameters.adoc[]
+include::{snippets}/getQuestionsUnAnswered/request-parameters.adoc[]
 
 .http-response
-include::{snippets}/searchQuestions/http-response.adoc[]
+include::{snippets}/getQuestionsUnAnswered/http-response.adoc[]
 
 .response-fields
-include::{snippets}/searchQuestions/response-fields.adoc[]
+include::{snippets}/getQuestionsUnAnswered/response-fields.adoc[]
 
 ***
 === 특정 Account의 Questions 검색

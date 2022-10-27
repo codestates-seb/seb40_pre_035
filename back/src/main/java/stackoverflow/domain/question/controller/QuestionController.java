@@ -21,22 +21,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionController {
 
-    @PostMapping("/question")
+    @PostMapping("/questions")
     public ResponseEntity<SingleResDto<String>> createQuestion(@RequestBody QuestionReqDto questionReqDto) {
         return new ResponseEntity<>(new SingleResDto<>("success create question"), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/question/{questionId}")
+    @PatchMapping("/questions/{questionId}")
     public ResponseEntity<SingleResDto<String>> modifyQuestion(@PathVariable Long questionId, @RequestBody QuestionReqDto questionReqDto) {
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 
-    @DeleteMapping("/question/{questionId}")
+    @DeleteMapping("/questions/{questionId}")
     public ResponseEntity<SingleResDto<String>> deleteQuestion(@PathVariable Long questionId) {
         return new ResponseEntity<>(new SingleResDto<>("success delete question"), HttpStatus.OK);
     }
 
-    @GetMapping("/question/{questionId}")
+    @GetMapping("/questions/{questionId}")
     public ResponseEntity<QuestionResDto> getQuestion(@PathVariable Long questionId) {
 
         QuestionResDto questionResDto = new QuestionResDto();
@@ -59,37 +59,8 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public ResponseEntity<PageDto<QuestionsResDto>> getQuestions(Pageable pageable) {
-        List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            QuestionsResDto questionsResDto = new QuestionsResDto();
-            QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
-
-            questionAccountResDto.setId(1L + (i * 5));
-            questionAccountResDto.setEmail("mock" + (i * 5) + "@mock.com");
-            questionAccountResDto.setProfile("mock/mock" + (i * 5));
-            questionAccountResDto.setNickname("mockNickname" + (i * 5));
-
-            questionsResDto.setId(3L + (i * 5));
-            questionsResDto.setTitle("testQuestionTitle" + (3 + i * 5));
-            questionsResDto.setContent("testQuestionContent" + (3 + i * 5));
-            questionsResDto.setTotalVote(10);
-            questionsResDto.setAnswerCount(5);
-            questionsResDto.setSelectedAnswer(true);
-            questionsResDto.setAccount(questionAccountResDto);
-            questionsResDto.setCreatedAt(LocalDateTime.now());
-            questionsResDto.setModifiedAt(LocalDateTime.now());
-
-            questionsResDtoList.add(questionsResDto);
-        }
-
-        PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
-        return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
-    }
-
-    @GetMapping("/questions/search")
-    public ResponseEntity<PageDto<QuestionsResDto>> searchQuestions(Pageable pageable, @RequestParam String keyword) {
+    public ResponseEntity<PageDto<QuestionsResDto>> getQuestions(Pageable pageable,
+                                                                 @RequestParam(required = false) String keyword) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -126,6 +97,37 @@ public class QuestionController {
             QuestionsResDto questionsResDto = new QuestionsResDto();
             QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
 
+            questionAccountResDto.setId(1L);
+            questionAccountResDto.setEmail("mock1@mock.com");
+            questionAccountResDto.setProfile("mock/mock1");
+            questionAccountResDto.setNickname("mockNickname1");
+
+            questionsResDto.setId(3L + (i * 5));
+            questionsResDto.setTitle("testQuestionTitle" + (3 + i * 5));
+            questionsResDto.setContent("testQuestionContent" + (3 + i * 5));
+            questionsResDto.setTotalVote(10);
+            questionsResDto.setAnswerCount(5);
+            questionsResDto.setSelectedAnswer(true);
+            questionsResDto.setAccount(questionAccountResDto);
+            questionsResDto.setCreatedAt(LocalDateTime.now());
+            questionsResDto.setModifiedAt(LocalDateTime.now());
+
+            questionsResDtoList.add(questionsResDto);
+        }
+
+        PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
+        return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
+    }
+
+    @GetMapping("/questions/unAnswered")
+    public ResponseEntity<PageDto<QuestionsResDto>> getQuestionsUnAnswered(Pageable pageable,
+                                                                           @RequestParam(required = false) String keyword) {
+        List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            QuestionsResDto questionsResDto = new QuestionsResDto();
+            QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
+
             questionAccountResDto.setId(1L + (i * 5));
             questionAccountResDto.setEmail("mock" + (i * 5) + "@mock.com");
             questionAccountResDto.setProfile("mock/mock" + (i * 5));
@@ -136,7 +138,7 @@ public class QuestionController {
             questionsResDto.setContent("testQuestionContent" + (3 + i * 5));
             questionsResDto.setTotalVote(10);
             questionsResDto.setAnswerCount(5);
-            questionsResDto.setSelectedAnswer(true);
+            questionsResDto.setSelectedAnswer(false);
             questionsResDto.setAccount(questionAccountResDto);
             questionsResDto.setCreatedAt(LocalDateTime.now());
             questionsResDto.setModifiedAt(LocalDateTime.now());

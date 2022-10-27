@@ -33,7 +33,7 @@ public class AnswerController {
 
 
     @PatchMapping("/{answerId}")
-    public ResponseEntity<SingleResDto<String>> patchAnswer(@PathVariable("answerId") Long id,
+    public ResponseEntity<SingleResDto<String>> patchAnswer(@PathVariable Long answerId,
                                       @RequestBody AnswerReqDto answerReqDto) {
 
         return new ResponseEntity<>(new SingleResDto<>("success modify answer"), HttpStatus.OK);
@@ -41,14 +41,14 @@ public class AnswerController {
 
 
     @GetMapping("/{answerId}")
-    public ResponseEntity getAnswer(@PathVariable("answerId") Long id) {
+    public ResponseEntity getAnswer(@PathVariable Long answerId) {
 
         AnswerAccountResDto account = new AnswerAccountResDto();
         account.setId(1L);
         account.setEmail("account@gmail.com");
         account.setPath("profile");
         account.setNickname("nickname");
-        AnswerResDto answerResDto = new AnswerResDto(id, "title", "content",10, account);
+        AnswerResDto answerResDto = new AnswerResDto(answerId, "title", "content",10, account);
         answerResDto.setCreatedAt(LocalDateTime.now());
         answerResDto.setModifiedAt(LocalDateTime.now());
 
@@ -79,7 +79,7 @@ public class AnswerController {
 
 
     @DeleteMapping("/{answerId}")
-    public ResponseEntity<SingleResDto<String>> deleteAnswer(@PathVariable("answerId") Long id) {
+    public ResponseEntity<SingleResDto<String>> deleteAnswer(@PathVariable Long answerId) {
 
         return new ResponseEntity<>(new SingleResDto<>("success delete answer"), HttpStatus.OK);  /// 추후 NO_CONTENT로 변경해야함
     }

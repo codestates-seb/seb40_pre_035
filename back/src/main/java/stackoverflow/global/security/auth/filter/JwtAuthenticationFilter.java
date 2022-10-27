@@ -7,7 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import stackoverflow.domain.account.Account;
+import stackoverflow.domain.account.entity.Account;
 import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 import stackoverflow.global.security.auth.dto.LoginDto;
 

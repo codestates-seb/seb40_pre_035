@@ -5,12 +5,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import stackoverflow.domain.account.Account;
+import stackoverflow.domain.account.entity.Account;
 import stackoverflow.global.security.auth.utils.CustomAuthorityUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 @Component
 public class AccountDetailsService implements UserDetailsService {

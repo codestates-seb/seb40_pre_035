@@ -1,4 +1,4 @@
-package stackoverflow.domain.account;
+package stackoverflow.domain.account.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,7 @@ public class Account extends BaseTime {
 
     private String password;
 
-    private String path;
+    private String profileImg;
 
     private String nickname;
 

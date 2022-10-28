@@ -21,8 +21,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static stackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
 import static stackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
@@ -153,22 +152,11 @@ public class AnswerControllerTest {
         //given
         String jwt = "AccessToken_Value";
         Long answerId = 1L;
-        String content = "testAnswerContent";
-        int totalVote = 0;
-
-        AnswerReqDto answerReqDto = new AnswerReqDto();
-        answerReqDto.setContent(content);
-        answerReqDto.setTotalVote(totalVote);
-
-        String body = gson.toJson(answerReqDto);
 
         //when
         ResultActions actions = mockMvc.perform(
                 get("/answers/{answerId}", answerId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", jwt)
-                        .content(body)
         );
 
         // then
@@ -207,41 +195,61 @@ public class AnswerControllerTest {
     @Test
     @DisplayName("Answers 조회_성공")
     public void getAnswers_Success_Test() throws Exception {
-        // given
+        //given
+        String jwt = "AccessToken_Value";
+        Long answerId = 1L;
 
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/answers")
+                        .header("Authorization", jwt)
+                        .param("page", "1")
+                        .param("size","10")
+                        .param("sort", "id,desc")
+        );
 
-//        // when
-//        ResultActions actions =
-//                mockMvc.perform(
-//                        post("/answers")
-//                                .accept(MediaType.APPLICATION_JSON)
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(content));
-//
-//        // then
-//        actions
-//                .andExpect(status().isOk())
-//
-//                .andDo(document("요청명_객체명",
-//                        getRequestPreProcessor(),
-//                        getResponsePreProcessor(),
-//                        pathParameters(
-//                                Arrays.asList(parameterWithName("answerId").description("식별자"))
-//                        ),
-//                        requestFields(
-//                                List.of(
-//                                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("식별자"),
-//                                        fieldWithPath("name").type(JsonFieldType.STRING).description("이름")
-//                                )
-//                        ),
-//                        responseFields(
-//                                Arrays.asList(
-//                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("데이터"),
-//                                        fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("식별자"),
-//                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일")
-//                                )
-//                        )
-//                ));
+        // then
+        actions
+                .andExpect(status().isOk())
+                .andDo(document("getAnswers",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("Authorization").description("JWT")
+                                )
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("페이지 번호(default = 1"),
+                                parameterWithName("size").description("페이징 size(default = 10)"),
+                                parameterWithName("sort").description("정렬 조건(default = id, asc")
+                        ),
+                        responseFields(
+                                Arrays.asList(
+                                        fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("Answer 목록"),
+                                        fieldWithPath("content[].createdAt").type(JsonFieldType.STRING).description("Answer 생성일자"),
+                                        fieldWithPath("content[].modifiedAt").type(JsonFieldType.STRING).description("Answer 수정일자"),
+                                        fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("Answer 식별자"),
+                                        fieldWithPath("content[].content").type(JsonFieldType.STRING).description("Answer 내용"),
+                                        fieldWithPath("content[].totalVote").type(JsonFieldType.NUMBER).description("Answer Vote"),
+                                        fieldWithPath("content[].account").type(JsonFieldType.OBJECT).description("Answer 생성계정"),
+                                        fieldWithPath("content[].account.id").type(JsonFieldType.NUMBER).description("Answer 생성계정 식별자"),
+                                        fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Answer 생성계정 email"),
+                                        fieldWithPath("content[].account.path").type(JsonFieldType.STRING).description("Answer 생성계정 프로필 이미지 경로"),
+                                        fieldWithPath("content[].account.nickname").type(JsonFieldType.STRING).description("Answer 생성계정 별칭"),
+
+                                        fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
+                                        fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("전체 Answer 개수"),
+                                        fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫 페이지 여부"),
+                                        fieldWithPath("last").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
+                                        fieldWithPath("sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
+                                        fieldWithPath("size").type(JsonFieldType.NUMBER).description("페이징 size"),
+                                        fieldWithPath("pageNumber").type(JsonFieldType.NUMBER).description("페이지 번호(0부터 시작)"),
+                                        fieldWithPath("numberOfElements").type(JsonFieldType.NUMBER).description("페이징된 Question 개수")
+                                )
+                        )
+                ));
+
     }
 
 

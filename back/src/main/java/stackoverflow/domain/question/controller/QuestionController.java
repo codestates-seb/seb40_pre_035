@@ -41,7 +41,17 @@ public class QuestionController {
     }
 
     @PatchMapping("/questions/{questionId}")
-    public ResponseEntity<SingleResDto<String>> modifyQuestion(@PathVariable Long questionId, @RequestBody QuestionReqDto questionReqDto) {
+    public ResponseEntity<SingleResDto<String>> questionModify(@LoginAccountId Long loginAccountId,
+                                                               @PathVariable Long questionId,
+                                                               @RequestBody QuestionReqDto questionReqDto) {
+
+        questionReqDto.setAccountId(loginAccountId);
+        questionReqDto.setQuestionId(questionId);
+
+        Question question = questionReqDto.toQuestion();
+
+        questionService.modifyQuestion(question);
+
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 

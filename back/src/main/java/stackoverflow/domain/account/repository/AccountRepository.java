@@ -11,7 +11,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     default Optional<Account> findByEmail(String email) {
         //DB에 데이터 없으므로 일단 mock 객체 넘겨줌
         Account account = new Account();
-        account.setId(1);
+        account.setId(1L);
         account.setEmail("mock@gmail.com");
         account.setPassword("mock1234");
         account.setNickname("mock nickname");

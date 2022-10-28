@@ -26,15 +26,13 @@ public class AnswerController {
 
     @PostMapping
     public ResponseEntity<SingleResDto<String>> postAnswer(@RequestBody AnswerReqDto answerReqDto) {
-        String title = answerReqDto.getTitle();
 
         return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
     }
 
 
     @PatchMapping("/{answerId}")
-    public ResponseEntity<SingleResDto<String>> patchAnswer(@PathVariable Long answerId,
-                                      @RequestBody AnswerReqDto answerReqDto) {
+    public ResponseEntity<SingleResDto<String>> patchAnswer(@PathVariable Long answerId, @RequestBody AnswerReqDto answerReqDto) {
 
         return new ResponseEntity<>(new SingleResDto<>("success modify answer"), HttpStatus.OK);
     }
@@ -48,7 +46,7 @@ public class AnswerController {
         account.setEmail("account@gmail.com");
         account.setPath("profile");
         account.setNickname("nickname");
-        AnswerResDto answerResDto = new AnswerResDto(answerId, "title", "content",10, account);
+        AnswerResDto answerResDto = new AnswerResDto(answerId, "content",10, account);
         answerResDto.setCreatedAt(LocalDateTime.now());
         answerResDto.setModifiedAt(LocalDateTime.now());
 
@@ -66,7 +64,7 @@ public class AnswerController {
             account.setEmail("mock"+i+"@gmail.com");
             account.setPath("profile"+i);
             account.setNickname("nick"+i);
-            AnswerResDto answerResDto = new AnswerResDto(0L+i, "title"+i, "contents"+i, 2, account);
+            AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account);
             answerResDto.setCreatedAt(LocalDateTime.now());
             answerResDto.setModifiedAt(LocalDateTime.now());
 

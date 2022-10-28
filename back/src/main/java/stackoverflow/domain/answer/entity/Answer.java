@@ -15,8 +15,6 @@ public class Answer extends BaseTime {
     @GeneratedValue
     private Long id;
 
-    private String title;
-
     private String content;
 
     private int totalVote;

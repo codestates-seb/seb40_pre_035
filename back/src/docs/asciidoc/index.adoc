@@ -7,6 +7,104 @@
 
 lastModified: 2022.10.28
 
+
+***
+== AccountController
+=== Account 생성
+.curl-request
+include::{snippets}/createAccount/curl-request.adoc[]
+
+.http-request
+include::{snippets}/createAccount/http-request.adoc[]
+
+.request-fields
+include::{snippets}/createAccount/request-fields.adoc[]
+
+.http-response
+include::{snippets}/createAccount/http-response.adoc[]
+
+.response-fields
+include::{snippets}/createAccount/response-fields.adoc[]
+
+***
+=== Account 수정
+.curl-request
+include::{snippets}/modifyAccount/curl-request.adoc[]
+
+.http-request
+include::{snippets}/modifyAccount/http-request.adoc[]
+
+.request-header
+include::{snippets}/modifyAccount/request-headers.adoc[]
+
+.request-path_parameters
+include::{snippets}/modifyAccount/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/modifyAccount/request-fields.adoc[]
+
+.http-response
+include::{snippets}/modifyAccount/http-response.adoc[]
+
+.response-fields
+include::{snippets}/modifyAccount/response-fields.adoc[]
+
+***
+=== Account 삭제
+.curl-request
+include::{snippets}/deleteAccount/curl-request.adoc[]
+
+.http-request
+include::{snippets}/deleteAccount/http-request.adoc[]
+
+.request-headers
+include::{snippets}/deleteAccount/request-headers.adoc[]
+
+.request-path-parameters
+include::{snippets}/deleteAccount/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/deleteAccount/http-response.adoc[]
+
+.response-fields
+include::{snippets}/deleteAccount/response-fields.adoc[]
+
+***
+=== 단일 Account 조회
+.curl-request
+include::{snippets}/getAccount/curl-request.adoc[]
+
+.http-request
+include::{snippets}/getAccount/http-request.adoc[]
+
+.request-path_parameters
+include::{snippets}/getAccount/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/getAccount/http-response.adoc[]
+
+.response-fields
+include::{snippets}/getAccount/response-fields.adoc[]
+
+***
+=== 로그인한 Account 조회
+.curl-request
+include::{snippets}/getUserAccount/curl-request.adoc[]
+
+.http-request
+include::{snippets}/getUserAccount/http-request.adoc[]
+
+.request-header
+include::{snippets}/getUserAccount/request-headers.adoc[]
+
+.http-response
+include::{snippets}/getUserAccount/http-response.adoc[]
+
+.response-fields
+include::{snippets}/getUserAccount/response-fields.adoc[]
+
+
+
 ***
 == QuestionController
 === Question 생성
@@ -165,23 +263,7 @@ include::{snippets}/addQuestionVote/http-response.adoc[]
 .response-fields
 include::{snippets}/addQuestionVote/response-fields.adoc[]
 
-***
-== FileController
-=== FileUpload
-.curl-request
-include::{snippets}/uploadFile/curl-request.adoc[]
 
-.http-request
-include::{snippets}/uploadFile/http-request.adoc[]
-
-.request-parts
-include::{snippets}/uploadFile/request-parts.adoc[]
-
-.http-response
-include::{snippets}/uploadFile/http-response.adoc[]
-
-.response-fields
-include::{snippets}/uploadFile/response-fields.adoc[]
 
 ***
 == AnswerController
@@ -303,3 +385,22 @@ include::{snippets}/addAnswerVote/http-response.adoc[]
 
 .response-fields
 include::{snippets}/addAnswerVote/response-fields.adoc[]
+
+
+***
+== FileController
+=== FileUpload
+.curl-request
+include::{snippets}/uploadFile/curl-request.adoc[]
+
+.http-request
+include::{snippets}/uploadFile/http-request.adoc[]
+
+.request-parts
+include::{snippets}/uploadFile/request-parts.adoc[]
+
+.http-response
+include::{snippets}/uploadFile/http-response.adoc[]
+
+.response-fields
+include::{snippets}/uploadFile/response-fields.adoc[]

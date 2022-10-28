@@ -13,8 +13,10 @@ import stackoverflow.global.auditing.BaseTime;
 @AllArgsConstructor
 public class AnswerResDto extends BaseTime {
     private Long id;
-    private String title;
+
     private String content;
+
     private int totalVote;
+
     private AnswerAccountResDto account;
 }

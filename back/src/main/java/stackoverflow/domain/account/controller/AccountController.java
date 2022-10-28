@@ -3,11 +3,16 @@ package stackoverflow.domain.account.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.AccountResDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
+import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.global.common.dto.SingleResDto;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/accounts")
@@ -48,5 +53,11 @@ public class AccountController {
         return new ResponseEntity<>(new SingleResDto<>("success delete account"), HttpStatus.OK);
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<AccountResDto> accountUserDetails(@AuthenticationPrincipal User user) {
+        // 현재 로그인한 회원 정보 조회
+        //@AuthenticationPrincipal 은 UserDetailsService 에서 리턴한 객체를 파라미터로 받을 수 있음
 
+        return new ResponseEntity<>(new AccountResDto("user@gmail.com", "login user", "/path/user"), HttpStatus.OK);
+    }
 }

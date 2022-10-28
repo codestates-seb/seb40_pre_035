@@ -150,13 +150,11 @@ public class AnswerControllerTest {
     @DisplayName("Answer 조회_성공")
     public void getAnswer_Success_Test() throws Exception {
         //given
-        String jwt = "AccessToken_Value";
         Long answerId = 1L;
 
         //when
         ResultActions actions = mockMvc.perform(
                 get("/answers/{answerId}", answerId)
-                        .header("Authorization", jwt)
         );
 
         // then
@@ -167,11 +165,6 @@ public class AnswerControllerTest {
                         getResponsePreProcessor(),
                         pathParameters(
                                 parameterWithName("answerId").description("Answer 식별자")
-                        ),
-                        requestHeaders(
-                                List.of(
-                                        headerWithName("Authorization").description("JWT")
-                                )
                         ),
                         responseFields(
                                 Arrays.asList(
@@ -196,13 +189,11 @@ public class AnswerControllerTest {
     @DisplayName("Answers 조회_성공")
     public void getAnswers_Success_Test() throws Exception {
         //given
-        String jwt = "AccessToken_Value";
         Long answerId = 1L;
 
         //when
         ResultActions actions = mockMvc.perform(
                 get("/answers")
-                        .header("Authorization", jwt)
                         .param("page", "1")
                         .param("size","10")
                         .param("sort", "id,desc")
@@ -214,11 +205,6 @@ public class AnswerControllerTest {
                 .andDo(document("getAnswers",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
-                        requestHeaders(
-                                List.of(
-                                        headerWithName("Authorization").description("JWT")
-                                )
-                        ),
                         requestParameters(
                                 parameterWithName("page").description("페이지 번호(default = 1"),
                                 parameterWithName("size").description("페이징 size(default = 10)"),

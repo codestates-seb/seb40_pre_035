@@ -2,7 +2,6 @@ package stackoverflow.domain.answer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +10,8 @@ import stackoverflow.domain.answer.repository.AnswerRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -49,6 +50,17 @@ public class AnswerService {
         Answer verifiedAnswer = findVerifiedAnswer(id);
 
         answerRepository.delete(verifiedAnswer);
+    }
+
+
+
+    public Page<Answer> findAccountAnswers(Long accountId, Pageable pageable) {
+        List<Answer> answerList = new ArrayList<>();  // 가급적이면 바꿀 수 있으면 바꾸기
+        Answer verifiedAnswer = findVerifiedAnswer(accountId);
+        answerList.add(verifiedAnswer);
+        Page<Answer> answers = (Page<Answer>) answerList;
+
+        return answers;
     }
 
 

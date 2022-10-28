@@ -11,6 +11,7 @@ import stackoverflow.domain.account.dto.AnswerAccountResDto;
 import stackoverflow.domain.answer.dto.AddAnswerVoteReqDto;
 import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.domain.answer.dto.AnswerResDto;
+import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.service.AnswerService;
 import stackoverflow.global.common.dto.PageDto;
 import stackoverflow.global.common.dto.SingleResDto;
@@ -95,22 +96,23 @@ public class AnswerController {
 
     @GetMapping("/account/{accountId}")
     public ResponseEntity<PageDto> getAccountAnswers(@PathVariable Long accountId, Pageable pageable) {
-        List<AnswerResDto> list = new ArrayList<>();
-        AnswerAccountResDto account = new AnswerAccountResDto();  // 나중에 AccountResDto 완성되면 바꾸기
-        account.setId(accountId);
-        account.setEmail("mock@gmail.com");
-        account.setPath("profile");
-        account.setNickname("nick");
+//        List<AnswerResDto> list = new ArrayList<>();
+//        AnswerAccountResDto account = new AnswerAccountResDto();  // 나중에 AccountResDto 완성되면 바꾸기
+//        account.setId(accountId);
+//        account.setEmail("mock@gmail.com");
+//        account.setPath("profile");
+//        account.setNickname("nick");
+//
+//        for(int i =1 ; i <=10 ; i++) {
+//            AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account);
+//            answerResDto.setCreatedAt(LocalDateTime.now());
+//            answerResDto.setModifiedAt(LocalDateTime.now());
+//            list.add(answerResDto);
+//        }
+//        Page<AnswerResDto> page = new PageImpl<>(list, pageable, 10);
 
-        for(int i =1 ; i <=10 ; i++) {
-            AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account);
-            answerResDto.setCreatedAt(LocalDateTime.now());
-            answerResDto.setModifiedAt(LocalDateTime.now());
-            list.add(answerResDto);
-        }
+        Page<Answer> answers = answerService.findAccountAnswers(accountId, pageable);
 
-        Page<AnswerResDto> page = new PageImpl<>(list, pageable, 10);
-
-        return new ResponseEntity<>(new PageDto<>(page), HttpStatus.OK);
+        return new ResponseEntity<>(new PageDto<>(answers), HttpStatus.OK);
     }
 }

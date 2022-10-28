@@ -23,13 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/questions")
 @RequiredArgsConstructor
 public class QuestionController {
 
     private final QuestionService questionService;
 
-    @PostMapping
+    @PostMapping("/questions")
     public ResponseEntity<SingleResDto<String>> questionAdd(@LoginAccountId Long loginAccountId,
                                                                @Valid @RequestBody QuestionReqDto questionReqDto) {
 
@@ -41,17 +40,17 @@ public class QuestionController {
         return new ResponseEntity<>(new SingleResDto<>("success create question"), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{questionId}")
+    @PatchMapping("/questions/{questionId}")
     public ResponseEntity<SingleResDto<String>> modifyQuestion(@PathVariable Long questionId, @RequestBody QuestionReqDto questionReqDto) {
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{questionId}")
+    @DeleteMapping("/questions/{questionId}")
     public ResponseEntity<SingleResDto<String>> deleteQuestion(@PathVariable Long questionId) {
         return new ResponseEntity<>(new SingleResDto<>("success delete question"), HttpStatus.OK);
     }
 
-    @GetMapping("/{questionId}")
+    @GetMapping("/questions/{questionId}")
     public ResponseEntity<QuestionResDto> getQuestion(@PathVariable Long questionId) {
 
         QuestionResDto questionResDto = new QuestionResDto();
@@ -73,7 +72,7 @@ public class QuestionController {
         return new ResponseEntity<>(questionResDto, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/questions")
     public ResponseEntity<PageDto<QuestionsResDto>> getQuestions(Pageable pageable,
                                                                  @RequestParam(required = false) String keyword) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
@@ -104,7 +103,7 @@ public class QuestionController {
         return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 
-    @GetMapping("/account/{accountId}")
+    @GetMapping("/questions/account/{accountId}")
     public ResponseEntity<PageDto<QuestionsResDto>> getQuestionsAccount(@PathVariable Long accountId, Pageable pageable) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
 
@@ -134,7 +133,7 @@ public class QuestionController {
         return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 
-    @GetMapping("/unAnswered")
+    @GetMapping("/questions/unAnswered")
     public ResponseEntity<PageDto<QuestionsResDto>> getQuestionsUnAnswered(Pageable pageable,
                                                                            @RequestParam(required = false) String keyword) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();

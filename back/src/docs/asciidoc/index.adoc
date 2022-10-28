@@ -281,3 +281,25 @@ include::{snippets}/getAnswers/http-response.adoc[]
 .response-fields
 include::{snippets}/getAnswers/response-fields.adoc[]
 
+***
+=== Answers_Vote 생성
+.curl-request
+include::{snippets}/addAnswerVote/curl-request.adoc[]
+
+.http-request
+include::{snippets}/addAnswerVote/http-request.adoc[]
+
+.request-header
+include::{snippets}/addAnswerVote/request-headers.adoc[]
+
+.request-path_parameters
+include::{snippets}/addAnswerVote/path-parameters.adoc[]
+
+.request-field
+include::{snippets}/addAnswerVote/request-fields.adoc[]
+
+.http-response
+include::{snippets}/addAnswerVote/http-response.adoc[]
+
+.response-fields
+include::{snippets}/addAnswerVote/response-fields.adoc[]

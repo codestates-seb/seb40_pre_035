@@ -11,33 +11,47 @@ import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
 import stackoverflow.domain.question.dto.QuestionReqDto;
 import stackoverflow.domain.question.dto.QuestionResDto;
 import stackoverflow.domain.question.dto.QuestionsResDto;
+import stackoverflow.domain.question.entity.Question;
+import stackoverflow.domain.question.service.QuestionService;
+import stackoverflow.global.argumentreslover.LoginAccountId;
 import stackoverflow.global.common.dto.PageDto;
 import stackoverflow.global.common.dto.SingleResDto;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/questions")
 @RequiredArgsConstructor
 public class QuestionController {
 
-    @PostMapping("/questions")
-    public ResponseEntity<SingleResDto<String>> createQuestion(@RequestBody QuestionReqDto questionReqDto) {
+    private final QuestionService questionService;
+
+    @PostMapping
+    public ResponseEntity<SingleResDto<String>> questionAdd(@LoginAccountId Long loginAccountId,
+                                                               @Valid @RequestBody QuestionReqDto questionReqDto) {
+
+        questionReqDto.setAccountId(loginAccountId);
+        Question question = questionReqDto.toQuestion();
+
+        questionService.addQuestion(question);
+
         return new ResponseEntity<>(new SingleResDto<>("success create question"), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/questions/{questionId}")
+    @PatchMapping("/{questionId}")
     public ResponseEntity<SingleResDto<String>> modifyQuestion(@PathVariable Long questionId, @RequestBody QuestionReqDto questionReqDto) {
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 
-    @DeleteMapping("/questions/{questionId}")
+    @DeleteMapping("/{questionId}")
     public ResponseEntity<SingleResDto<String>> deleteQuestion(@PathVariable Long questionId) {
         return new ResponseEntity<>(new SingleResDto<>("success delete question"), HttpStatus.OK);
     }
 
-    @GetMapping("/questions/{questionId}")
+    @GetMapping("/{questionId}")
     public ResponseEntity<QuestionResDto> getQuestion(@PathVariable Long questionId) {
 
         QuestionResDto questionResDto = new QuestionResDto();
@@ -59,7 +73,7 @@ public class QuestionController {
         return new ResponseEntity<>(questionResDto, HttpStatus.OK);
     }
 
-    @GetMapping("/questions")
+    @GetMapping
     public ResponseEntity<PageDto<QuestionsResDto>> getQuestions(Pageable pageable,
                                                                  @RequestParam(required = false) String keyword) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
@@ -90,7 +104,7 @@ public class QuestionController {
         return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 
-    @GetMapping("/questions/account/{accountId}")
+    @GetMapping("/account/{accountId}")
     public ResponseEntity<PageDto<QuestionsResDto>> getQuestionsAccount(@PathVariable Long accountId, Pageable pageable) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
 
@@ -120,7 +134,7 @@ public class QuestionController {
         return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 
-    @GetMapping("/questions/unAnswered")
+    @GetMapping("/unAnswered")
     public ResponseEntity<PageDto<QuestionsResDto>> getQuestionsUnAnswered(Pageable pageable,
                                                                            @RequestParam(required = false) String keyword) {
         List<QuestionsResDto> questionsResDtoList = new ArrayList<>();

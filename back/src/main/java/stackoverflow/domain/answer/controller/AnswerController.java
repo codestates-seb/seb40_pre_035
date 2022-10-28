@@ -90,4 +90,27 @@ public class AnswerController {
 
         return new ResponseEntity<>(new SingleResDto<>("success add Vote"), HttpStatus.CREATED);
     }
+
+
+
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<PageDto> getAccountAnswers(@PathVariable Long accountId, Pageable pageable) {
+        List<AnswerResDto> list = new ArrayList<>();
+        AnswerAccountResDto account = new AnswerAccountResDto();  // 나중에 AccountResDto 완성되면 바꾸기
+        account.setId(accountId);
+        account.setEmail("mock@gmail.com");
+        account.setPath("profile");
+        account.setNickname("nick");
+
+        for(int i =1 ; i <=10 ; i++) {
+            AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account);
+            answerResDto.setCreatedAt(LocalDateTime.now());
+            answerResDto.setModifiedAt(LocalDateTime.now());
+            list.add(answerResDto);
+        }
+
+        Page<AnswerResDto> page = new PageImpl<>(list, pageable, 10);
+
+        return new ResponseEntity<>(new PageDto<>(page), HttpStatus.OK);
+    }
 }

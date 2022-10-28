@@ -8,6 +8,8 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
+    "@toast-ui/react-editor": "^3.2.2",
     "buffer": "^6.0.3",
     "npm": "^8.16.0",
     "react": "^18.2.0",
@@ -53,6 +55,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.18",
     "prettier": "^2.7.1",
+    "prismjs": "^1.29.0",
     "tailwindcss": "^3.2.1"
   }
 }

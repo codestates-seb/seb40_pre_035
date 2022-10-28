@@ -153,12 +153,10 @@ public class AnswerControllerTest {
         //given
         String jwt = "AccessToken_Value";
         Long answerId = 1L;
-        String title = "testAnswerTitle";
         String content = "testAnswerContent";
         int totalVote = 0;
 
         AnswerReqDto answerReqDto = new AnswerReqDto();
-        answerReqDto.setTitle(title);
         answerReqDto.setContent(content);
         answerReqDto.setTotalVote(totalVote);
 
@@ -182,11 +180,16 @@ public class AnswerControllerTest {
                         pathParameters(
                                 parameterWithName("answerId").description("Answer 식별자")
                         ),
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("Authorization").description("JWT")
+                                )
+                        ),
                         responseFields(
                                 Arrays.asList(
-                                        fieldWithPath("createAt").type(JsonFieldType.STRING).description("Answer 생성일자"),
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("Answer 생성일자"),
                                         fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("Answer 수정일자"),
-                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("Answer 식별자"),
+                                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("Answer 식별자"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("Answer 내용"),
                                         fieldWithPath("totalVote").type(JsonFieldType.NUMBER).description("Answer Vote"),
                                         fieldWithPath("account").type(JsonFieldType.OBJECT).description("Answer 생성계정"),

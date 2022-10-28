@@ -8,5 +8,5 @@ import lombok.Getter;
 public class AccountResDto {
     private String email;
     private String nickname;
-    private String profileImg;
+    private String profile;
 }

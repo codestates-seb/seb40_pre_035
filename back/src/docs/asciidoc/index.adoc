@@ -5,7 +5,7 @@
 :toc-title: Table of Contents
 :source-highlighter: prettify
 
-lastModified: 2022.10.25
+lastModified: 2022.10.28
 
 ***
 == QuestionController
@@ -143,6 +143,29 @@ include::{snippets}/getQuestionsAccount/http-response.adoc[]
 include::{snippets}/getQuestionsAccount/response-fields.adoc[]
 
 ***
+=== Question_Vote 생성
+.curl-request
+include::{snippets}/addQuestionVote/curl-request.adoc[]
+
+.http-request
+include::{snippets}/addQuestionVote/http-request.adoc[]
+
+.request-header
+include::{snippets}/addQuestionVote/request-headers.adoc[]
+
+.request-path_parameters
+include::{snippets}/addQuestionVote/path-parameters.adoc[]
+
+.request-field
+include::{snippets}/addQuestionVote/request-fields.adoc[]
+
+.http-response
+include::{snippets}/addQuestionVote/http-response.adoc[]
+
+.response-fields
+include::{snippets}/addQuestionVote/response-fields.adoc[]
+
+***
 == FileController
 === FileUpload
 .curl-request
@@ -159,3 +182,102 @@ include::{snippets}/uploadFile/http-response.adoc[]
 
 .response-fields
 include::{snippets}/uploadFile/response-fields.adoc[]
+
+***
+== AnswerController
+=== Answer 생성
+.curl-request
+include::{snippets}/createAnswer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/createAnswer/http-request.adoc[]
+
+.request-header
+include::{snippets}/createAnswer/request-headers.adoc[]
+
+.request-fields
+include::{snippets}/createAnswer/request-fields.adoc[]
+
+.http-response
+include::{snippets}/createAnswer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/createAnswer/response-fields.adoc[]
+
+***
+=== Answer 수정
+.curl-request
+include::{snippets}/modifyAnswer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/modifyAnswer/http-request.adoc[]
+
+.request-header
+include::{snippets}/modifyAnswer/request-headers.adoc[]
+
+.request-path_parameters
+include::{snippets}/modifyAnswer/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/modifyAnswer/request-fields.adoc[]
+
+.http-response
+include::{snippets}/modifyAnswer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/modifyAnswer/response-fields.adoc[]
+
+***
+=== Answer 삭제
+.curl-request
+include::{snippets}/deleteAnswer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/deleteAnswer/http-request.adoc[]
+
+.request-header
+include::{snippets}/deleteAnswer/request-headers.adoc[]
+
+.request-path_parameters
+include::{snippets}/deleteAnswer/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/deleteAnswer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/deleteAnswer/response-fields.adoc[]
+
+***
+=== 단일 Answer 조회
+.curl-request
+include::{snippets}/getAnswer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/getAnswer/http-request.adoc[]
+
+.request-path_parameters
+include::{snippets}/getAnswer/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/getAnswer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/getAnswer/response-fields.adoc[]
+
+***
+=== Answers 조회
+.curl-request
+include::{snippets}/getAnswers/curl-request.adoc[]
+
+.http-request
+include::{snippets}/getAnswers/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/getAnswers/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/getAnswers/http-response.adoc[]
+
+.response-fields
+include::{snippets}/getAnswers/response-fields.adoc[]
+

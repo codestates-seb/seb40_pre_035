@@ -26,7 +26,6 @@ public class AnswerService {
     @Transactional
     public Answer updateAnswer(Answer answer) {
         Answer verifiedAnswer = findVerifiedAnswer(answer.getId());
-        Optional.ofNullable(answer.getTitle()).ifPresent(title -> verifiedAnswer.setTitle(title));
         Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));
 
         return verifiedAnswer;

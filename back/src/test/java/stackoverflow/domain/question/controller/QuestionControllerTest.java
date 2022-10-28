@@ -11,7 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
 import stackoverflow.domain.question.dto.QuestionReqDto;
+import stackoverflow.global.common.enums.VoteState;
 
 import java.util.List;
 
@@ -280,11 +282,13 @@ class QuestionControllerTest {
 
         //given
         Long accountId = 1L;
+        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
 
 
         //when
         ResultActions actions = mockMvc.perform(
                 get("/questions/account/{accountId}", accountId)
+                        .header("Authorization", jwt)
                         .param("page", "1")
                         .param("size", "10")
                         .param("sort", "id,desc")
@@ -297,6 +301,11 @@ class QuestionControllerTest {
                         "getQuestionsAccount",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("Authorization").description("JWT")
+                                )
+                        ),
                         pathParameters(
                                 parameterWithName("accountId").description("Account 식별자")
                         ),
@@ -384,6 +393,52 @@ class QuestionControllerTest {
                                         fieldWithPath("size").type(JsonFieldType.NUMBER).description("페이징 size"),
                                         fieldWithPath("pageNumber").type(JsonFieldType.NUMBER).description("페이지 번호(0부터 시작)"),
                                         fieldWithPath("numberOfElements").type(JsonFieldType.NUMBER).description("페이징된 Question 개수")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("QuestionVote 생성_성공")
+    void questionVoteAdd_Success_Test() throws Exception {
+
+        //given
+        Long questionId = 1L;
+        AddQuestionVoteReqDto addQuestionVoteReqDto = new AddQuestionVoteReqDto();
+        addQuestionVoteReqDto.setState(VoteState.UP);
+        String body = gson.toJson(addQuestionVoteReqDto);
+        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                post("/questionVote/{questionId}", questionId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", jwt)
+                        .content(body));
+
+        actions
+                .andExpect(status().isCreated())
+                .andDo(document(
+                        "addQuestionVote",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("Authorization").description("JWT")
+                                )
+                        ),
+                        pathParameters(
+                                parameterWithName("questionId").description("Question 식별자")
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("state").type(JsonFieldType.STRING).description("Vote 상태")
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.STRING).description("Api 성공 메시지")
                                 )
                         )
                 ));

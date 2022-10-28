@@ -17,7 +17,7 @@ import javax.persistence.Id;
 public class Account extends BaseTime {
     @Id @GeneratedValue
     @Column(name = "account_id")
-    private long id;
+    private Long id;
 
     private String email;
 
@@ -28,4 +28,8 @@ public class Account extends BaseTime {
     private String nickname;
 
     private String role;
+
+    public Account(Long id) {
+        this.id = id;
+    }
 }

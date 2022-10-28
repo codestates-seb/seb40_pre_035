@@ -1,6 +1,7 @@
 package stackoverflow.domain.answer.entity;
 
 import lombok.*;
+import stackoverflow.domain.question.entity.Question;
 import stackoverflow.global.auditing.BaseTime;
 
 import javax.persistence.*;
@@ -19,5 +20,9 @@ public class Answer extends BaseTime {
     private String content;
 
     private int totalVote;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private Question question;
 
 }

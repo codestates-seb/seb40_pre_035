@@ -2,31 +2,27 @@ package stackoverflow.domain.question.entity;
 
 import lombok.Getter;
 import stackoverflow.domain.account.entity.Account;
-import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.global.auditing.BaseTime;
+import stackoverflow.global.common.enums.VoteState;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
-public class Question extends BaseTime {
+public class QuestionVote extends BaseTime {
 
     @Id @GeneratedValue
-    @Column(name = "question_id")
+    @Column(name = "questionVote_id")
     private Long id;
 
-    private String title;
-
-    private String content;
+    @Enumerated(EnumType.STRING)
+    private VoteState state;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToMany(mappedBy = "question")
-    private List<Answer> answers;
-
-    @OneToMany(mappedBy = "question")
-    private List<QuestionVote> questionVotes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private Question question;
 }

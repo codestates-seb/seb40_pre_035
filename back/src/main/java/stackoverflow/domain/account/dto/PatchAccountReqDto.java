@@ -6,4 +6,5 @@ import lombok.Getter;
 public class PatchAccountReqDto {
     private String nickname;
     private String profile;
+    private String password;
 }

@@ -24,12 +24,12 @@ import java.util.List;
 @RequestMapping("/answers")
 @RestController
 public class AnswerController {
-    private AnswerService answerService;
+    private final AnswerService answerService;
 
     @PostMapping
     public ResponseEntity<SingleResDto<String>> postAnswer(@RequestBody AnswerReqDto answerReqDto) {
 
-        return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
+          return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
     }
 
 
@@ -46,7 +46,7 @@ public class AnswerController {
         AnswerAccountResDto account = new AnswerAccountResDto();
         account.setId(1L);
         account.setEmail("account@gmail.com");
-        account.setPath("profile");
+        account.setProfile("profile");
         account.setNickname("nickname");
         AnswerResDto answerResDto = new AnswerResDto(answerId, "content",10, account);
         answerResDto.setCreatedAt(LocalDateTime.now());
@@ -64,7 +64,7 @@ public class AnswerController {
             AnswerAccountResDto account = new AnswerAccountResDto();
             account.setId(100L+i);
             account.setEmail("mock"+i+"@gmail.com");
-            account.setPath("profile"+i);
+            account.setProfile("profile"+i);
             account.setNickname("nick"+i);
             AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account);
             answerResDto.setCreatedAt(LocalDateTime.now());
@@ -96,11 +96,12 @@ public class AnswerController {
 
     @GetMapping("/account/{accountId}")
     public ResponseEntity<PageDto> getAccountAnswers(@PathVariable Long accountId, Pageable pageable) {
+//        Mock 데이터
 //        List<AnswerResDto> list = new ArrayList<>();
 //        AnswerAccountResDto account = new AnswerAccountResDto();  // 나중에 AccountResDto 완성되면 바꾸기
 //        account.setId(accountId);
 //        account.setEmail("mock@gmail.com");
-//        account.setPath("profile");
+//        account.setProfile("profile");
 //        account.setNickname("nick");
 //
 //        for(int i =1 ; i <=10 ; i++) {
@@ -110,9 +111,12 @@ public class AnswerController {
 //            list.add(answerResDto);
 //        }
 //        Page<AnswerResDto> page = new PageImpl<>(list, pageable, 10);
+//        return new ResponseEntity<>(new PageDto<>(page), HttpStatus.OK);
 
-        Page<Answer> answers = answerService.findAccountAnswers(accountId, pageable);
 
-        return new ResponseEntity<>(new PageDto<>(answers), HttpStatus.OK);
+        Page<Answer> page = answerService.findAccountAnswers(accountId, pageable);
+        Page<AnswerResDto> dtoPage = new AnswerResDto().toDtoList(page);
+
+        return new ResponseEntity<>(new PageDto<>(dtoPage), HttpStatus.OK);
     }
 }

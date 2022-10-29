@@ -28,4 +28,22 @@ public class QuestionService {
 
         questionRepository.save(question);
     }
+
+    @Transactional
+    public void modifyQuestion(Question question) {
+
+        Long loginAccountId = question.getAccount().getId();
+
+        Question findQuestion = questionRepository.findByIdWithAccount(question.getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+
+        verifyCreated(findQuestion, loginAccountId);
+        findQuestion.modify(question);
+    }
+
+    private void verifyCreated(Question question, Long accountId) {
+        if (!accountId.equals(question.getAccount().getId())) {
+            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
+        }
+    }
 }

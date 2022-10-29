@@ -1,24 +1,22 @@
-import '../main.css';
-import VoteController from '../components/VoteController';
-import AnswerItem from '../components/AnswerItem';
+import VoteController from '../components/questions/VoteController';
+import AnswerItem from '../components/questions/AnswerItem';
+import Editor from '../components/questions/Editor';
+import '../components/common.css';
 
 function QuestionDetail() {
   return (
-    <main className="content p-4">
-      <div className="question-header mb-3 border-b border-soGray-light">
-        <div className="question-title flex justify-between mb-4">
-          <h2 className="row-auto break-words text-xl pr-2">
+    <main className="p-4 content">
+      <div className="mb-3 border-b question-header border-soGray-light">
+        <div className="flex justify-between mb-4 question-title">
+          <h2 className="row-auto pr-2 text-2xl font-medium break-words">
             Question 상세 페이지 제목이 들어갑니다Question 상세 페이지 제목이
             들어갑니다Question 상세 페이지 제목이 들어갑니다
           </h2>
-          <div className="basis-52 flex justify-end">
-            {/* <button className="so-button-primary">Ask Question</button> */}
-            <button className="px-4 py-2 mx-1 text-white border rounded hover:bg-buttonPrimaryHover bg-buttonPrimary border-secondary-300">
-              Ask Question
-            </button>
+          <div className="flex justify-end basis-52">
+            <button className="so-button-primary">Ask Question</button>
           </div>
         </div>
-        <div className="user-info flex flex-row align-center mb-4 text-sm">
+        <div className="flex flex-row mb-4 text-sm user-info align-center">
           <a href="/users/2001654/musicamante" className="flex mr-4">
             <img
               src="https://i.stack.imgur.com/yERLj.jpg?s=32&amp;g=1"
@@ -34,7 +32,7 @@ function QuestionDetail() {
               href="/questions/74211291/im-trying-to-embed-a-candle-chart-into-my-pyqt-app-but-it-doesnt-work-plea"
               className="flex"
             >
-              <span className="text-soGray-normal mr-1">Asked</span>
+              <span className="mr-1 text-soGray-normal">Asked</span>
               <span title="2022-10-26 16:37:16Z" className="text-soGray-darker">
                 38 secs ago
               </span>
@@ -42,18 +40,18 @@ function QuestionDetail() {
           </time>
         </div>
       </div>
-      <div className="question-body mb-10">
+      <div className="mb-10 question-body">
         <div className="inner-content">
           <div
             role="main"
             aria-label="question and answers"
             className="flex flex-row"
           >
-            <div className="question-votes mr-4">
+            <div className="mr-4 question-votes">
               <VoteController />
             </div>
             <div
-              className="question-content flex-auto so-editor"
+              className="flex-auto question-content so-editor"
               style={{
                 opacity: 0.5,
                 height: '1000px',
@@ -109,7 +107,7 @@ function QuestionDetail() {
         <AnswerItem />
         <AnswerItem />
       </div>
-      <div className="so-editor-create"></div>
+      <Editor />
     </main>
   );
 }

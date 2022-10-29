@@ -44,7 +44,7 @@ class QuestionControllerTest {
 
         //given
         String title = "testQuestionTitle";
-        String content = "testQuestionContent";
+        String content = "testQuestionContenttestQuestionContenttestQuestionContent";
         String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
 
         QuestionReqDto questionReqDto = new QuestionReqDto();
@@ -94,9 +94,9 @@ class QuestionControllerTest {
     void modifyQuestion_Success_Test() throws Exception {
 
         //given
-        long questionId = 1L;
-        String title = "testQuestionTitle";
-        String content = "testQuestionContent";
+        long questionId = 6L;
+        String title = "testQuestionTitleModify";
+        String content = "testQuestionContenttestQuestionContenttestQuestionContentModify";
         String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
 
         QuestionReqDto questionReqDto = new QuestionReqDto();

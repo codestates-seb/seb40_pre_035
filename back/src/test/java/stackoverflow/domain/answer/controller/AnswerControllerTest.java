@@ -11,8 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import stackoverflow.domain.answer.dto.AddAnswerVoteReqDto;
 import stackoverflow.domain.answer.dto.AnswerReqDto;
+import stackoverflow.global.common.enums.VoteState;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Arrays;
 import java.util.List;
 
@@ -275,4 +279,55 @@ public class AnswerControllerTest {
                         )
                 );
     }
+
+    @Test
+    @DisplayName("AnswerVote_생성_성공")
+    public void addAnswerVote_Success_Test() throws Exception {
+        //give
+        String jwt = "AccessToken_Value";
+        VoteState state = VoteState.UP;
+        Long answerId = 1L;
+
+        AddAnswerVoteReqDto addAnswerVoteReqDto = new AddAnswerVoteReqDto();
+        addAnswerVoteReqDto.setState(state);
+
+        String body = gson.toJson(addAnswerVoteReqDto);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                post("/answers/answerVote/{answerId}", answerId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", jwt)
+                        .content(body)
+        );
+
+        //then
+        actions
+                .andExpect(status().isCreated())
+                .andDo(document("addAnswerVote",
+                                getRequestPreProcessor(),
+                                getResponsePreProcessor(),
+                                pathParameters(
+                                        parameterWithName("answerId").description("Answer 식별자")
+                                ),
+                                requestHeaders(
+                                        List.of(
+                                                headerWithName("Authorization").description("JWT")
+                                        )
+                                ),
+                                requestFields(
+                                        List.of(
+                                                fieldWithPath("state").type(JsonFieldType.STRING).description("Vote 상태")
+                                        )
+                                ),
+                                responseFields(
+                                        Arrays.asList(
+                                                fieldWithPath("data").type(JsonFieldType.STRING).description("Api 성공 메시지")
+                                        )
+                                )
+                        )
+                );
+    }
+
 }

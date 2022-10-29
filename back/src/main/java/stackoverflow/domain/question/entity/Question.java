@@ -1,5 +1,6 @@
 package stackoverflow.domain.question.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import stackoverflow.domain.account.entity.Account;
@@ -8,6 +9,7 @@ import stackoverflow.global.auditing.BaseTime;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -32,7 +34,9 @@ public class Question extends BaseTime {
     @OneToMany(mappedBy = "question")
     private List<QuestionVote> questionVotes;
 
-    public Question(String title, String content, Account account) {
+    @Builder
+    public Question(Long id, String title, String content, Account account) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.account = account;
@@ -40,5 +44,10 @@ public class Question extends BaseTime {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public void modify(Question question) {
+        Optional.ofNullable(question.getTitle()).ifPresent(title -> this.title = title);
+        Optional.ofNullable(question.getContent()).ifPresent(content -> this.content = content);
     }
 }

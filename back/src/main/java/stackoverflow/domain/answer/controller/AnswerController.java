@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.AnswerAccountResDto;
+import stackoverflow.domain.answer.dto.AddAnswerVoteReqDto;
 import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.domain.answer.dto.AnswerResDto;
 import stackoverflow.domain.answer.service.AnswerService;
@@ -80,5 +81,13 @@ public class AnswerController {
     public ResponseEntity<SingleResDto<String>> deleteAnswer(@PathVariable Long answerId) {
 
         return new ResponseEntity<>(new SingleResDto<>("success delete answer"), HttpStatus.OK);  /// 추후 NO_CONTENT로 변경해야함
+    }
+
+
+
+    @PostMapping("/answerVote/{answerId}")
+    public ResponseEntity<SingleResDto<String>> addAnswerVote(@PathVariable Long answerId, @RequestBody AddAnswerVoteReqDto addAnswerVoteReqDto) {
+
+        return new ResponseEntity<>(new SingleResDto<>("success add Vote"), HttpStatus.CREATED);
     }
 }

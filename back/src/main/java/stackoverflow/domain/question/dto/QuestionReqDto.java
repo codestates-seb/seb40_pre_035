@@ -10,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class QuestionReqDto {
 
+    private Long questionId;
+
     @NotBlank
     private String title;
 
@@ -19,6 +21,11 @@ public class QuestionReqDto {
     private Long accountId;
 
     public Question toQuestion() {
-        return new Question(title, content, new Account(this.accountId));
+        return Question.builder()
+                .id(questionId)
+                .title(title)
+                .content(content)
+                .account(new Account(this.accountId))
+                .build();
     }
 }

@@ -11,9 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import stackoverflow.domain.account.entity.Account;
+import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
 import stackoverflow.domain.question.dto.QuestionReqDto;
 import stackoverflow.global.common.enums.VoteState;
+import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 
 import java.util.List;
 
@@ -38,14 +41,23 @@ class QuestionControllerTest {
     @Autowired
     private Gson gson;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private JwtTokenizer jwtTokenizer;
+
     @Test
     @DisplayName("Question 생성_성공")
     void createQuestion_Success_Test() throws Exception {
 
         //given
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
         String title = "testQuestionTitle";
         String content = "testQuestionContenttestQuestionContenttestQuestionContent";
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+        String jwt = "Bearer " + accessToken;
 
         QuestionReqDto questionReqDto = new QuestionReqDto();
         questionReqDto.setTitle(title);
@@ -94,10 +106,13 @@ class QuestionControllerTest {
     void modifyQuestion_Success_Test() throws Exception {
 
         //given
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
         long questionId = 6L;
         String title = "testQuestionTitleModify";
         String content = "testQuestionContenttestQuestionContenttestQuestionContentModify";
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+        String jwt = "Bearer " + accessToken;
 
         QuestionReqDto questionReqDto = new QuestionReqDto();
         questionReqDto.setTitle(title);

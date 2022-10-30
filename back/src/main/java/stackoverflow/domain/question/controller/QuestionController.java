@@ -56,7 +56,17 @@ public class QuestionController {
     }
 
     @DeleteMapping("/questions/{questionId}")
-    public ResponseEntity<SingleResDto<String>> deleteQuestion(@PathVariable Long questionId) {
+    public ResponseEntity<SingleResDto<String>> questionRemove(@LoginAccountId Long loginAccountId,
+                                                               @PathVariable Long questionId) {
+
+        QuestionReqDto questionReqDto = new QuestionReqDto();
+        questionReqDto.setQuestionId(questionId);
+        questionReqDto.setAccountId(loginAccountId);
+
+        Question question = questionReqDto.toQuestion();
+
+        questionService.removeQuestion(question);
+
         return new ResponseEntity<>(new SingleResDto<>("success delete question"), HttpStatus.OK);
     }
 

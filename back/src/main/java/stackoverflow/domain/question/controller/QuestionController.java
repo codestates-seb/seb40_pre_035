@@ -11,9 +11,13 @@ import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
 import stackoverflow.domain.question.dto.QuestionReqDto;
 import stackoverflow.domain.question.dto.QuestionResDto;
 import stackoverflow.domain.question.dto.QuestionsResDto;
+import stackoverflow.domain.question.entity.Question;
+import stackoverflow.domain.question.service.QuestionService;
+import stackoverflow.global.argumentreslover.LoginAccountId;
 import stackoverflow.global.common.dto.PageDto;
 import stackoverflow.global.common.dto.SingleResDto;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +26,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionController {
 
+    private final QuestionService questionService;
+
     @PostMapping("/questions")
-    public ResponseEntity<SingleResDto<String>> createQuestion(@RequestBody QuestionReqDto questionReqDto) {
+    public ResponseEntity<SingleResDto<String>> questionAdd(@LoginAccountId Long loginAccountId,
+                                                               @Valid @RequestBody QuestionReqDto questionReqDto) {
+
+        questionReqDto.setAccountId(loginAccountId);
+        Question question = questionReqDto.toQuestion();
+
+        questionService.addQuestion(question);
+
         return new ResponseEntity<>(new SingleResDto<>("success create question"), HttpStatus.CREATED);
     }
 
     @PatchMapping("/questions/{questionId}")
-    public ResponseEntity<SingleResDto<String>> modifyQuestion(@PathVariable Long questionId, @RequestBody QuestionReqDto questionReqDto) {
+    public ResponseEntity<SingleResDto<String>> questionModify(@LoginAccountId Long loginAccountId,
+                                                               @PathVariable Long questionId,
+                                                               @RequestBody QuestionReqDto questionReqDto) {
+
+        questionReqDto.setAccountId(loginAccountId);
+        questionReqDto.setQuestionId(questionId);
+
+        Question question = questionReqDto.toQuestion();
+
+        questionService.modifyQuestion(question);
+
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 

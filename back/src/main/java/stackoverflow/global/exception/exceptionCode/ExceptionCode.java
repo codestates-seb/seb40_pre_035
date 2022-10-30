@@ -4,7 +4,10 @@ import lombok.Getter;
 
 public enum ExceptionCode {
 
-    NOT_FOUND(404, "요청하신 데이터를 찾을 수 없습니다.");
+    NOT_FOUND(404, "요청하신 데이터를 찾을 수 없습니다."),
+    NOT_FOUND_ACCOUNT(400, "Account를 찾을 수 없습니다."),
+    NOT_FOUND_QUESTION(400, "Question을 찾을 수 없습니다."),
+    NON_ACCESS_MODIFY(400, "수정 권한이 없습니다.");
 
     @Getter
     private int status;

@@ -1,25 +1,22 @@
 package stackoverflow.domain.account.controller;
 
 import com.google.gson.Gson;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
+import stackoverflow.global.security.auth.dto.LoginDto;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -42,6 +39,48 @@ class AccountControllerTest {
     @Autowired
     private Gson gson;
 
+    @Disabled //test data.sql 수정 후에 추가해야함
+    @Test
+    @DisplayName("Account Login_성공")
+    void accountLogin() throws Exception {
+        //given
+        String email = "mock@gmail.com";
+        String password = "mock1234";
+
+        LoginDto loginDto = new LoginDto();
+        loginDto.setEmail(email);
+        loginDto.setPassword(password);
+        String body = gson.toJson(loginDto);
+
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                post("/auth/login")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body)
+        );
+
+
+        //then
+        actions.andExpect(status().isOk())
+                .andDo(document(
+                        "loginAccount",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                        fieldWithPath("password").type(JsonFieldType.STRING).description("비밀 번호")
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.STRING).description("로그인 API 성공 메세지")
+                                )
+                        )
+                ));
+    }
 
     @Test
     @DisplayName("Account 생성_성공")

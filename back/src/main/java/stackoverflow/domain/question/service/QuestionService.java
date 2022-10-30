@@ -41,6 +41,11 @@ public class QuestionService {
         findQuestion.modify(question);
     }
 
+    public Question findQuestion(Long questionId) {
+        return questionRepository.findByIdWithAll(questionId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+    }
+
     private void verifyCreated(Question question, Long accountId) {
         if (!accountId.equals(question.getAccount().getId())) {
             throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);

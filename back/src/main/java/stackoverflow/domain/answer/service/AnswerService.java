@@ -57,31 +57,7 @@ public class AnswerService {
 
 
     public Page<Answer> findAccountAnswers(Long accountId, Pageable pageable) {
-
-        // mock data
-        List<Answer> list = new ArrayList<>();
-
-        Account account = new Account();  // 나중에 AccountResDto 완성되면 바꾸기
-        account.setId(accountId);
-        account.setEmail("mock@gmail.com");
-        account.setProfile("profile");
-        account.setNickname("nick");
-
-        Question question = new Question();
-        question.setAccount(account);
-
-        for(int i =1 ; i <=10 ; i++) {
-            Answer answer = new Answer();
-            answer.setId(0L + i);
-            answer.setContent("con"+i);
-            answer.setTotalVote(10);
-            answer.setQuestion(question);
-            answer.setAccount(account);
-            answer.setCreatedAt(LocalDateTime.now());
-            answer.setModifiedAt(LocalDateTime.now());
-            list.add(answer);
-        }
-        Page<Answer> page = new PageImpl<>(list, pageable, 10);
+        Page<Answer> page = answerRepository.findAllByAccountId(accountId, pageable);
 
         return page;
     }

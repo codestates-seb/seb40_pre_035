@@ -17,19 +17,6 @@ public class AnswerResDto extends BaseTime {
 
     private AnswerAccountResDto account;
 
-    public AnswerResDto(Answer answer) {
-        this.id = answer.getId();
-        this.content = answer.getContent();
-        this.totalVote = answer.getTotalVote();
-
-        AnswerAccountResDto account = new AnswerAccountResDto();
-        account.setId(answer.getAccount().getId());
-        account.setEmail(answer.getAccount().getEmail());
-        account.setProfile(answer.getAccount().getProfile());
-        account.setNickname(answer.getAccount().getNickname());
-        this.account = account;
-    }
-
     public Page<AnswerResDto> toDtoList(Page<Answer> answerList) {
         Page<AnswerResDto> answerResDtoPage = answerList.map(answer -> AnswerResDto
                 .builder()

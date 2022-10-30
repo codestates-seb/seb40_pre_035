@@ -12,17 +12,17 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import stackoverflow.global.security.auth.filter.JwtAuthenticationFilter;
+import stackoverflow.global.security.auth.filter.JwtVerificationFilter;
 import stackoverflow.global.security.auth.handler.AccountAccessDeniedHandler;
 import stackoverflow.global.security.auth.handler.AccountAuthenticationEntryPoint;
-import stackoverflow.global.security.auth.jwt.JwtTokenizer;
-import stackoverflow.global.security.auth.filter.JwtVerificationFilter;
 import stackoverflow.global.security.auth.handler.AccountAuthenticationFailureHandler;
-import stackoverflow.global.security.auth.filter.JwtAuthenticationFilter;
+import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 import stackoverflow.global.security.auth.utils.CustomAuthorityUtils;
 
 import java.util.Arrays;
 
-import static org.springframework.security.config.Customizer.*;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfiguration {

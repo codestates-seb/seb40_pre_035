@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
+import stackoverflow.domain.answer.repository.AnswerRepository;
 import stackoverflow.domain.question.entity.Question;
 import stackoverflow.domain.question.repository.QuestionRepository;
+import stackoverflow.domain.question.repository.QuestionVoteRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
@@ -17,6 +19,8 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final AccountRepository accountRepository;
+    private final AnswerRepository answerRepository;
+    private final QuestionVoteRepository questionVoteRepository;
 
     @Transactional
     public void addQuestion(Question question) {
@@ -44,6 +48,21 @@ public class QuestionService {
     public Question findQuestion(Long questionId) {
         return questionRepository.findByIdWithAll(questionId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+    }
+
+    @Transactional
+    public void removeQuestion(Question question) {
+
+        Long loginAccountId = question.getAccount().getId();
+
+        Question findQuestion = questionRepository.findByIdWithAll(question.getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+
+        verifyCreated(findQuestion, loginAccountId);
+
+        answerRepository.deleteAll(findQuestion.getAnswers());
+        questionVoteRepository.deleteAll(findQuestion.getQuestionVotes());
+        questionRepository.delete(question);
     }
 
     private void verifyCreated(Question question, Long accountId) {

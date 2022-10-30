@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
@@ -34,6 +35,7 @@ import static stackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@Transactional
 class QuestionControllerTest {
 
     @Autowired
@@ -165,8 +167,11 @@ class QuestionControllerTest {
     void deleteQuestion() throws Exception {
 
         //given
-        long questionId = 1L;
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
+        long questionId = 101L;
+        String jwt = "Bearer " + accessToken;
 
         //when
         ResultActions actions = mockMvc.perform(

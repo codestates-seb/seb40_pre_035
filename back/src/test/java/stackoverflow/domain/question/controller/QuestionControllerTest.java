@@ -26,6 +26,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static stackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
 import static stackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
@@ -109,7 +110,7 @@ class QuestionControllerTest {
         Account account = accountRepository.findById(1L).get();
         String accessToken = jwtTokenizer.delegateAccessToken(account);
 
-        long questionId = 6L;
+        long questionId = 101L;
         String title = "testQuestionTitleModify";
         String content = "testQuestionContenttestQuestionContenttestQuestionContentModify";
         String jwt = "Bearer " + accessToken;
@@ -201,7 +202,7 @@ class QuestionControllerTest {
     void getQuestion_Success_Test() throws Exception {
 
         //given
-        long questionId = 1L;
+        long questionId = 101L;
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -211,6 +212,7 @@ class QuestionControllerTest {
         //then
         actions
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalVote").value(-1))
                 .andDo(document(
                         "getQuestion",
                         getRequestPreProcessor(),

@@ -30,6 +30,8 @@ public class QuestionResDto extends BaseTime {
         this.content = question.getContent();
         this.totalVote = getTotalVote(question.getQuestionVotes());
         this.account = new QuestionAccountResDto(question.getAccount());
+        setCreatedAt(question.getCreatedAt());
+        setModifiedAt(question.getModifiedAt());
     }
 
     private long getTotalVote(List<QuestionVote> questionVotes) {

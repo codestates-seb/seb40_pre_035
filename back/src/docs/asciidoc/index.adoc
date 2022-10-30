@@ -282,6 +282,27 @@ include::{snippets}/getAnswers/http-response.adoc[]
 include::{snippets}/getAnswers/response-fields.adoc[]
 
 ***
+=== Account_Answers 조회
+.curl-request
+include::{snippets}/getAccountAnswers/curl-request.adoc[]
+
+.http-request
+include::{snippets}/getAccountAnswers/http-request.adoc[]
+
+.request-path_parameters
+include::{snippets}/getAccountAnswers/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/getAccountAnswers/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/getAccountAnswers/http-response.adoc[]
+
+.response-fields
+include::{snippets}/getAccountAnswers/response-fields.adoc[]
+
+
+***
 === Answers_Vote 생성
 .curl-request
 include::{snippets}/addAnswerVote/curl-request.adoc[]

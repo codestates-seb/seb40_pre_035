@@ -350,6 +350,9 @@ public class AnswerControllerTest {
                 .andDo(document("getAccountAnswers",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("accountId").description("Account 식별자")
+                        ),
                         requestParameters(
                                 parameterWithName("page").description("페이지 번호(default = 1"),
                                 parameterWithName("size").description("페이징 size(default = 10)"),

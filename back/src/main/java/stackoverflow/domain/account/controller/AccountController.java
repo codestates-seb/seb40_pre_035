@@ -1,27 +1,35 @@
 package stackoverflow.domain.account.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.AccountResDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
-import stackoverflow.domain.account.repository.AccountRepository;
+import stackoverflow.domain.account.entity.Account;
+import stackoverflow.domain.account.service.AccountService;
 import stackoverflow.global.common.dto.SingleResDto;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/accounts")
+@RequiredArgsConstructor
 public class AccountController {
+    private final PasswordEncoder passwordEncoder;
+    private final AccountService accountService;
+
 
     @PostMapping
     public ResponseEntity<SingleResDto<String>> accountAdd(@RequestBody PostAccountReqDto createAccountReqDto) {
+        createAccountReqDto.setPassword(passwordEncoder.encode(createAccountReqDto.getPassword()));
+        Account account = createAccountReqDto.toAccount();
+        Account defaultAccount = accountService.setDefaultProperties(account);
 
-        //DB에 회원 정보를 저장하는 로직
+        accountService.addAccount(defaultAccount);
 
         return new ResponseEntity<>(new SingleResDto<>("success create account"), HttpStatus.CREATED);
     }

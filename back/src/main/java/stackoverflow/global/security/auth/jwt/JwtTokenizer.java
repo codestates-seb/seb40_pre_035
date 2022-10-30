@@ -9,19 +9,20 @@ import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import stackoverflow.domain.account.entity.Account;
 
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class JwtTokenizer {
 
     @Getter
-    @Value("${jwt.secret-key}")
+    @Value("${jwt.key.secret}")
     private String secretKey;
 
     @Getter
@@ -74,16 +75,6 @@ public class JwtTokenizer {
         return claims;
     }
 
-
-    public void verifySignature(String jws, String base64EncodedSecretKey) {
-        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-
-        Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jws);
-    }
-
     public Date getTokenExpiration(int expirationMinutes) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, expirationMinutes);
@@ -97,5 +88,30 @@ public class JwtTokenizer {
         Key key = Keys.hmacShaKeyFor(keyBytes);
 
         return key;
+    }
+
+    public String delegateAccessToken(Account account) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("username", account.getEmail());
+        claims.put("role", account.getRole());
+        claims.put("id", account.getId());   //claim에 id 넣는게 좋을까? subject 대신에
+
+        String subject = String.valueOf(account.getId());
+        Date expiration = getTokenExpiration(getAccessTokenExpirationMinutes());
+        String base64EncodedSecretKey = encodeBase64SecretKey(getSecretKey());
+
+        String accessToken = generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
+
+        return accessToken;
+    }
+
+    public String delegateRefreshToken(Account account) {
+        String subject = String.valueOf(account.getId());
+        Date expiration = getTokenExpiration(getRefreshTokenExpirationMinutes());
+        String base64EncodedSecretKey = encodeBase64SecretKey(getSecretKey());
+
+        String refreshToken = generateRefreshToken(subject, expiration, base64EncodedSecretKey);
+
+        return refreshToken;
     }
 }

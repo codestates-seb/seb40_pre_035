@@ -19,3 +19,14 @@ INSERT INTO QUESTION(question_id, createdAt, modifiedAt, content, title, account
 INSERT INTO QUESTION(question_id, createdAt, modifiedAt, content, title, account_id) VALUES('18', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testContenttestContenttestContenttestContenttestContent', 'testTitle', '2');
 INSERT INTO QUESTION(question_id, createdAt, modifiedAt, content, title, account_id) VALUES('19', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testContenttestContenttestContenttestContenttestContent', 'testTitle', '2');
 INSERT INTO QUESTION(question_id, createdAt, modifiedAt, content, title, account_id) VALUES('20', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testContenttestContenttestContenttestContenttestContent', 'testTitle', '2');
+
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('21', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '6');
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('22', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '6');
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('23', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '6');
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('24', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '6');
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('25', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '6');
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('26', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '7');
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('27', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '7');
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('28', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '7');
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('29', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '18');
+INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, totalVote, question_id) VALUES('30', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', '10', '18');

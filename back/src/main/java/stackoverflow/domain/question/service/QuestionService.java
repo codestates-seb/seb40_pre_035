@@ -45,6 +45,11 @@ public class QuestionService {
         findQuestion.modify(question);
     }
 
+    public Question findQuestion(Long questionId) {
+        return questionRepository.findByIdWithAll(questionId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+    }
+
     @Transactional
     public void removeQuestion(Question question) {
 

@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
@@ -26,6 +27,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static stackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
 import static stackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
@@ -33,6 +35,7 @@ import static stackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@Transactional
 class QuestionControllerTest {
 
     @Autowired
@@ -109,7 +112,7 @@ class QuestionControllerTest {
         Account account = accountRepository.findById(1L).get();
         String accessToken = jwtTokenizer.delegateAccessToken(account);
 
-        long questionId = 6L;
+        long questionId = 101L;
         String title = "testQuestionTitleModify";
         String content = "testQuestionContenttestQuestionContenttestQuestionContentModify";
         String jwt = "Bearer " + accessToken;
@@ -167,7 +170,7 @@ class QuestionControllerTest {
         Account account = accountRepository.findById(1L).get();
         String accessToken = jwtTokenizer.delegateAccessToken(account);
 
-        long questionId = 6L;
+        long questionId = 101L;
         String jwt = "Bearer " + accessToken;
 
         //when
@@ -204,7 +207,7 @@ class QuestionControllerTest {
     void getQuestion_Success_Test() throws Exception {
 
         //given
-        long questionId = 1L;
+        long questionId = 101L;
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -214,6 +217,7 @@ class QuestionControllerTest {
         //then
         actions
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalVote").value(-1))
                 .andDo(document(
                         "getQuestion",
                         getRequestPreProcessor(),

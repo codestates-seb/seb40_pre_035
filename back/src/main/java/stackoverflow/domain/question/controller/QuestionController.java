@@ -71,23 +71,11 @@ public class QuestionController {
     }
 
     @GetMapping("/questions/{questionId}")
-    public ResponseEntity<QuestionResDto> getQuestion(@PathVariable Long questionId) {
+    public ResponseEntity<QuestionResDto> questionDetails(@PathVariable Long questionId) {
 
-        QuestionResDto questionResDto = new QuestionResDto();
-        QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
+        Question question = questionService.findQuestion(questionId);
 
-        questionAccountResDto.setId(1L);
-        questionAccountResDto.setEmail("mock1@mock.com");
-        questionAccountResDto.setProfile("mock/mock1");
-        questionAccountResDto.setNickname("mockNickname1");
-
-        questionResDto.setId(3L);
-        questionResDto.setTitle("testQuestionTitle3");
-        questionResDto.setContent("testQuestionContent3");
-        questionResDto.setTotalVote(10);
-        questionResDto.setAccount(questionAccountResDto);
-        questionResDto.setCreatedAt(LocalDateTime.now());
-        questionResDto.setModifiedAt(LocalDateTime.now());
+        QuestionResDto questionResDto = new QuestionResDto(question);
 
         return new ResponseEntity<>(questionResDto, HttpStatus.OK);
     }

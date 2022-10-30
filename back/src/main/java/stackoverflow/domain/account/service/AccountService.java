@@ -29,4 +29,11 @@ public class AccountService {
             throw new BusinessLogicException(ExceptionCode.ACCOUNT_EXIST);
         }
     }
+
+    public Account setDefaultProperties(Account account) {  //이후에 구체화 예정
+        account.setProfile("/path/default");
+        account.setRole("USER");
+
+        return account;
+    }
 }

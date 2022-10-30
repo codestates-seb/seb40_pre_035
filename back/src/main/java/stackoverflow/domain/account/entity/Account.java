@@ -20,11 +20,11 @@ public class Account extends BaseTime {
 
     private String password;
 
-    private String profile = "path/default";
+    private String profile;
 
     private String nickname;
 
-    private String role = "USER";
+    private String role;
 
     public Account(Long id) {
         this.id = id;

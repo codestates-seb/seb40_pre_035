@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.AccountResDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
+import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.service.AccountService;
 import stackoverflow.global.common.dto.SingleResDto;
 
@@ -25,7 +26,10 @@ public class AccountController {
     @PostMapping
     public ResponseEntity<SingleResDto<String>> accountAdd(@RequestBody PostAccountReqDto createAccountReqDto) {
         createAccountReqDto.setPassword(passwordEncoder.encode(createAccountReqDto.getPassword()));
-        accountService.addAccount(createAccountReqDto.toAccount());
+        Account account = createAccountReqDto.toAccount();
+        Account defaultAccount = accountService.setDefaultProperties(account);
+
+        accountService.addAccount(defaultAccount);
 
         return new ResponseEntity<>(new SingleResDto<>("success create account"), HttpStatus.CREATED);
     }

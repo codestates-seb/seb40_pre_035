@@ -1,6 +1,7 @@
 package stackoverflow.global.security.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import stackoverflow.domain.account.entity.Account;
+import stackoverflow.global.common.dto.SingleResDto;
 import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 import stackoverflow.global.security.auth.dto.LoginDto;
 
@@ -53,7 +55,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
-        response.getWriter().write("success login");
+
+        String body = new Gson().toJson(new SingleResDto<>("success login"));
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(body);
     }
 
     private String delegateAccessToken(Account account) {

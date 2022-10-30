@@ -164,8 +164,11 @@ class QuestionControllerTest {
     void deleteQuestion() throws Exception {
 
         //given
-        long questionId = 1L;
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
+        long questionId = 6L;
+        String jwt = "Bearer " + accessToken;
 
         //when
         ResultActions actions = mockMvc.perform(

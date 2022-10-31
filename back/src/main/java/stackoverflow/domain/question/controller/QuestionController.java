@@ -1,6 +1,7 @@
 package stackoverflow.domain.question.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -82,32 +83,10 @@ public class QuestionController {
 
     @GetMapping("/questions")
     public ResponseEntity<PageDto<QuestionsResDto>> getQuestions(Pageable pageable,
-                                                                 @RequestParam(required = false) String keyword) {
-        List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
+                                                                 @RequestParam(required = false, defaultValue = "") String keyword) {
 
-        for (int i = 0; i < 10; i++) {
-            QuestionsResDto questionsResDto = new QuestionsResDto();
-            QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
-
-            questionAccountResDto.setId(1L + (i * 5));
-            questionAccountResDto.setEmail("mock" + (i * 5) + "@mock.com");
-            questionAccountResDto.setProfile("mock/mock" + (i * 5));
-            questionAccountResDto.setNickname("mockNickname" + (i * 5));
-
-            questionsResDto.setId(3L + (i * 5));
-            questionsResDto.setTitle("testQuestionTitle" + (3 + i * 5));
-            questionsResDto.setContent("testQuestionContent" + (3 + i * 5));
-            questionsResDto.setTotalVote(10);
-            questionsResDto.setAnswerCount(5);
-            questionsResDto.setSelectedAnswer(true);
-            questionsResDto.setAccount(questionAccountResDto);
-            questionsResDto.setCreatedAt(LocalDateTime.now());
-            questionsResDto.setModifiedAt(LocalDateTime.now());
-
-            questionsResDtoList.add(questionsResDto);
-        }
-
-        PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
+        Page<Question> questions = questionService.findQuestions(keyword, pageable);
+        Page<QuestionsResDto> questionRes = questions.map(QuestionsResDto::new);
         return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 

@@ -36,7 +36,7 @@ public class PageDto<T> {
         last = page.isLast();
         sorted = page.getSort().isSorted();
         size = page.getSize();
-        pageNumber = page.getNumber();
+        pageNumber = page.getNumber() + 1;
         numberOfElements = page.getNumberOfElements();
     }
 }

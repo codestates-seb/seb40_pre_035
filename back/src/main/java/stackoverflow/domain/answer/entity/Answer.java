@@ -19,6 +19,8 @@ public class Answer extends BaseTime {
 
     private int totalVote;
 
+    private boolean selected;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;

@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
+
 import AD1 from '../../images/AD1.jpeg';
 import AD2 from '../../images/AD2.png';
 import AD3 from '../../images/AD3.png';
@@ -24,4 +25,6 @@ export default function SidebarRight() {
     </div>
     // </div>
   );
+
 }
+

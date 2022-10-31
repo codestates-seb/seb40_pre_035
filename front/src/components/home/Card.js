@@ -1,5 +1,4 @@
 const Card = () => {
-  //   const themeState = useSelector((state) => state.themeSlice).theme;
   return (
     <div
       className="h-48 w-auto border-b-2 border-buttonSecondary

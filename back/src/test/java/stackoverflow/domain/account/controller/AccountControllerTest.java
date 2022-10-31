@@ -1,7 +1,6 @@
 package stackoverflow.domain.account.controller;
 
 import com.google.gson.Gson;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,8 @@ import stackoverflow.domain.account.dto.PostAccountReqDto;
 import stackoverflow.global.security.auth.dto.LoginDto;
 
 import java.util.List;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -39,12 +38,11 @@ class AccountControllerTest {
     @Autowired
     private Gson gson;
 
-    @Disabled //test data.sql 수정 후에 추가해야함
     @Test
     @DisplayName("Account Login_성공")
     void accountLogin() throws Exception {
         //given
-        String email = "mock@gmail.com";
+        String email = "login@gmail.com";
         String password = "mock1234";
 
         LoginDto loginDto = new LoginDto();
@@ -74,6 +72,11 @@ class AccountControllerTest {
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀 번호")
                                 )
                         ),
+                        responseHeaders(
+                                List.of(
+                                        headerWithName("Authorization").description("JWT")
+                                )
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.STRING).description("로그인 API 성공 메세지")
@@ -86,9 +89,9 @@ class AccountControllerTest {
     @DisplayName("Account 생성_성공")
     void accountAdd() throws Exception {
         //given
-        String email = "test@gmail.com";
-        String password = "test1234";
-        String nickname = "testNickname";
+        String email = "mock2@gmail.com";
+        String password = "mock1234";
+        String nickname = "moc2";
 
 
         PostAccountReqDto postAccountReqDto = new PostAccountReqDto();

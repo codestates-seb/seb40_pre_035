@@ -4,12 +4,12 @@ function Profile() {
       <div>
         <img src="../../public/logo192.png" alt="" className="w-32 h-32" />
       </div>
-      <div className="self-center">
-        <div className=" text-4xl font-bold mx-1.5 mb-2">김민아</div>
+      <div className="self-center ml-3">
+        <div className="mx-2 mb-2 text-4xl font-bold ">김민아</div>
         <ul className="flex">
           <li className="px-1.5">
             {/* <Link to="/">Logout</Link> */}
-            Logout
+            <a href="/">Logout</a>
           </li>
           /
           <li className="px-1.5">

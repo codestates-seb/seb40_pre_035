@@ -1,7 +1,7 @@
 function Questions() {
   return (
-    <div className="w-full">
-      <p className="text-2xl">Questions</p>
+    <div className="w-full m-3">
+      <p className="mb-2 text-2xl font-medium">0 Questions</p>
       <div className="border rounded">
         <p className="p-12 m-2 text-center">
           You have not{' '}

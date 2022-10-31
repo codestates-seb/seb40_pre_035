@@ -1,6 +1,8 @@
 package stackoverflow.domain.question.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.account.entity.Account;
@@ -63,6 +65,10 @@ public class QuestionService {
         answerRepository.deleteAll(findQuestion.getAnswers());
         questionVoteRepository.deleteAll(findQuestion.getQuestionVotes());
         questionRepository.delete(question);
+    }
+
+    public Page<Question> findQuestions(String keyword, Pageable pageable) {
+        return questionRepository.searchByTitleWithAll(keyword, pageable);
     }
 
     private void verifyCreated(Question question, Long accountId) {

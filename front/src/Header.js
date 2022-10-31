@@ -7,7 +7,7 @@ const Header = () => {
     setIsLogin(!isLogin);
   };
   return (
-    <div className="flex-col">
+    <div className="sticky top-0 z-50 flex-col w-full">
       <div className="h-1 bg-primary-300"></div>
       <div className="flex justify-center px-4 py-4 bg-soGray-headerbg">
         <div className="items-center mx-2 my-1">

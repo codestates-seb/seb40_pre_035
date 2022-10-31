@@ -15,6 +15,8 @@ import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.service.AccountService;
 import stackoverflow.global.common.dto.SingleResDto;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class AccountController {
 
 
     @PostMapping
-    public ResponseEntity<SingleResDto<String>> accountAdd(@RequestBody PostAccountReqDto createAccountReqDto) {
+    public ResponseEntity<SingleResDto<String>> accountAdd(@Valid @RequestBody PostAccountReqDto createAccountReqDto) {
         createAccountReqDto.setPassword(passwordEncoder.encode(createAccountReqDto.getPassword()));
         Account account = createAccountReqDto.toAccount();
         Account defaultAccount = accountService.setDefaultProperties(account);

@@ -1,6 +1,6 @@
-import Sidebar from '../Sidebar_component/sidebar';
-import SidebarRight from '../Sidebar_component/sidebar_right';
-import Mainbar from './main';
+import Sidebar from '../components/home/SidebarLeft';
+import SidebarRight from '../components/home/SidebarRight';
+import Mainbar from '../components/home/Main';
 
 // const QuestionMain = () => {
 //   const themeState = useSelector((state) => state.themeSlice).theme;

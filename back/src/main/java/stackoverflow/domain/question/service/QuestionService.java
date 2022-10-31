@@ -71,6 +71,10 @@ public class QuestionService {
         return questionRepository.searchByTitleWithAll(keyword, pageable);
     }
 
+    public Page<Question> findAccountQuestions(Long accountId, Pageable pageable) {
+        return questionRepository.findByAccountWithAll(accountId, pageable);
+    }
+
     private void verifyCreated(Question question, Long accountId) {
         if (!accountId.equals(question.getAccount().getId())) {
             throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);

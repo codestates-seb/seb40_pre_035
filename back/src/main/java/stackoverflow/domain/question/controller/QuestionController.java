@@ -82,42 +82,19 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public ResponseEntity<PageDto<QuestionsResDto>> getQuestions(Pageable pageable,
+    public ResponseEntity<PageDto<QuestionsResDto>> questionList(Pageable pageable,
                                                                  @RequestParam(required = false, defaultValue = "") String keyword) {
 
         Page<Question> questions = questionService.findQuestions(keyword, pageable);
-        Page<QuestionsResDto> questionRes = questions.map(QuestionsResDto::new);
-        return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
+        Page<QuestionsResDto> questionsRes = questions.map(QuestionsResDto::new);
+        return new ResponseEntity<>(new PageDto<>(questionsRes), HttpStatus.OK);
     }
 
     @GetMapping("/questions/account/{accountId}")
-    public ResponseEntity<PageDto<QuestionsResDto>> getQuestionsAccount(@PathVariable Long accountId, Pageable pageable) {
-        List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            QuestionsResDto questionsResDto = new QuestionsResDto();
-            QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
-
-            questionAccountResDto.setId(1L);
-            questionAccountResDto.setEmail("mock1@mock.com");
-            questionAccountResDto.setProfile("mock/mock1");
-            questionAccountResDto.setNickname("mockNickname1");
-
-            questionsResDto.setId(3L + (i * 5));
-            questionsResDto.setTitle("testQuestionTitle" + (3 + i * 5));
-            questionsResDto.setContent("testQuestionContent" + (3 + i * 5));
-            questionsResDto.setTotalVote(10);
-            questionsResDto.setAnswerCount(5);
-            questionsResDto.setSelectedAnswer(true);
-            questionsResDto.setAccount(questionAccountResDto);
-            questionsResDto.setCreatedAt(LocalDateTime.now());
-            questionsResDto.setModifiedAt(LocalDateTime.now());
-
-            questionsResDtoList.add(questionsResDto);
-        }
-
-        PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
-        return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
+    public ResponseEntity<PageDto<QuestionsResDto>> AccountQuestionList(@PathVariable Long accountId, Pageable pageable) {
+        Page<Question> questions = questionService.findAccountQuestions(accountId, pageable);
+        Page<QuestionsResDto> questionsRes = questions.map(QuestionsResDto::new);
+        return new ResponseEntity<>(new PageDto<>(questionsRes), HttpStatus.OK);
     }
 
     @GetMapping("/questions/unAnswered")

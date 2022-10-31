@@ -26,4 +26,10 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "left join question.answers " +
             "left join question.questionVotes where question.title like %:title%")
     Page<Question> searchByTitleWithAll(@Param("title") String title, Pageable pageable);
+
+    @Query("select distinct question from Question question " +
+            "join question.account account " +
+            "left join question.answers " +
+            "left join question.questionVotes where account.id = :accountId")
+    Page<Question> findByAccountWithAll(@Param("accountId") Long accountId, Pageable pageable);
 }

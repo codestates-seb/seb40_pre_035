@@ -1,5 +1,6 @@
 import './App.css';
 import Header from './Header';
+import Footer from './components/footer/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import MyPage from './pages/mypage';
@@ -22,6 +23,7 @@ function App() {
         {/* 잘못된 주소로 접근한 경우 */}
         <Route path="*" element={<Home />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

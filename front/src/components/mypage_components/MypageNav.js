@@ -1,3 +1,6 @@
+// import Activitise from '../components/mypage_components/Activities';
+// import Settings from '../components/mypage_components/Settings';
+
 function MyPageNav() {
   return (
     <div className="mt-2 mb-4 ">

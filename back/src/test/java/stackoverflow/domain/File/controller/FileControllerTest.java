@@ -10,6 +10,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import stackoverflow.domain.account.entity.Account;
+import stackoverflow.domain.account.repository.AccountRepository;
+import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 
 import java.util.List;
 
@@ -33,11 +36,20 @@ class FileControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private JwtTokenizer jwtTokenizer;
+
     @Test
     @DisplayName("uploadFile_성공")
     void uploadFile_Success_Test() throws Exception {
 
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
+        String jwt = "Bearer " + accessToken;
 
         MockMultipartFile file = new MockMultipartFile("file", "file", "image/jpeg",
                 "file".getBytes());

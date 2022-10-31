@@ -1,7 +1,7 @@
-import Pagination from '../componenets/mypage_components/pagination';
-import ListTop from '../componenets/mypage_components/QuestionListTop';
-import ListMiddle from '../componenets/mypage_components/QuestionListMiddle';
-import Card from '../componenets/mypage_components/card';
+import Pagination from './Pagination';
+import ListTop from './QuestionListTop';
+import ListMiddle from './QuestionListMiddle';
+import Card from './Card';
 
 const Mainbar = () => {
   return (

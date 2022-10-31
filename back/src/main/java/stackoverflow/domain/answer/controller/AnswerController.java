@@ -6,11 +6,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.AnswerAccountResDto;
 import stackoverflow.domain.answer.dto.AddAnswerVoteReqDto;
 import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.domain.answer.dto.AnswerResDto;
+import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.service.AnswerService;
 import stackoverflow.global.common.dto.PageDto;
 import stackoverflow.global.common.dto.SingleResDto;
@@ -23,12 +25,12 @@ import java.util.List;
 @RequestMapping("/answers")
 @RestController
 public class AnswerController {
-    private AnswerService answerService;
+    private final AnswerService answerService;
 
     @PostMapping
     public ResponseEntity<SingleResDto<String>> postAnswer(@RequestBody AnswerReqDto answerReqDto) {
 
-        return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
+          return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
     }
 
 
@@ -45,7 +47,7 @@ public class AnswerController {
         AnswerAccountResDto account = new AnswerAccountResDto();
         account.setId(1L);
         account.setEmail("account@gmail.com");
-        account.setPath("profile");
+        account.setProfile("profile");
         account.setNickname("nickname");
         AnswerResDto answerResDto = new AnswerResDto(answerId, "content",10, account);
         answerResDto.setCreatedAt(LocalDateTime.now());
@@ -54,7 +56,7 @@ public class AnswerController {
         return new ResponseEntity<>(answerResDto, HttpStatus.OK);
     }
 
-
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<PageDto> getAnswers(Pageable pageable) {
         List<AnswerResDto> list = new ArrayList<>();
@@ -63,7 +65,7 @@ public class AnswerController {
             AnswerAccountResDto account = new AnswerAccountResDto();
             account.setId(100L+i);
             account.setEmail("mock"+i+"@gmail.com");
-            account.setPath("profile"+i);
+            account.setProfile("profile"+i);
             account.setNickname("nick"+i);
             AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account);
             answerResDto.setCreatedAt(LocalDateTime.now());
@@ -89,5 +91,16 @@ public class AnswerController {
     public ResponseEntity<SingleResDto<String>> addAnswerVote(@PathVariable Long answerId, @RequestBody AddAnswerVoteReqDto addAnswerVoteReqDto) {
 
         return new ResponseEntity<>(new SingleResDto<>("success add Vote"), HttpStatus.CREATED);
+    }
+
+
+    @Transactional(readOnly = true)
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<PageDto> getAccountAnswers(@PathVariable Long accountId, Pageable pageable) {
+
+        Page<Answer> page = answerService.findAccountAnswers(accountId, pageable);
+        Page<AnswerResDto> pageDto= page.map(answer-> new AnswerResDto(answer));
+
+        return new ResponseEntity<>(new PageDto(pageDto), HttpStatus.OK);
     }
 }

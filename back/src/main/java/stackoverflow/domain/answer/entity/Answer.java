@@ -7,12 +7,10 @@ import stackoverflow.global.auditing.BaseTime;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Getter @Setter
 @Entity
 public class Answer extends BaseTime {
-    @Id
-    @Column(name = "answer_id")
+    @Id @Column(name = "answer_id")
     @GeneratedValue
     private Long id;
 
@@ -28,6 +26,7 @@ public class Answer extends BaseTime {
     @JoinColumn(name = "question_id")
     private Question question;
 
-
-
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

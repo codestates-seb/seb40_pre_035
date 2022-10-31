@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.AnswerAccountResDto;
 import stackoverflow.domain.answer.dto.AddAnswerVoteReqDto;
@@ -55,7 +56,7 @@ public class AnswerController {
         return new ResponseEntity<>(answerResDto, HttpStatus.OK);
     }
 
-
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<PageDto> getAnswers(Pageable pageable) {
         List<AnswerResDto> list = new ArrayList<>();
@@ -93,31 +94,13 @@ public class AnswerController {
     }
 
 
-
+    @Transactional(readOnly = true)
     @GetMapping("/account/{accountId}")
     public ResponseEntity<PageDto> getAccountAnswers(@PathVariable Long accountId, Pageable pageable) {
 
-//        Mock 객체 데이터 : Mock API 사용을 위해 활성화
-        List<AnswerResDto> list = new ArrayList<>();
-        AnswerAccountResDto account = new AnswerAccountResDto();  // 나중에 AccountResDto 완성되면 바꾸기
-        account.setId(accountId);
-        account.setEmail("mock@gmail.com");
-        account.setProfile("profile");
-        account.setNickname("nick");
-        for(int i =1 ; i <=10 ; i++) {
-            AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account);
-            answerResDto.setCreatedAt(LocalDateTime.now());
-            answerResDto.setModifiedAt(LocalDateTime.now());
-            list.add(answerResDto);
-        }
-        Page<AnswerResDto> page = new PageImpl<>(list, pageable, 10);
+        Page<Answer> page = answerService.findAccountAnswers(accountId, pageable);
+        Page<AnswerResDto> pageDto= page.map(answer-> new AnswerResDto(answer));
 
-        return new ResponseEntity<>(new PageDto<>(page), HttpStatus.OK);
-
-
-//        실제 사용할 컨트롤러
-//        Page<Answer> page = answerService.findAccountAnswers(accountId, pageable);
-//        Page<AnswerResDto> dtoPage = new AnswerResDto().toDtoList(page);
-//        return new ResponseEntity<>(new PageDto<>(dtoPage), HttpStatus.OK);
+        return new ResponseEntity<>(new PageDto(pageDto), HttpStatus.OK);
     }
 }

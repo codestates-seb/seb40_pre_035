@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -35,17 +36,18 @@ public class AnswerService {
         return verifiedAnswer;
     }
 
-
+    @Transactional(readOnly = true)
     public Answer findAnswer(Long answerId) {
         Answer verifiedAnswer = findVerifiedAnswer(answerId);
 
         return verifiedAnswer;
     }
 
-
+    @Transactional(readOnly = true)
     public Page<Answer> findAnswers(Pageable pageable) {
+        Page<Answer> page = answerRepository.findAllByOrderByIdDesc(pageable);
 
-        return answerRepository.findAllByOrderByIdDesc(pageable);
+        return page;
     }
 
 
@@ -55,14 +57,18 @@ public class AnswerService {
         answerRepository.delete(verifiedAnswer);
     }
 
-
+    @Transactional(readOnly = true)
     public Page<Answer> findAccountAnswers(Long accountId, Pageable pageable) {
-        Page<Answer> page = answerRepository.findAllByAccountId(accountId, pageable);
+        Page<Answer> page = answerRepository.findAllByOrderByIdDesc(pageable);
+        List<Answer> list = page.getContent().stream()
+                .filter(a -> a.getAccount().getId().equals(accountId))
+                .collect(Collectors.toList());
+        Page<Answer> filteredPage = new PageImpl<>(list, pageable, list.size());
 
-        return page;
+        return filteredPage;
     }
 
-
+    @Transactional(readOnly = true)
     public Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         Answer verifiedAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND));

@@ -21,7 +21,7 @@ function Editor() {
   return (
     <div className="editor-wrapper">
       <Writer
-        previewStyle="horizontal"
+        previewStyle="tab"
         height="300px"
         initialEditType="markdown"
         initialValue="## *Your* **markdown** here"
@@ -29,6 +29,7 @@ function Editor() {
         plugins={[[codeSyntaxHighlight, { highlighter: prism }]]}
         hideModeSwitch={true}
         onChange={handleOnChange}
+        useCommandShortcut={false}
       />
     </div>
   );

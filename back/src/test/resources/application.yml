@@ -31,3 +31,20 @@ jwt:
     secret: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 420
+
+file:
+  img: Img/
+
+iam:
+  access-key: ${IAM_ACCESS_KEY}
+  secret-key: ${IAM_SECRET_KEY}
+  region: ap-northeast-2
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+mod: server

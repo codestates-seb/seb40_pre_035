@@ -2,19 +2,19 @@ function DeleteProfile() {
   return (
     <div>
       <div className="pb-4 mb-6 border-b">
-        <h1 className=" text-3xl">Delete Profile</h1>
+        <h1 className="text-3xl ">Delete Profile</h1>
       </div>
       <p className="mb-4">
         Before confirming that you would like your profile deleted, we&#39;d
         like to take a moment to explain the implications of deletion:
       </p>
-      <ul className="ml-8 mb-4">
-        <li className="list-disc mb-2">
+      <ul className="mb-4 ml-8">
+        <li className="mb-2 list-disc">
           Deletion is irreversible, and you will have no way to regain any of
           your original content, should this deletion be carried out and you
           change your mind later on.
         </li>
-        <li className="list-disc mb-2">
+        <li className="mb-2 list-disc">
           Your questions and answers will remain on the site, but will be
           disassociated and anonymized (the author will be listed as
           &#34;user20298961&#34;) and will not indicate your authorship even if

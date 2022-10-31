@@ -49,6 +49,7 @@ public class AccountController {
     @PatchMapping("/{accountId}")
     public ResponseEntity<SingleResDto<String>> accountModify(@PathVariable long accountId,
                                                               @Valid @RequestBody PatchAccountReqDto modifyAccountReqDto) {
+
         modifyAccountReqDto.setPassword(passwordEncoder.encode(modifyAccountReqDto.getPassword()));
         Account reqAccount = modifyAccountReqDto.toAccount();
         reqAccount.setId(accountId);

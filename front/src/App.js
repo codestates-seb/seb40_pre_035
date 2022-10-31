@@ -3,7 +3,7 @@ import Header from './Header';
 import Footer from './components/footer/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import MyPage from './pages/mypage';
+import MyPage from './pages/MyPage';
 import Signup from './pages/Signup';
 import QuestionCreate from './pages/QuestionCreate';
 import QuestionDetail from './pages/QuestionDetail';
@@ -11,11 +11,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
+    // <>
+    //   <MyPage />
+    // </>
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/*" element={<MyPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/questioncreate" element={<QuestionCreate />} />

@@ -35,15 +35,9 @@ function Activitise() {
               </button>
             );
           })}
-          {/* <li className="py-1.5 pr-12 pl-3">Summary</li>
-          <li className="py-1.5 pr-12 pl-3">Answers</li>
-          <li className="py-1.5 pr-12 pl-3">Questions</li> */}
         </div>
       </nav>
       {menuArr[currentTab].content}
-      {/* <Summary /> */}
-      {/* <Answers /> */}
-      {/* <Questions /> */}
     </div>
   );
 }

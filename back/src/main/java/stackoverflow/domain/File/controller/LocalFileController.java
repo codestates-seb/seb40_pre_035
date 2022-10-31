@@ -24,7 +24,7 @@ public class LocalFileController {
 
     private final FileService fileService;
 
-    @Value("${file.path}")
+    @Value("${file.img}")
     private String path;
 
     @PostMapping("/file")

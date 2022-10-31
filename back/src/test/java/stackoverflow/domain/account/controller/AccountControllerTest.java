@@ -42,7 +42,7 @@ class AccountControllerTest {
     @DisplayName("Account Login_성공")
     void accountLogin() throws Exception {
         //given
-        String email = "mock1@gmail.com";
+        String email = "login@gmail.com";
         String password = "mock1234";
 
         LoginDto loginDto = new LoginDto();

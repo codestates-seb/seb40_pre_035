@@ -1,16 +1,17 @@
 // import React, { useState } from 'react';
-import Profile from '../componenets/mypage_components/profile';
-import MyPageNav from '../componenets/mypage_components/mypage_nav';
-import Activitise from '../componenets/mypage_components/activities';
-// import Settings from '../componenets/mypage_components/settings';
+import Profile from '../components/mypage_components/Profile';
+import MyPageNav from '../components/mypage_components/MypageNav';
+import Activitise from '../components/mypage_components/Activities';
+import Settings from '../components/mypage_components/Settings';
 
 export default function MyPage() {
   return (
     <>
-      <div className="border p-6">
+      <div className="p-6 border">
         <Profile />
         <MyPageNav />
         <Activitise />
+        <Settings />
       </div>
     </>
   );

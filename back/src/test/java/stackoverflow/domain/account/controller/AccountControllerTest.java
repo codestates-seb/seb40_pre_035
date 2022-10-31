@@ -91,7 +91,7 @@ class AccountControllerTest {
         //given
         String email = "mock2@gmail.com";
         String password = "mock1234";
-        String nickname = "mockNickname2";
+        String nickname = "moc2";
 
 
         PostAccountReqDto postAccountReqDto = new PostAccountReqDto();

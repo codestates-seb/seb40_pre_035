@@ -47,10 +47,12 @@ public class AccountController {
     }
 
     @PatchMapping("/{accountId}")
-    public ResponseEntity<SingleResDto<String>> accountModify(@PathVariable long accountId, @RequestBody PatchAccountReqDto modifyAccountReqDto) {
-
-        // 회원 정보 수정하는 로직
-        // 현재는 requestDto 에 별명, 프로필 경로만 추가
+    public ResponseEntity<SingleResDto<String>> accountModify(@PathVariable long accountId,
+                                                              @Valid @RequestBody PatchAccountReqDto modifyAccountReqDto) {
+        modifyAccountReqDto.setPassword(passwordEncoder.encode(modifyAccountReqDto.getPassword()));
+        Account reqAccount = modifyAccountReqDto.toAccount();
+        reqAccount.setId(accountId);
+        accountService.modifyAccount(reqAccount);
 
         return new ResponseEntity<>(new SingleResDto<>("success modify account"), HttpStatus.OK);
     }

@@ -13,4 +13,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     Optional<Answer> findById(Long id);
 
     Page<Answer> findAllByOrderByIdDesc(Pageable pageable);
+
+    @Query(value = "SELECT m FROM Answer m WHERE m.account.id = :accountId")
+    Page<Answer> findAllByAccountId(Long accountId, Pageable pageable);
 }

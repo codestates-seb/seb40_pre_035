@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Editor as Writer } from '@toast-ui/react-editor';
 import prism from 'prismjs';
 import 'prismjs/themes/prism.css';
+import { fetchUploadImage, BASE_URL } from '../../util/api';
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -18,6 +19,22 @@ function Editor() {
     console.log(data2);
   };
 
+  const onUploadImage = async (blob, callback) => {
+    console.log(blob);
+    let formData = new FormData();
+    formData.append('file', blob);
+    console.log(formData);
+
+    // let { data: path } =
+    let path = await fetchUploadImage(formData).then((data) => {
+      console.log(data);
+    });
+
+    // console.log(path);
+    // callback(path, 'alt text');
+    return false;
+  };
+
   return (
     <div className="editor-wrapper">
       <Writer
@@ -30,6 +47,9 @@ function Editor() {
         hideModeSwitch={true}
         onChange={handleOnChange}
         useCommandShortcut={false}
+        hooks={{
+          addImageBlobHook: onUploadImage,
+        }}
       />
     </div>
   );

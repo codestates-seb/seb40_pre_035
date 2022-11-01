@@ -5,7 +5,7 @@ import MyPageNav from '../components/mypage_components/MypageNav';
 function MyPage() {
   return (
     <>
-      <div className="p-6 border">
+      <div className="p-6 border border-soGray-normal">
         <Profile />
         <MyPageNav />
       </div>

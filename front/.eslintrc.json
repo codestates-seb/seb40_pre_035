@@ -22,6 +22,7 @@
     "react/react-in-jsx-scope": 0,
     "react/jsx-uses-react": 0,
     "no-unused-vars": "off",
+    "react/prop-types": "off",
     "prettier/prettier": [
       "error",
       {

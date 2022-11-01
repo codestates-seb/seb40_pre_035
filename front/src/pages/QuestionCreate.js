@@ -5,7 +5,7 @@ function QuestionCreate() {
   const handleOnChangeTitle = () => {};
   return (
     <main className="so-askQuestion pb-[80px]">
-      <h1 className="my-8 so-header-title">Ask a public question</h1>
+      <h1 className="p-2 my-8 text-3xl font-bold">Ask a public question</h1>
       <div className="mb-8 so-card-info selection:bg-buttonPrimary/50">
         <h2 className="mb-3 text-2xl">Writing a good question</h2>
         <p className="text-md">

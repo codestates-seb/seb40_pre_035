@@ -23,7 +23,7 @@ public class QuestionsResDto extends BaseTime {
 
     private String content;
 
-    private int totalVote;
+    private long totalVote;
 
     private int answerCount;
 
@@ -35,9 +35,9 @@ public class QuestionsResDto extends BaseTime {
         this.id = question.getId();
         this.title = question.getTitle();
         this.content = question.getContent();
-        this.totalVote = getTotalVote();
+        this.totalVote = getTotalVote(question.getQuestionVotes());
         this.answerCount = question.getAnswers().size();
-        this.selectedAnswer = isSelectedAnswer();
+        this.selectedAnswer = isSelectedAnswer(question.getAnswers());
         this.account = new QuestionAccountResDto(question.getAccount());
         setCreatedAt(question.getCreatedAt());
         setModifiedAt(question.getModifiedAt());

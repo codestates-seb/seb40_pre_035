@@ -9,10 +9,13 @@ import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.answer.repository.AnswerRepository;
 import stackoverflow.domain.question.entity.Question;
+import stackoverflow.domain.question.entity.QuestionVote;
 import stackoverflow.domain.question.repository.QuestionRepository;
 import stackoverflow.domain.question.repository.QuestionVoteRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -69,6 +72,46 @@ public class QuestionService {
 
     public Page<Question> findQuestions(String keyword, Pageable pageable) {
         return questionRepository.searchByTitleWithAll(keyword, pageable);
+    }
+
+    @Transactional
+    public void voteQuestion(QuestionVote questionVote) {
+
+        verifyQuestionVoteField(questionVote);
+
+        Long accountId = questionVote.getAccount().getId();
+        Long questionId = questionVote.getQuestion().getId();
+        Optional<QuestionVote> findOptionalQuestionVote =
+                questionVoteRepository.findByQuestionAndAccount(accountId, questionId);
+
+        if (findOptionalQuestionVote.isEmpty()) {
+            questionVoteRepository.save(questionVote);
+            return;
+        }
+
+        QuestionVote findQuestionVote = findOptionalQuestionVote.get();
+
+        if (questionVote.getState().equals(findQuestionVote.getState())) {
+            questionVoteRepository.delete(findQuestionVote);
+        } else {
+            throw new BusinessLogicException(ExceptionCode.ILLEGAL_VOTE);
+        }
+
+    }
+
+    private void verifyQuestionVoteField(QuestionVote questionVote) {
+        accountRepository.findById(questionVote.getAccount().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
+        questionRepository.findById(questionVote.getQuestion().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+    }
+
+    public Page<Question> findAccountQuestions(Long accountId, Pageable pageable) {
+        return questionRepository.findByAccountWithAll(accountId, pageable);
+    }
+
+    public Page<Question> findUnAnsweredQuestions(String keyword, Pageable pageable) {
+        return questionRepository.findByUnAnsweredWithAll(keyword, pageable);
     }
 
     private void verifyCreated(Question question, Long accountId) {

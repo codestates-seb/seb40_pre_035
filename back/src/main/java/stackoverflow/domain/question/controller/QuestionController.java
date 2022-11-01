@@ -6,11 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
+import stackoverflow.domain.account.dto.QuestionAccountResDto;
+import stackoverflow.domain.question.dto.QuestionVoteReqDto;
 import stackoverflow.domain.question.dto.QuestionReqDto;
 import stackoverflow.domain.question.dto.QuestionResDto;
 import stackoverflow.domain.question.dto.QuestionsResDto;
 import stackoverflow.domain.question.entity.Question;
+import stackoverflow.domain.question.entity.QuestionVote;
 import stackoverflow.domain.question.service.QuestionService;
 import stackoverflow.global.argumentreslover.LoginAccountId;
 import stackoverflow.global.common.dto.PageDto;
@@ -103,8 +105,12 @@ public class QuestionController {
     }
 
     @PostMapping("/questionVote/{questionId}")
-    public ResponseEntity<SingleResDto<String>> questionVoteAdd(@PathVariable Long questionId,
-                                                                @RequestBody AddQuestionVoteReqDto addQuestionVoteReqDto) {
-        return new ResponseEntity<>(new SingleResDto<>("success add vote"), HttpStatus.CREATED);
+    public ResponseEntity<SingleResDto<String>> questionVote(@LoginAccountId Long loginAccountId,
+                                                                @PathVariable Long questionId,
+                                                                @RequestBody QuestionVoteReqDto questionVoteReqDto) {
+
+        QuestionVote questionVote = questionVoteReqDto.toQuestionVote(loginAccountId, questionId);
+        questionService.voteQuestion(questionVote);
+        return new ResponseEntity<>(new SingleResDto<>("success vote"), HttpStatus.CREATED);
     }
 }

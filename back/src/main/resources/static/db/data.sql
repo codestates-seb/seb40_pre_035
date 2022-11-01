@@ -29,7 +29,7 @@ INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, selected, totalVot
 INSERT INTO Answer(answer_id, createdAt, modifiedAt, content, selected, totalVote, question_id) VALUES('1005', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'testcontent', true, '10', '101');
 
 insert into QuestionVote(questionVote_id, createdAt, modifiedAt, state, account_id, question_id) values('2001', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'UP', '1', '101');
-insert into QuestionVote(questionVote_id, createdAt, modifiedAt, state, account_id, question_id) values('2002', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'UP', '1', '101');
-insert into QuestionVote(questionVote_id, createdAt, modifiedAt, state, account_id, question_id) values('2003', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'DOWN', '1', '101');
-insert into QuestionVote(questionVote_id, createdAt, modifiedAt, state, account_id, question_id) values('2004', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'DOWN', '1', '101');
-insert into QuestionVote(questionVote_id, createdAt, modifiedAt, state, account_id, question_id) values('2005', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'DOWN', '1', '101');
+insert into QuestionVote(questionVote_id, createdAt, modifiedAt, state, account_id, question_id) values('2002', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'UP', '1', '102');
+insert into QuestionVote(questionVote_id, createdAt, modifiedAt, state, account_id, question_id) values('2003', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'DOWN', '1', '103');
+insert into QuestionVote(questionVote_id, createdAt, modifiedAt, state, account_id, question_id) values('2004', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'DOWN', '1', '104');
+insert into QuestionVote(questionVote_id, createdAt, modifiedAt, state, account_id, question_id) values('2005', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'DOWN', '1', '105');

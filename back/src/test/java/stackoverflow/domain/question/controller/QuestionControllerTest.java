@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
-import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
+import stackoverflow.domain.question.dto.QuestionVoteReqDto;
 import stackoverflow.domain.question.dto.QuestionReqDto;
 import stackoverflow.global.common.enums.VoteState;
 import stackoverflow.global.security.auth.jwt.JwtTokenizer;
@@ -417,11 +417,14 @@ class QuestionControllerTest {
     void questionVoteAdd_Success_Test() throws Exception {
 
         //given
-        Long questionId = 1L;
-        AddQuestionVoteReqDto addQuestionVoteReqDto = new AddQuestionVoteReqDto();
-        addQuestionVoteReqDto.setState(VoteState.UP);
-        String body = gson.toJson(addQuestionVoteReqDto);
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
+        long questionId = 107L;
+        String jwt = "Bearer " + accessToken;
+        QuestionVoteReqDto questionVoteReqDto = new QuestionVoteReqDto();
+        questionVoteReqDto.setState(VoteState.UP);
+        String body = gson.toJson(questionVoteReqDto);
 
         //when
         ResultActions actions = mockMvc.perform(

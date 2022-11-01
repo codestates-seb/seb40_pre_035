@@ -329,61 +329,6 @@ public class AnswerControllerTest {
                 );
     }
 
-    @Test @Disabled
-    @DisplayName("AccountAnswers_조회_성공")
-    public void getAccountAnswers_Success_Test() throws Exception {
-        //given
-        Long accountId = 1L;
-
-        ResultActions actions = mockMvc.perform(
-                get("/answers/account/{accountId}", accountId)
-                        .param("page", "1")
-                        .param("size","10")
-                        .param("sort", "id,desc")
-        );
-
-        // then
-
-        actions
-                .andExpect(status().isOk())
-                .andDo(document("getAccountAnswers",
-                        getRequestPreProcessor(),
-                        getResponsePreProcessor(),
-                        pathParameters(
-                                parameterWithName("accountId").description("Account 식별자")
-                        ),
-                        requestParameters(
-                                parameterWithName("page").description("페이지 번호(default = 1"),
-                                parameterWithName("size").description("페이징 size(default = 10)"),
-                                parameterWithName("sort").description("정렬 조건(default = id, asc")
-                        ),
-                        responseFields(
-                                Arrays.asList(
-                                        fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("Answer 목록"),
-                                        fieldWithPath("content[].createdAt").type(JsonFieldType.STRING).description("Answer 생성일자"),
-                                        fieldWithPath("content[].modifiedAt").type(JsonFieldType.STRING).description("Answer 수정일자"),
-                                        fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("Answer 식별자"),
-                                        fieldWithPath("content[].content").type(JsonFieldType.STRING).description("Answer 내용"),
-                                        fieldWithPath("content[].totalVote").type(JsonFieldType.NUMBER).description("Answer Vote"),
-                                        fieldWithPath("content[].account").type(JsonFieldType.OBJECT).description("Answer 생성계정"),
-                                        fieldWithPath("content[].account.id").type(JsonFieldType.NUMBER).description("Answer 생성계정 식별자"),
-                                        fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Answer 생성계정 email"),
-                                        fieldWithPath("content[].account.profile").type(JsonFieldType.STRING).description("Answer 생성계정 프로필 이미지 경로"),
-                                        fieldWithPath("content[].account.nickname").type(JsonFieldType.STRING).description("Answer 생성계정 별칭"),
-
-                                        fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
-                                        fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("전체 Answer 개수"),
-                                        fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫 페이지 여부"),
-                                        fieldWithPath("last").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
-                                        fieldWithPath("sorted").type(JsonFieldType.BOOLEAN).description("정렬 여부"),
-                                        fieldWithPath("size").type(JsonFieldType.NUMBER).description("페이징 size"),
-                                        fieldWithPath("pageNumber").type(JsonFieldType.NUMBER).description("페이지 번호(0부터 시작)"),
-                                        fieldWithPath("numberOfElements").type(JsonFieldType.NUMBER).description("페이징된 Question 개수")
-                                )
-                        )
-                ));
-    }
-
     @Test
     @DisplayName("QuestionAnswers_조회_성공")
     public void questionAnswersList_Success_Test() throws Exception {
@@ -421,13 +366,13 @@ public class AnswerControllerTest {
                                         fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("Answer 식별자"),
                                         fieldWithPath("content[].content").type(JsonFieldType.STRING).description("Answer 내용"),
                                         fieldWithPath("content[].totalVote").type(JsonFieldType.NUMBER).description("Answer Vote"),
+                                        fieldWithPath("content[].selected").type(JsonFieldType.BOOLEAN).description("채택 여부"),
                                         fieldWithPath("content[].account").type(JsonFieldType.OBJECT).description("Answer 생성계정"),
                                         fieldWithPath("content[].account.id").type(JsonFieldType.NUMBER).description("Answer 생성계정 식별자"),
                                         fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Answer 생성계정 email"),
                                         fieldWithPath("content[].account.profile").type(JsonFieldType.STRING).description("Answer 생성계정 프로필 이미지 경로"),
                                         fieldWithPath("content[].account.nickname").type(JsonFieldType.STRING).description("Answer 생성계정 별칭"),
                                         fieldWithPath("content[].questionId").type(JsonFieldType.NUMBER).description("Question 식별자"),
-
                                         fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
                                         fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("전체 Answer 개수"),
                                         fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫 페이지 여부"),

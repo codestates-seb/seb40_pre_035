@@ -34,20 +34,12 @@ public class Question extends BaseTime {
     @OneToMany(mappedBy = "question")
     private List<QuestionVote> questionVotes;
 
-    public Question(Long id) {
-        this.id = id;
-    }
-
     @Builder
     public Question(Long id, String title, String content, Account account) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.account = account;
-    }
-
-    public Question(Long id){
-        this.id = id;
     }
 
     public void setAccount(Account account) {

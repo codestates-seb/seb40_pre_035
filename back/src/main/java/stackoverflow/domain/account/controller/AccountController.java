@@ -2,12 +2,15 @@ package stackoverflow.domain.account.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import stackoverflow.domain.File.service.FileService;
 import stackoverflow.domain.account.dto.AccountResDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
@@ -16,6 +19,7 @@ import stackoverflow.domain.account.service.AccountService;
 import stackoverflow.global.common.dto.SingleResDto;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/accounts")
@@ -24,14 +28,12 @@ public class AccountController {
     private final PasswordEncoder passwordEncoder;
     private final AccountService accountService;
 
-
     @PostMapping
-    public ResponseEntity<SingleResDto<String>> accountAdd(@Valid @RequestBody PostAccountReqDto createAccountReqDto) {
+    public ResponseEntity<SingleResDto<String>> accountAdd(@Valid @ModelAttribute PostAccountReqDto createAccountReqDto) {
         createAccountReqDto.setPassword(passwordEncoder.encode(createAccountReqDto.getPassword()));
-        Account account = createAccountReqDto.toAccount();
-        Account defaultAccount = accountService.setDefaultProperties(account);
 
-        accountService.addAccount(defaultAccount);
+
+        accountService.addAccount(createAccountReqDto);
 
         return new ResponseEntity<>(new SingleResDto<>("success create account"), HttpStatus.CREATED);
     }
@@ -48,12 +50,10 @@ public class AccountController {
 
     @PatchMapping("/{accountId}")
     public ResponseEntity<SingleResDto<String>> accountModify(@PathVariable long accountId,
-                                                              @Valid @RequestBody PatchAccountReqDto modifyAccountReqDto) {
-
+                                                              @Valid @ModelAttribute PatchAccountReqDto modifyAccountReqDto) {
         modifyAccountReqDto.setPassword(passwordEncoder.encode(modifyAccountReqDto.getPassword()));
-        Account reqAccount = modifyAccountReqDto.toAccount();
-        reqAccount.setId(accountId);
-        accountService.modifyAccount(reqAccount);
+        modifyAccountReqDto.setAccountId(accountId);
+        accountService.modifyAccount(modifyAccountReqDto);
 
         return new ResponseEntity<>(new SingleResDto<>("success modify account"), HttpStatus.OK);
     }

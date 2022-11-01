@@ -12,6 +12,7 @@ import stackoverflow.domain.account.dto.AnswerAccountResDto;
 import stackoverflow.domain.answer.dto.AddAnswerVoteReqDto;
 import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.domain.answer.dto.AnswerResDto;
+import stackoverflow.domain.answer.dto.QuestionAnswerResDto;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.service.AnswerService;
 import stackoverflow.global.common.dto.PageDto;
@@ -102,5 +103,15 @@ public class AnswerController {
         Page<AnswerResDto> pageDto= page.map(answer-> new AnswerResDto(answer));
 
         return new ResponseEntity<>(new PageDto(pageDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/question/{questionId}")
+    public ResponseEntity<PageDto<QuestionAnswerResDto>> questionAnswersList(@PathVariable Long questionId,
+                                                                             Pageable pageable) {
+
+        Page<Answer> questionAnswers = answerService.findQuestionAnswers(questionId, pageable);
+        Page<QuestionAnswerResDto> questionAnswersRes = questionAnswers.map(QuestionAnswerResDto::new);
+
+        return new ResponseEntity<>(new PageDto<>(questionAnswersRes), HttpStatus.OK);
     }
 }

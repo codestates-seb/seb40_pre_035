@@ -6,15 +6,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.repository.AnswerRepository;
-import stackoverflow.domain.question.entity.Question;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,6 +62,11 @@ public class AnswerService {
         Page<Answer> filteredPage = new PageImpl<>(list, pageable, list.size());
 
         return filteredPage;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Answer> findQuestionAnswers(Long questionId, Pageable pageable) {
+        return answerRepository.findByQuestionWithAll(questionId, pageable);
     }
 
     @Transactional(readOnly = true)

@@ -21,7 +21,6 @@ public class AnswerReqDto {
     public Answer toAnswer () {
         Answer answer = new Answer();
         answer.setContent(this.content);
-        answer.setTotalVote(this.totalVote);
         answer.setSelected(false);
         Account account = new Account();
         account.setId(this.accountId);

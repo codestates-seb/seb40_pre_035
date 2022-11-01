@@ -56,7 +56,6 @@ public class AnswerService {
         else {
             answer.setModifiedAt(LocalDateTime.now());
             Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));  // patchAnswer로 변경될 사항 추가하는 부분
-
             return verifiedAnswer;
         }
     }

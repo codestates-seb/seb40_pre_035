@@ -1,4 +1,18 @@
-function DeleteProfile() {
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+const DeleteProfile = () => {
+  const [checkBox, setCheckBox] = useState([]);
+  const changeHandler = (checked, id) => {
+    if (checked) {
+      setCheckBox([...checkBox, id]);
+    } else {
+      setCheckBox(checkBox.filter((button) => button !== id));
+    }
+  };
+
+  const disabled = !(checkBox.length === 1);
+
   return (
     <div>
       <div className="pb-4 mb-6 border-b">
@@ -30,19 +44,36 @@ function DeleteProfile() {
       </p>
       <form>
         <div className="flex items-start mb-6">
-          <input type="checkbox" className="my-3 mx-1.5 flex" />
+          <input
+            type="checkbox"
+            id="check"
+            className="my-3 mx-1.5 flex"
+            onChange={(e) => {
+              changeHandler(e.currentTarget.checked, 'check');
+            }}
+            checked={checkBox.includes('check') ? true : false}
+          />
           <p className="p-0.5 m-1">
             I have read the information stated above and understand the
             implications of having my profile deleted. I wish to proceed with
             the deletion of my profile.
           </p>
         </div>
-        <button className=" bg-danger-400 text-white p-2.5 rounded">
-          Delete profile
-        </button>
+        <Link to="/">
+          <button
+            className={
+              !disabled
+                ? ' bg-danger-400 text-white p-2.5 rounded'
+                : ' bg-danger-700 text-white p-2.5 rounded '
+            }
+            disabled={disabled}
+          >
+            Delete profile
+          </button>
+        </Link>
       </form>
     </div>
   );
-}
+};
 
 export default DeleteProfile;

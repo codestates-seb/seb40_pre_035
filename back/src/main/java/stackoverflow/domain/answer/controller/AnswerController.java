@@ -29,20 +29,20 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity<SingleResDto<AnswerResDto>> postAnswer(@LoginAccountId Long loginAccountId,
+    public ResponseEntity<SingleResDto<String>> postAnswer(@LoginAccountId Long loginAccountId,
                                                                  @RequestBody AnswerReqDto answerReqDto) {
         Answer answer = answerReqDto.toAnswer();
         answer.getAccount().setId(loginAccountId);
         Answer createdAnswer = answerService.createAnswer(answer);
         AnswerResDto response = new AnswerResDto(createdAnswer);
 
-        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.CREATED);
-//        return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
+//        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
     }
 
 
     @PatchMapping("/{answerId}") @Transactional
-    public ResponseEntity<SingleResDto<AnswerResDto>> patchAnswer(@LoginAccountId Long loginAccountId,
+    public ResponseEntity<SingleResDto<String>> patchAnswer(@LoginAccountId Long loginAccountId,
                                                                   @PathVariable Long answerId,
                                                                   @RequestBody AnswerReqDto answerReqDto) {
         Answer answer = answerReqDto.toAnswer();
@@ -51,8 +51,8 @@ public class AnswerController {
         Answer updatedAnswer = answerService.updateAnswer(answer);
         AnswerResDto response = new AnswerResDto(updatedAnswer);
 
-        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.OK);
-//        return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
+//        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 
 

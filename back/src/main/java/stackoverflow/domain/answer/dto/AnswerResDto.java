@@ -16,10 +16,11 @@ public class AnswerResDto extends BaseTime {
     private int totalVote;
     private AnswerAccountResDto account;
 
+    private Long questionId;
+
     public void AnswerAccountResDto(Answer answer) {
         this.account.setId(answer.getId());
     }
-
 
     public AnswerResDto(Answer answer) {
         this.id = answer.getId();

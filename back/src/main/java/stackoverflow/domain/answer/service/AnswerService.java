@@ -7,14 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.account.entity.Account;
+import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.repository.AnswerRepository;
-import stackoverflow.domain.question.entity.Question;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,19 +23,32 @@ import java.util.stream.Collectors;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
+    private final AccountRepository accountRepository;
+
+    @Transactional
     public Answer createAnswer(Answer answer) {
+        Account verifiedAccount = accountRepository.findById(answer.getAccount().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
+        answer.setAccount(verifiedAccount);
+        answer.setCreatedAt(LocalDateTime.now());
+        answer.setModifiedAt(LocalDateTime.now());
+
         return answerRepository.save(answer);
     }
 
     @Transactional
     public Answer updateAnswer(Answer answer) {
-        Answer verifiedAnswer = findVerifiedAnswer(answer.getId());
-        Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));
+        Answer verifiedAnswer = answerRepository.findByIdWithQuestion(answer.getId())   // 해당 Answer가 레포에 있는지 확인 + questionId
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));  // conflict로 pr 이후 수정하기 NOT_FOUND_ANSWER
+
+        answer.setModifiedAt(LocalDateTime.now());  // answer의
+        Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));         // patchAnswer로 변경될 사항 추가하는 부분
+        Optional.ofNullable(answer.getTotalVote()).ifPresent(totalVote -> verifiedAnswer.setTotalVote(totalVote));
 
         return verifiedAnswer;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Answer findAnswer(Long answerId) {
         Answer verifiedAnswer = findVerifiedAnswer(answerId);
 
@@ -53,7 +65,6 @@ public class AnswerService {
 
     public void deleteAnswer(Long id) {
         Answer verifiedAnswer = findVerifiedAnswer(id);
-
         answerRepository.delete(verifiedAnswer);
     }
 
@@ -72,7 +83,7 @@ public class AnswerService {
     public Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         Answer verifiedAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND));
+
         return verifiedAnswer;
     }
 }
-

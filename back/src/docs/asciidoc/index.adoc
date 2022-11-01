@@ -37,8 +37,11 @@ include::{snippets}/createAccount/curl-request.adoc[]
 .http-request
 include::{snippets}/createAccount/http-request.adoc[]
 
-.request-fields
-include::{snippets}/createAccount/request-fields.adoc[]
+.request-parts
+include::{snippets}/createAccount/request-parts.adoc[]
+
+.request-parameters
+include::{snippets}/createAccount/request-parameters.adoc[]
 
 .http-response
 include::{snippets}/createAccount/http-response.adoc[]
@@ -60,8 +63,11 @@ include::{snippets}/modifyAccount/request-headers.adoc[]
 .request-path_parameters
 include::{snippets}/modifyAccount/path-parameters.adoc[]
 
-.request-fields
-include::{snippets}/modifyAccount/request-fields.adoc[]
+.request-parts
+include::{snippets}/modifyAccount/request-parts.adoc[]
+
+.request-parameters
+include::{snippets}/modifyAccount/request-parameters.adoc[]
 
 .http-response
 include::{snippets}/modifyAccount/http-response.adoc[]

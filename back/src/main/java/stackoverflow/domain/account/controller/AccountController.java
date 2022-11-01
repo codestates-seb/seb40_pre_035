@@ -48,7 +48,7 @@ public class AccountController {
         return new ResponseEntity(mockResDto, HttpStatus.OK);
     }
 
-    @PatchMapping("/{accountId}")
+    @PostMapping("/{accountId}")
     public ResponseEntity<SingleResDto<String>> accountModify(@PathVariable long accountId,
                                                               @Valid @ModelAttribute PatchAccountReqDto modifyAccountReqDto) {
         modifyAccountReqDto.setPassword(passwordEncoder.encode(modifyAccountReqDto.getPassword()));

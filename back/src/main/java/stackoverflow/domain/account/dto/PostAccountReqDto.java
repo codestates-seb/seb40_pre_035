@@ -24,7 +24,6 @@ public class PostAccountReqDto {
             message = "4자 미만에 특수 문자가 없어야 합니다.")
     private String nickname;
 
-    @NotEmpty(message = "프로필 이미지가 있어야합니다.")
     private MultipartFile profile;
 
     public Account toAccount(String profilePath) {

@@ -14,6 +14,7 @@ import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.domain.answer.dto.AnswerResDto;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.service.AnswerService;
+import stackoverflow.global.argumentreslover.LoginAccountId;
 import stackoverflow.global.common.dto.PageDto;
 import stackoverflow.global.common.dto.SingleResDto;
 
@@ -28,33 +29,41 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity<SingleResDto<String>> postAnswer(@RequestBody AnswerReqDto answerReqDto) {
+    public ResponseEntity<SingleResDto<String>> postAnswer(@LoginAccountId Long loginAccountId,
+                                                                 @RequestBody AnswerReqDto answerReqDto) {
+        Answer answer = answerReqDto.toAnswer();
+        answer.getAccount().setId(loginAccountId);
+        Answer createdAnswer = answerService.createAnswer(answer);
+        AnswerResDto response = new AnswerResDto(createdAnswer);
 
-          return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
+//        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
     }
 
 
-    @PatchMapping("/{answerId}")
-    public ResponseEntity<SingleResDto<String>> patchAnswer(@PathVariable Long answerId, @RequestBody AnswerReqDto answerReqDto) {
+    @PatchMapping("/{answerId}") @Transactional
+    public ResponseEntity<SingleResDto<String>> patchAnswer(@LoginAccountId Long loginAccountId,
+                                                                  @PathVariable Long answerId,
+                                                                  @RequestBody AnswerReqDto answerReqDto) {
+        Answer answer = answerReqDto.toAnswer();
+        answer.getAccount().setId(loginAccountId);
+        answer.setId(answerId);
+        Answer updatedAnswer = answerService.updateAnswer(answer);
+        AnswerResDto response = new AnswerResDto(updatedAnswer);
 
-        return new ResponseEntity<>(new SingleResDto<>("success modify answer"), HttpStatus.OK);
+//        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 
 
     @GetMapping("/{answerId}")
     public ResponseEntity getAnswer(@PathVariable Long answerId) {
+        Answer answer = answerService.findAnswer(answerId);
+        AnswerResDto answerResDto = new AnswerResDto(answer);  // 이 부분 수정됨
 
-        AnswerAccountResDto account = new AnswerAccountResDto();
-        account.setId(1L);
-        account.setEmail("account@gmail.com");
-        account.setProfile("profile");
-        account.setNickname("nickname");
-        AnswerResDto answerResDto = new AnswerResDto(answerId, "content",10, account);
-        answerResDto.setCreatedAt(LocalDateTime.now());
-        answerResDto.setModifiedAt(LocalDateTime.now());
-
-        return new ResponseEntity<>(answerResDto, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResDto<>(answerResDto), HttpStatus.OK);
     }
+
 
     @Transactional(readOnly = true)
     @GetMapping
@@ -67,7 +76,7 @@ public class AnswerController {
             account.setEmail("mock"+i+"@gmail.com");
             account.setProfile("profile"+i);
             account.setNickname("nick"+i);
-            AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account);
+            AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account, 101L);
             answerResDto.setCreatedAt(LocalDateTime.now());
             answerResDto.setModifiedAt(LocalDateTime.now());
 
@@ -86,7 +95,6 @@ public class AnswerController {
     }
 
 
-
     @PostMapping("/answerVote/{answerId}")
     public ResponseEntity<SingleResDto<String>> addAnswerVote(@PathVariable Long answerId, @RequestBody AddAnswerVoteReqDto addAnswerVoteReqDto) {
 
@@ -94,7 +102,6 @@ public class AnswerController {
     }
 
 
-    @Transactional(readOnly = true)
     @GetMapping("/account/{accountId}")
     public ResponseEntity<PageDto> getAccountAnswers(@PathVariable Long accountId, Pageable pageable) {
 
@@ -103,4 +110,5 @@ public class AnswerController {
 
         return new ResponseEntity<>(new PageDto(pageDto), HttpStatus.OK);
     }
+
 }

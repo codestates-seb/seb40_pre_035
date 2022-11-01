@@ -31,4 +31,6 @@ public class Answer extends BaseTime {
     public void setAccount(Account account) {
         this.account = account;
     }
+
+    public void setQuestion(Question question) { this.question = question;}
 }

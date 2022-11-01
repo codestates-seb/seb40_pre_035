@@ -11,6 +11,7 @@
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
     "@toast-ui/react-editor": "^3.2.2",
     "buffer": "^6.0.3",
+    "moment": "^2.29.4",
     "npm": "^8.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

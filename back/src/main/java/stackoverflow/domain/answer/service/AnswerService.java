@@ -10,6 +10,8 @@ import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.repository.AnswerRepository;
+import stackoverflow.domain.question.entity.Question;
+import stackoverflow.domain.question.repository.QuestionRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
@@ -23,14 +25,17 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class AnswerService {
     private final AnswerRepository answerRepository;
-
     private final AccountRepository accountRepository;
+    private final QuestionRepository questionRepository;
 
     @Transactional
     public Answer createAnswer(Answer answer) {
         Account verifiedAccount = accountRepository.findById(answer.getAccount().getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
+        Question verifiedQuestion = questionRepository.findById(answer.getQuestion().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
         answer.setAccount(verifiedAccount);
+        answer.setQuestion(verifiedQuestion);
         answer.setCreatedAt(LocalDateTime.now());
         answer.setModifiedAt(LocalDateTime.now());
 
@@ -50,8 +55,7 @@ public class AnswerService {
         }
         else {
             answer.setModifiedAt(LocalDateTime.now());
-            Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));         // patchAnswer로 변경될 사항 추가하는 부분
-            Optional.ofNullable(answer.getTotalVote()).ifPresent(totalVote -> verifiedAnswer.setTotalVote(totalVote));
+            Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));  // patchAnswer로 변경될 사항 추가하는 부분
 
             return verifiedAnswer;
         }

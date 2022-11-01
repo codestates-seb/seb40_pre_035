@@ -37,7 +37,7 @@ function DeleteProfile() {
             the deletion of my profile.
           </p>
         </div>
-        <button className="bg-red-700 text-white p-2.5 rounded">
+        <button className=" bg-danger-400 text-white p-2.5 rounded">
           Delete profile
         </button>
       </form>

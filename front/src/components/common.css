@@ -12,10 +12,6 @@
   .so-button-dismiss {
     @apply bg-white px-3 h-10 whitespace-nowrap font-normal bg-transparent
   }
-  
-  .so-header-title {
-    @apply p-2 text-3xl font-bold
-  }
 
   .so-askQuestion {
     @apply bg-soGray-headerbg py-4 px-6 bg-[url('/src/images/ask-background.svg')] bg-no-repeat bg-right-top bg-[length:600px_auto]

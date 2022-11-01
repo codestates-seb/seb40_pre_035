@@ -18,6 +18,8 @@ public class QuestionAnswerResDto extends BaseTime {
 
     private long totalVote;
 
+    private boolean selected;
+
     private AnswerAccountResDto account;
 
     private Long questionId;
@@ -28,6 +30,7 @@ public class QuestionAnswerResDto extends BaseTime {
         this.totalVote = getTotalVote(answer.getAnswerVotes());
         this.account = new AnswerAccountResDto(answer.getAccount());
         this.questionId = answer.getQuestion().getId();
+        this.selected = answer.isSelected();
         setCreatedAt(answer.getCreatedAt());
         setModifiedAt(answer.getModifiedAt());
     }

@@ -167,7 +167,7 @@ class AccountControllerTest {
     void accountModify() throws Exception {
         //given
         long accountId = 1L;
-        String nickname = "testModifiedNickname";
+        String nickname = "modi";
         String password = "testModified1234";
         String profile = "/path/test/modified";
         String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";

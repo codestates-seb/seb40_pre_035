@@ -2,12 +2,10 @@ package stackoverflow.domain.question.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import stackoverflow.domain.account.dto.QuestionAccountResDto;
 import stackoverflow.domain.question.dto.AddQuestionVoteReqDto;
 import stackoverflow.domain.question.dto.QuestionReqDto;
 import stackoverflow.domain.question.dto.QuestionResDto;
@@ -19,9 +17,6 @@ import stackoverflow.global.common.dto.PageDto;
 import stackoverflow.global.common.dto.SingleResDto;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -92,6 +87,7 @@ public class QuestionController {
 
     @GetMapping("/questions/account/{accountId}")
     public ResponseEntity<PageDto<QuestionsResDto>> AccountQuestionList(@PathVariable Long accountId, Pageable pageable) {
+
         Page<Question> questions = questionService.findAccountQuestions(accountId, pageable);
         Page<QuestionsResDto> questionsRes = questions.map(QuestionsResDto::new);
         return new ResponseEntity<>(new PageDto<>(questionsRes), HttpStatus.OK);
@@ -100,31 +96,9 @@ public class QuestionController {
     @GetMapping("/questions/unAnswered")
     public ResponseEntity<PageDto<QuestionsResDto>> getQuestionsUnAnswered(Pageable pageable,
                                                                            @RequestParam(required = false) String keyword) {
-        List<QuestionsResDto> questionsResDtoList = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            QuestionsResDto questionsResDto = new QuestionsResDto();
-            QuestionAccountResDto questionAccountResDto = new QuestionAccountResDto();
-
-            questionAccountResDto.setId(1L + (i * 5));
-            questionAccountResDto.setEmail("mock" + (i * 5) + "@mock.com");
-            questionAccountResDto.setProfile("mock/mock" + (i * 5));
-            questionAccountResDto.setNickname("mockNickname" + (i * 5));
-
-            questionsResDto.setId(3L + (i * 5));
-            questionsResDto.setTitle("testQuestionTitle" + (3 + i * 5));
-            questionsResDto.setContent("testQuestionContent" + (3 + i * 5));
-            questionsResDto.setTotalVote(10);
-            questionsResDto.setAnswerCount(5);
-            questionsResDto.setSelectedAnswer(false);
-            questionsResDto.setAccount(questionAccountResDto);
-            questionsResDto.setCreatedAt(LocalDateTime.now());
-            questionsResDto.setModifiedAt(LocalDateTime.now());
-
-            questionsResDtoList.add(questionsResDto);
-        }
-
-        PageImpl<QuestionsResDto> questionRes = new PageImpl<>(questionsResDtoList, pageable, 100);
+        Page<Question> unAnsweredQuestions = questionService.findUnAnsweredQuestions(keyword, pageable);
+        Page<QuestionsResDto> questionRes = unAnsweredQuestions.map(QuestionsResDto::new);
         return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 

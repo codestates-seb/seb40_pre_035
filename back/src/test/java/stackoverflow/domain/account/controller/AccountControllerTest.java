@@ -13,9 +13,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import stackoverflow.domain.account.dto.PatchAccountReqDto;
-import stackoverflow.domain.account.dto.PostAccountReqDto;
+import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.global.security.auth.dto.LoginDto;
+import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 
 import java.util.List;
 
@@ -35,9 +35,12 @@ class AccountControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private Gson gson;
+    @Autowired
+    private JwtTokenizer jwtTokenizer;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Value("${file.img}")
     private String path;
@@ -172,9 +175,10 @@ class AccountControllerTest {
     void accountModify() throws Exception {
         //given
         long accountId = 1L;
+        String accessToken = jwtTokenizer.delegateAccessToken(accountRepository.findById(accountId).get());
+        String jwt = "Bearer " + accessToken;
         String nickname = "modi";
         String password = "testModified1234";
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
         MockMultipartFile file = new MockMultipartFile("profile", "profile", "image/jpeg",
                 "file".getBytes());
 
@@ -228,15 +232,16 @@ class AccountControllerTest {
     @DisplayName("Account 삭제_성공")
     void accountRemove() throws Exception {
         //given
-        long accountId = 1L;
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+        long accountId = 3L;
+
+        String accessToken = jwtTokenizer.delegateAccessToken(accountRepository.findById(accountId).get());
+        String jwt = "Bearer " + accessToken;
 
         //when
         ResultActions actions = mockMvc.perform(
                 delete("/accounts/{accountId}", accountId)
                         .header("Authorization", jwt)
         );
-
 
         //then
         actions.andExpect(status().isOk())

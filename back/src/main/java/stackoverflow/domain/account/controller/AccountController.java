@@ -2,24 +2,21 @@ package stackoverflow.domain.account.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import stackoverflow.domain.File.service.FileService;
 import stackoverflow.domain.account.dto.AccountResDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.service.AccountService;
+import stackoverflow.global.argumentreslover.LoginAccountId;
 import stackoverflow.global.common.dto.SingleResDto;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/accounts")
@@ -50,18 +47,20 @@ public class AccountController {
 
     @PostMapping("/{accountId}")
     public ResponseEntity<SingleResDto<String>> accountModify(@PathVariable long accountId,
-                                                              @Valid @ModelAttribute PatchAccountReqDto modifyAccountReqDto) {
+                                                              @Valid @ModelAttribute PatchAccountReqDto modifyAccountReqDto,
+                                                              @LoginAccountId Long loginAccountId) {
         modifyAccountReqDto.setPassword(passwordEncoder.encode(modifyAccountReqDto.getPassword()));
         modifyAccountReqDto.setAccountId(accountId);
-        accountService.modifyAccount(modifyAccountReqDto);
+        accountService.modifyAccount(modifyAccountReqDto, loginAccountId);
 
         return new ResponseEntity<>(new SingleResDto<>("success modify account"), HttpStatus.OK);
     }
 
     @DeleteMapping("/{accountId}")
-    public ResponseEntity<SingleResDto<String>> accountRemove(@PathVariable long accountId) {
-
-        //회원 정보 삭제하는 로직
+    public ResponseEntity<SingleResDto<String>> accountRemove(@PathVariable long accountId,
+                                                              @LoginAccountId Long loginAccountId) {
+        Account findAccount = accountService.findAccount(accountId);
+        accountService.removeAccount(findAccount, loginAccountId);
 
         return new ResponseEntity<>(new SingleResDto<>("success delete account"), HttpStatus.OK);
     }

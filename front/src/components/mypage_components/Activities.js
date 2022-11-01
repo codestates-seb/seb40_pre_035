@@ -26,8 +26,8 @@ function Activitise() {
                 key={index}
                 className={
                   currentTab === index
-                    ? 'py-1.5 pr-12 pl-3'
-                    : 'py-1.5 pr-12 pl-3'
+                    ? 'py-1.5 pr-12 pl-3 m-0.5 bg-soGray-bg rounded-2xl'
+                    : 'py-1.5 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
                 }
                 onClick={() => selectMenuHandler(index)}
               >

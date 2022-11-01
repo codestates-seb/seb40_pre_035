@@ -2,7 +2,7 @@ function DeleteProfile() {
   return (
     <div>
       <div className="pb-4 mb-6 border-b">
-        <h1 className="text-3xl ">Delete Profile</h1>
+        <h1 className="text-xxl ">Delete Profile</h1>
       </div>
       <p className="mb-4">
         Before confirming that you would like your profile deleted, we&#39;d

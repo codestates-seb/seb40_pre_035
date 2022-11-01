@@ -1,4 +1,6 @@
-function Summary() {
+import { Link } from 'react-router-dom';
+
+const Summary = () => {
   return (
     <div className="flex w-full">
       <div className="w-3/12 m-3">
@@ -23,9 +25,9 @@ function Summary() {
           <p className="text-2xl font-medium">Answers</p>
           <p className="p-6 m-2 text-center border rounded border-soGray-normal bg-soGray-headerbg">
             You have not{' '}
-            <a href="http://localhost:3000/" className="text-secondary-350">
+            <Link to="/" className="text-secondary-350">
               answered
-            </a>{' '}
+            </Link>{' '}
             any questions
           </p>
         </div>
@@ -33,15 +35,15 @@ function Summary() {
           <p className="text-2xl font-medium">Questions</p>
           <p className="p-6 m-2 text-center border rounded border-soGray-normal bg-soGray-headerbg">
             You have not{' '}
-            <a href="http://localhost:3000/" className="text-secondary-350">
+            <Link to="/" className="text-secondary-350">
               asked
-            </a>{' '}
+            </Link>{' '}
             any questions
           </p>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Summary;

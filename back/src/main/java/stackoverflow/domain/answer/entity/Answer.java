@@ -1,11 +1,14 @@
 package stackoverflow.domain.answer.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.question.entity.Question;
 import stackoverflow.global.auditing.BaseTime;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 @Entity
@@ -16,8 +19,6 @@ public class Answer extends BaseTime {
 
     private String content;
 
-    private int totalVote;
-
     private boolean selected;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,6 +28,9 @@ public class Answer extends BaseTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
+
+    @OneToMany(mappedBy = "answer")
+    private List<AnswerVote> answerVotes = new ArrayList<>();
 
     public void setAccount(Account account) {
         this.account = account;

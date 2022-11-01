@@ -21,12 +21,13 @@ public class AnswerReqDto {
     public Answer toAnswer () {
         Answer answer = new Answer();
         answer.setContent(this.content);
-        answer.setTotalVote(this.totalVote);
         answer.setSelected(false);
         Account account = new Account();
         account.setId(this.accountId);
         answer.setAccount(account);
-        Question question = new Question(this.questionId);
+        Question question = Question.builder()
+                .id(this.questionId)
+                .build();
         answer.setQuestion(question);
 
         return answer;

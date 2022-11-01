@@ -6,14 +6,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import stackoverflow.domain.account.entity.Account;
-import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.repository.AnswerRepository;
-import stackoverflow.domain.question.entity.Question;
-import stackoverflow.domain.question.repository.QuestionRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
+import stackoverflow.domain.account.entity.Account;
+import stackoverflow.domain.account.repository.AccountRepository;
+import stackoverflow.domain.question.entity.Question;
+import stackoverflow.domain.question.repository.QuestionRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -92,6 +92,10 @@ public class AnswerService {
         return filteredPage;
     }
 
+    public Page<Answer> findQuestionAnswers(Long questionId, Pageable pageable) {
+        Page<Answer> byQuestionWithAll = answerRepository.findByQuestionWithAll(questionId, pageable);
+        return byQuestionWithAll;
+    }
 
     public Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findByIdWithQuestion(answerId);   // 이 부분 수정됨

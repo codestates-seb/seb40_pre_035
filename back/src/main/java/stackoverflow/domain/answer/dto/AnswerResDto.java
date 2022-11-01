@@ -1,7 +1,9 @@
 package stackoverflow.domain.answer.dto;
 
-import lombok.*;
-import org.springframework.data.domain.Page;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import stackoverflow.domain.account.dto.AnswerAccountResDto;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.global.auditing.BaseTime;
@@ -25,7 +27,6 @@ public class AnswerResDto extends BaseTime {
     public AnswerResDto(Answer answer) {
         this.id = answer.getId();
         this.content = answer.getContent();
-        this.totalVote = answer.getTotalVote();
         this.account = new AnswerAccountResDto(
                 answer.getAccount().getId(),
                         answer.getAccount().getEmail(),

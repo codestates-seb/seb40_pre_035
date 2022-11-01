@@ -35,7 +35,6 @@ public class AnswerController {
         answer.getAccount().setId(loginAccountId);
         Answer createdAnswer = answerService.createAnswer(answer);
         AnswerResDto response = new AnswerResDto(createdAnswer);
-
 //        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.CREATED);
         return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
     }
@@ -52,7 +51,6 @@ public class AnswerController {
         answer.setId(answerId);
         Answer updatedAnswer = answerService.updateAnswer(answer);
         AnswerResDto response = new AnswerResDto(updatedAnswer);
-
 //        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.OK);
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }

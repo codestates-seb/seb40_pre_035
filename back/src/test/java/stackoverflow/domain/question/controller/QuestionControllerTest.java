@@ -304,13 +304,10 @@ class QuestionControllerTest {
 
         //given
         Long accountId = 1L;
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
-
 
         //when
         ResultActions actions = mockMvc.perform(
                 get("/questions/account/{accountId}", accountId)
-                        .header("Authorization", jwt)
                         .param("page", "1")
                         .param("size", "10")
                         .param("sort", "id,desc")
@@ -323,11 +320,6 @@ class QuestionControllerTest {
                         "getQuestionsAccount",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
-                        requestHeaders(
-                                List.of(
-                                        headerWithName("Authorization").description("JWT")
-                                )
-                        ),
                         pathParameters(
                                 parameterWithName("accountId").description("Account 식별자")
                         ),

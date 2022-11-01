@@ -106,6 +106,14 @@ public class QuestionService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
     }
 
+    public Page<Question> findAccountQuestions(Long accountId, Pageable pageable) {
+        return questionRepository.findByAccountWithAll(accountId, pageable);
+    }
+
+    public Page<Question> findUnAnsweredQuestions(String keyword, Pageable pageable) {
+        return questionRepository.findByUnAnsweredWithAll(keyword, pageable);
+    }
+
     private void verifyCreated(Question question, Long accountId) {
         if (!accountId.equals(question.getAccount().getId())) {
             throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);

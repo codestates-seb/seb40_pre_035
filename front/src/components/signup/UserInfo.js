@@ -37,6 +37,11 @@ const UserInfo = () => {
     if (!usernameError && !passwordError) return true;
     else return false;
   }
+  // 동적으로 tailwindcss 추가
+  const borderColor = {
+    true: 'w-full px-2 py-1 border rounded border-danger-500',
+    false: 'w-full px-2 py-1 border rounded border-soGray-light',
+  };
 
   return (
     <div className="flex-col w-1/3 my-5 ml-2 mr-10 align-middle justify-items-center">
@@ -48,7 +53,7 @@ const UserInfo = () => {
               type="text"
               value={username}
               onChange={handleUserName}
-              className="w-full px-2 py-1 border rounded border-soGray-light"
+              className={borderColor[usernameError ?? false]}
             ></input>
             {usernameError && (
               <p className="text-xxs text-danger-500">
@@ -71,7 +76,7 @@ const UserInfo = () => {
               type="password"
               value={password}
               onChange={handlePassword}
-              className="w-full px-2 py-1 border rounded border-soGray-light"
+              className={borderColor[passwordError ?? false]}
             ></input>
             {passwordError && (
               <p className="text-xxs text-danger-500">

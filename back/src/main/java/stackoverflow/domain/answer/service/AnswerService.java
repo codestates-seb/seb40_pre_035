@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
@@ -38,24 +39,32 @@ public class AnswerService {
 
     @Transactional
     public Answer updateAnswer(Answer answer) {
-        Answer verifiedAnswer = answerRepository.findByIdWithQuestion(answer.getId())   // 해당 Answer가 레포에 있는지 확인 + questionId
+        Answer verifiedAnswer = answerRepository.findByIdWithQuestion(answer.getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));  // conflict로 pr 이후 수정하기 NOT_FOUND_ANSWER
 
-        answer.setModifiedAt(LocalDateTime.now());  // answer의
-        Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));         // patchAnswer로 변경될 사항 추가하는 부분
-        Optional.ofNullable(answer.getTotalVote()).ifPresent(totalVote -> verifiedAnswer.setTotalVote(totalVote));
+        Long savedAccountId = verifiedAnswer.getAccount().getId();
+        Long loginedAccountId = answer.getAccount().getId();
 
-        return verifiedAnswer;
+        if (!savedAccountId.equals(loginedAccountId)) {
+            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
+        }
+        else {
+            answer.setModifiedAt(LocalDateTime.now());
+            Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));         // patchAnswer로 변경될 사항 추가하는 부분
+            Optional.ofNullable(answer.getTotalVote()).ifPresent(totalVote -> verifiedAnswer.setTotalVote(totalVote));
+
+            return verifiedAnswer;
+        }
     }
 
-    @Transactional
+
     public Answer findAnswer(Long answerId) {
-        Answer verifiedAnswer = findVerifiedAnswer(answerId);
+        Answer verifiedAnswer = findVerifiedAnswer(answerId);  // 이 부분 수정됨
 
         return verifiedAnswer;
     }
 
-    @Transactional(readOnly = true)
+
     public Page<Answer> findAnswers(Pageable pageable) {
         Page<Answer> page = answerRepository.findAllByOrderByIdDesc(pageable);
 
@@ -68,7 +77,7 @@ public class AnswerService {
         answerRepository.delete(verifiedAnswer);
     }
 
-    @Transactional(readOnly = true)
+
     public Page<Answer> findAccountAnswers(Long accountId, Pageable pageable) {
         Page<Answer> page = answerRepository.findAllByOrderByIdDesc(pageable);
         List<Answer> list = page.getContent().stream()
@@ -79,9 +88,9 @@ public class AnswerService {
         return filteredPage;
     }
 
-    @Transactional(readOnly = true)
+
     public Answer findVerifiedAnswer(Long answerId) {
-        Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
+        Optional<Answer> optionalAnswer = answerRepository.findByIdWithQuestion(answerId);   // 이 부분 수정됨
         Answer verifiedAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND));
 
         return verifiedAnswer;

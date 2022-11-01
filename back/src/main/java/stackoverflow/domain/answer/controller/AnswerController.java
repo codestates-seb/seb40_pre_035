@@ -44,7 +44,7 @@ public class AnswerController {
 
     @Transactional
     @PatchMapping("/{answerId}")
-    public ResponseEntity<SingleResDto<String>> patchAnswer(@LoginAccountId Long loginAccountId,
+    public ResponseEntity<SingleResDto<AnswerResDto>> patchAnswer(@LoginAccountId Long loginAccountId,
                                                                   @PathVariable Long answerId,
                                                                   @RequestBody AnswerReqDto answerReqDto) {
         Answer answer = answerReqDto.toAnswer();
@@ -53,46 +53,27 @@ public class AnswerController {
         Answer updatedAnswer = answerService.updateAnswer(answer);
         AnswerResDto response = new AnswerResDto(updatedAnswer);
 
-//        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.OK);
-        return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.OK);
+//        return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 
 
+    @Transactional(readOnly = true)
     @GetMapping("/{answerId}")
     public ResponseEntity getAnswer(@PathVariable Long answerId) {
+        Answer answer = answerService.findAnswer(answerId);
+        AnswerResDto answerResDto = new AnswerResDto(answer);  // 이 부분 수정됨
 
-        AnswerAccountResDto account = new AnswerAccountResDto();
-        account.setId(1L);
-        account.setEmail("account@gmail.com");
-        account.setProfile("profile");
-        account.setNickname("nickname");
-        AnswerResDto answerResDto = new AnswerResDto(answerId, "content",10, account, 101L);
-        answerResDto.setCreatedAt(LocalDateTime.now());
-        answerResDto.setModifiedAt(LocalDateTime.now());
-
-        return new ResponseEntity<>(answerResDto, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResDto<>(answerResDto), HttpStatus.OK);
     }
 
     @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<PageDto> getAnswers(Pageable pageable) {
-        List<AnswerResDto> list = new ArrayList<>();
+        Page<Answer> page = answerService.findAnswers(pageable);
+        Page<AnswerResDto> response = page.map(answer -> new AnswerResDto(answer));
 
-        for(int i =1 ; i <=10 ; i++) {
-            AnswerAccountResDto account = new AnswerAccountResDto();
-            account.setId(100L+i);
-            account.setEmail("mock"+i+"@gmail.com");
-            account.setProfile("profile"+i);
-            account.setNickname("nick"+i);
-            AnswerResDto answerResDto = new AnswerResDto(0L+i, "contents"+i, 2, account, 101L+i);
-            answerResDto.setCreatedAt(LocalDateTime.now());
-            answerResDto.setModifiedAt(LocalDateTime.now());
-
-            list.add(answerResDto);
-        }
-        Page<AnswerResDto> page = new PageImpl<>(list, pageable, 10);
-
-        return new ResponseEntity<>(new PageDto<>(page), HttpStatus.OK);
+        return new ResponseEntity<>(new PageDto<>(response), HttpStatus.OK);
     }
 
 

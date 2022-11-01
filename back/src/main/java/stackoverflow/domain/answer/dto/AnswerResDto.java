@@ -32,6 +32,7 @@ public class AnswerResDto extends BaseTime {
                         answer.getAccount().getProfile(),
                         answer.getAccount().getNickname()
         );
+        this.questionId = answer.getQuestion().getId();  // 이 부분 추가해야함
         setCreatedAt(answer.getCreatedAt());
         setModifiedAt(answer.getModifiedAt());
     }

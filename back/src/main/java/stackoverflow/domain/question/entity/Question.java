@@ -42,6 +42,10 @@ public class Question extends BaseTime {
         this.account = account;
     }
 
+    public Question(Long id){
+        this.id = id;
+    }
+
     public void setAccount(Account account) {
         this.account = account;
     }

@@ -45,7 +45,7 @@ public class AnswerService {
     @Transactional
     public Answer updateAnswer(Answer answer) {
         Answer verifiedAnswer = answerRepository.findByIdWithQuestion(answer.getId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));  // conflict로 pr 이후 수정하기 NOT_FOUND_ANSWER
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // conflict로 pr 이후 수정하기 NOT_FOUND_ANSWER
 
         Long savedAccountId = verifiedAnswer.getAccount().getId();
         Long loginedAccountId = answer.getAccount().getId();

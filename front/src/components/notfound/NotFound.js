@@ -21,13 +21,6 @@ const NotFound = ({ code = 404 }) => {
           </p>
         </h2>
       </div>
-      {/* {message === null ? (
-        
-      ) : (
-        <h2 className="mb-20 text-5xl text-center bg-soGray-normal">
-          {message}
-        </h2>
-      )} */}
       <button className="mb-20 so-button-primary" onClick={() => navigate('/')}>
         go to main
       </button>

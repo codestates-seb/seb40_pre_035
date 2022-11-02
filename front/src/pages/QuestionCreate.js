@@ -1,8 +1,37 @@
+import { useState } from 'react';
+import Editor from '../components/editor/Editor';
 import '../components/common.css';
-import Editor from '../components/questions/Editor';
+import { useNavigate } from 'react-router-dom';
+import { ShowToast } from '../components/toast/Toast';
+import { fetchCreateQuestion } from '../util/api';
 
 function QuestionCreate() {
-  const handleOnChangeTitle = () => {};
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const navigator = useNavigate();
+
+  const onChangeTitle = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const onChangeContent = (content) => {
+    setContent(content);
+  };
+
+  const onClickDiscard = () => {
+    navigator('/');
+  };
+
+  const onClickSubmit = () => {
+    if (title.length < 10) {
+      ShowToast('제목을 10자 이상 작성해 주세요.');
+    } else if (content.length < 50) {
+      ShowToast('내용은 50자 이상이어야 합니다.');
+    } else {
+      fetchCreateQuestion({ title, content });
+    }
+  };
+
   return (
     <main className="so-askQuestion pb-[80px]">
       <h1 className="p-2 my-8 font-bold text-xxl">Ask a public question</h1>
@@ -62,6 +91,7 @@ function QuestionCreate() {
             className="w-full px-4 py-2 border rounded border-soGray-light"
             data-min-length="15"
             data-max-length="150"
+            onChange={onChangeTitle}
           />
         </div>
       </div>
@@ -69,9 +99,9 @@ function QuestionCreate() {
         <h5 className="font-bold">What are the details of your problem?</h5>
         <p className="mb-4 text-sm">
           Introduce the problem and expand on what you put in the title. Minimum
-          20 characters.
+          50 characters.
         </p>
-        <Editor />
+        <Editor onChange={onChangeContent} height={'300px'} />
       </div>
       <div className="flex">
         <button
@@ -79,6 +109,7 @@ function QuestionCreate() {
           type="button"
           autoComplete="off"
           disabled=""
+          onClick={onClickSubmit}
         >
           Review your question
         </button>
@@ -88,6 +119,7 @@ function QuestionCreate() {
             className="so-button-dismiss text-danger-700"
             data-action="s-modal#show"
             type="button"
+            onClick={onClickDiscard}
           >
             Discard draft
           </button>

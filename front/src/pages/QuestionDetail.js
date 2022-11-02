@@ -17,7 +17,7 @@ function QuestionDetail() {
   const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/questions/${id}`)
+    fetch(`/questions/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw Error('could not fetch the data for that resource');
@@ -35,7 +35,7 @@ function QuestionDetail() {
   }, []);
 
   const onClickAskQuestion = () => {
-    navigate('/questioncreate');
+    navigate('/question/create');
   };
 
   if (isPending) {
@@ -48,7 +48,6 @@ function QuestionDetail() {
 
   return (
     <main className="p-4 content">
-      {console.log(data)}
       {data && (
         <>
           <div className="mb-3 border-b question-header border-soGray-light">

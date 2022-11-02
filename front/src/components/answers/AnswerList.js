@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Editor from '../questions/Editor';
+import Editor from '../editor/Editor';
 import AnswerItem from './AnswerItem';
 import { BASE_URL } from '../../util/api';
 

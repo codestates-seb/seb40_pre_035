@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.repository.AnswerRepository;
+import stackoverflow.domain.answer.repository.AnswerVoteRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 import stackoverflow.domain.account.entity.Account;
@@ -27,6 +28,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final AccountRepository accountRepository;
     private final QuestionRepository questionRepository;
+    private final AnswerVoteRepository answerVoteRepository;
 
     @Transactional
     public void createAnswer(Answer answer) {
@@ -72,8 +74,15 @@ public class AnswerService {
     }
 
 
-    public void deleteAnswer(Long id) {
-        Answer verifiedAnswer = findVerifiedAnswer(id);
+    @Transactional
+    public void removeAnswer(Long loginAccountId, Long answerId) {
+        Answer verifiedAnswer = findVerifiedAnswer(answerId);
+
+        if (!loginAccountId.equals(verifiedAnswer.getAccount().getId())) {
+            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
+        }
+
+        answerVoteRepository.deleteAll(verifiedAnswer.getAnswerVotes());
         answerRepository.delete(verifiedAnswer);
     }
 
@@ -90,6 +99,47 @@ public class AnswerService {
     public Page<Answer> findQuestionAnswers(Long questionId, Pageable pageable) {
         Page<Answer> byQuestionWithAll = answerRepository.findByQuestionWithAll(questionId, pageable);
         return byQuestionWithAll;
+    }
+
+    @Transactional
+    public void selectAnswer(Long loginAccountId, Long answerId) {
+
+        Answer answer = verifiedAnswerWithAll(answerId);
+
+        Question question = answer.getQuestion();
+
+        if (!loginAccountId.equals(question.getAccount().getId())) {
+            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
+        }
+
+        if (!answer.isSelected()) {
+            List<Answer> answers = question.getAnswers();
+            isSelectedAnswer(answers);
+            answer.setSelected(true);
+        } else {
+            answer.setSelected(false);
+        }
+    }
+
+    private static void isSelectedAnswer(List<Answer> answers) {
+        for (Answer questionAnswer : answers) {
+            if (questionAnswer.isSelected()) {
+                throw new BusinessLogicException(ExceptionCode.DUPLICATED_SELECT);
+            }
+        }
+    }
+
+    private Answer verifiedAnswerWithAll(Long answerId) {
+        Answer answer = answerRepository.findByIdWithAll(answerId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
+
+        questionRepository.findByIdWithAll(answer.getQuestion().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+
+        accountRepository.findById(answer.getAccount().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
+
+        return answer;
     }
 
     public Answer findVerifiedAnswer(Long answerId) {

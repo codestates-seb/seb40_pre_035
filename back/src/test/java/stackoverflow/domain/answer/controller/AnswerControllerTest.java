@@ -264,8 +264,11 @@ public class AnswerControllerTest {
     @DisplayName("Answer 삭제_성공")
     public void deleteAnswer_Success_Test() throws Exception {
         //given
-        String jwt = "AccessToken_Value";
-        Long answerId = 1L;
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
+        String jwt = "Bearer " + accessToken;
+        Long answerId = 1005L;
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -401,6 +404,44 @@ public class AnswerControllerTest {
                                 )
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("Answer 채택_성공")
+    public void answerSelect_Success_Test() throws Exception {
+
+        //given
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+        String jwt = "Bearer " + accessToken;
+        Long answerId = 1005L;
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                post("/answers/select/{answerId}", answerId)
+                        .header("Authorization", jwt));
+
+        //then
+        actions
+                .andExpect(status().isCreated())
+                .andDo(document("selectAnswer",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("Authorization").description("JWT")
+                                )
+                        ),
+                        pathParameters(
+                                parameterWithName("answerId").description("Answer 식별자")
+                        ),
+                        responseFields(
+                                Arrays.asList(
+                                        fieldWithPath("data").type(JsonFieldType.STRING).description("Api 성공 메시지")
+                                )
+                        )
+                        )
+                );
     }
 
 }

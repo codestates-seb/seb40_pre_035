@@ -266,8 +266,11 @@ public class AnswerControllerTest {
     @DisplayName("Answer 삭제_성공")
     public void deleteAnswer_Success_Test() throws Exception {
         //given
-        String jwt = "AccessToken_Value";
-        Long answerId = 1L;
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
+        String jwt = "Bearer " + accessToken;
+        Long answerId = 1001L;
 
         //when
         ResultActions actions = mockMvc.perform(

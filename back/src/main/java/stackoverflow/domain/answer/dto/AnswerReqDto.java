@@ -1,6 +1,7 @@
 package stackoverflow.domain.answer.dto;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.question.entity.Question;
@@ -9,7 +10,8 @@ import stackoverflow.domain.question.entity.Question;
 @Getter
 @Setter
 public class AnswerReqDto {
-
+    private Long answerId;
+    @Length(min = 50)
     private String content;
 
     private Long accountId;
@@ -18,6 +20,7 @@ public class AnswerReqDto {
 
     public Answer toAnswer () {
         Answer answer = new Answer();
+        answer.setId(this.answerId);
         answer.setContent(this.content);
         answer.setSelected(false);
         Account account = new Account();

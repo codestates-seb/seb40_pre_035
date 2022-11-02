@@ -1,5 +1,5 @@
 import '../components/common.css';
-import Editor from '../components/questions/Editor';
+import Editor from '../components/editor/Editor';
 
 function QuestionUpdate() {
   const handleOnChangeTitle = () => {};

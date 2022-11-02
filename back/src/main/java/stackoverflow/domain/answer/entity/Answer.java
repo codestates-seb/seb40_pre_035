@@ -1,6 +1,7 @@
 package stackoverflow.domain.answer.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.question.entity.Question;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Getter @Setter
 @Entity
+@NoArgsConstructor
 public class Answer extends BaseTime {
     @Id @Column(name = "answer_id")
     @GeneratedValue
@@ -31,6 +33,10 @@ public class Answer extends BaseTime {
 
     @OneToMany(mappedBy = "answer")
     private List<AnswerVote> answerVotes = new ArrayList<>();
+
+    public Answer(Long answerId) {
+        this.id = answerId;
+    }
 
     public void setAccount(Account account) {
         this.account = account;

@@ -2,26 +2,21 @@ package stackoverflow.domain.answer.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import stackoverflow.domain.account.dto.AnswerAccountResDto;
 import stackoverflow.domain.answer.dto.AddAnswerVoteReqDto;
 import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.domain.answer.dto.AnswerResDto;
 import stackoverflow.domain.answer.dto.QuestionAnswerResDto;
 import stackoverflow.domain.answer.entity.Answer;
+import stackoverflow.domain.answer.entity.AnswerVote;
 import stackoverflow.domain.answer.service.AnswerService;
 import stackoverflow.global.argumentreslover.LoginAccountId;
 import stackoverflow.global.common.dto.PageDto;
 import stackoverflow.global.common.dto.SingleResDto;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/answers")
@@ -40,7 +35,7 @@ public class AnswerController {
     }
 
 
-    @PatchMapping("/{answerId}") @Transactional
+    @PatchMapping("/{answerId}")
     public ResponseEntity<SingleResDto<String>> patchAnswer(@LoginAccountId Long loginAccountId,
                                                                   @PathVariable Long answerId,
                                                                   @RequestBody AnswerReqDto answerReqDto) {
@@ -83,9 +78,14 @@ public class AnswerController {
 
 
     @PostMapping("/answerVote/{answerId}")
-    public ResponseEntity<SingleResDto<String>> addAnswerVote(@PathVariable Long answerId, @RequestBody AddAnswerVoteReqDto addAnswerVoteReqDto) {
+    public ResponseEntity<SingleResDto<String>> answerVote(@LoginAccountId Long loginAccountId,
+                                                              @PathVariable Long answerId,
+                                                              @RequestBody AddAnswerVoteReqDto addAnswerVoteReqDto) {
 
-        return new ResponseEntity<>(new SingleResDto<>("success add Vote"), HttpStatus.CREATED);
+        AnswerVote answerVote = addAnswerVoteReqDto.toAnswerVote(loginAccountId, answerId);
+        answerService.voteAnswer(answerVote);
+
+        return new ResponseEntity<>(new SingleResDto<>("success vote"), HttpStatus.CREATED);
     }
 
     @PostMapping("/select/{answerId}")

@@ -303,9 +303,12 @@ public class AnswerControllerTest {
     @DisplayName("AnswerVote_생성_성공")
     public void addAnswerVote_Success_Test() throws Exception {
         //give
-        String jwt = "AccessToken_Value";
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
+        String jwt = "Bearer " + accessToken;
+        Long answerId = 1005L;
         VoteState state = VoteState.UP;
-        Long answerId = 1L;
 
         AddAnswerVoteReqDto addAnswerVoteReqDto = new AddAnswerVoteReqDto();
         addAnswerVoteReqDto.setState(state);

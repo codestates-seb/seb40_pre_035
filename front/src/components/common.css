@@ -25,4 +25,7 @@
     @apply bg-[#EBF4FA] border border-[#A5CFED] p-6 rounded-md
   }
   
+  .so-toast {
+    @apply will-change-transform animate-[toast_0.3s] text-secondary-700 fixed left-[50%] px-3 translate-x-[-50%] bottom-4 mb-8 bg-secondary-100 border border-secondary-400 min-h-[2.5rem] min-w-[4.5rem] rounded p-3 z-50 flex justify-center items-center
+  }
 }

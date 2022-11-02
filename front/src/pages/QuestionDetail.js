@@ -4,6 +4,7 @@ import { BASE_URL } from '../util/api';
 import relTimeFormat from '../util/relativeTimeFormat';
 import Votes from '../components/questions/Votes';
 import AnswerList from '../components/answers/AnswerList';
+import Loading from '../components/loading/Loading';
 import { Viewer } from '@toast-ui/react-editor';
 import '../components/common.css';
 
@@ -38,7 +39,11 @@ function QuestionDetail() {
   };
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
 
   return (
@@ -75,15 +80,10 @@ function QuestionDetail() {
                 </span>
               </span>
               <time className="s-user-card--time">
-                <a
-                  href="/questions/74211291/im-trying-to-embed-a-candle-chart-into-my-pyqt-app-but-it-doesnt-work-plea"
-                  className="flex"
-                >
-                  <span className="mr-1 text-soGray-normal">Asked</span>
-                  <span className="text-soGray-darker">
-                    {relTimeFormat(data.createdAt)}
-                  </span>
-                </a>
+                <span className="mr-1 text-soGray-normal">Asked</span>
+                <span className="text-soGray-darker">
+                  {relTimeFormat(data.createdAt)}
+                </span>
               </time>
             </div>
           </div>

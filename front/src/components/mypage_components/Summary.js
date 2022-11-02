@@ -1,6 +1,36 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { BASE_URL } from '../../util/api';
 
 const Summary = () => {
+  const [data, setData] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/questions/account/1?page=1&size=5&sort=id%2Cdesc`)
+      .then((res) => {
+        if (!res.ok) {
+          // error coming back from server
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setIsPending(false);
+        setData(data);
+      })
+      .catch((err) => {
+        setIsPending(false);
+        console.error(err.message);
+      });
+  }, []);
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  console.log(data.content.reduce((pre, cur) => pre.totalVote + cur.totalVote));
+
   return (
     <div className="flex w-full">
       <div className="w-3/12 m-3">

@@ -13,7 +13,7 @@ const NotFound = ({ code = 404 }) => {
           <p className="mb-4 text-5xl font-extrabold text-soGray-darker">
             {code && code}
           </p>
-          <p className="mb-2 text-3xl font-medium text-black">
+          <p className="mb-2 text-xxl font-medium text-black">
             Page not found We&apos;re sorry,
           </p>
           <p className="text-lg text-black">

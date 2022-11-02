@@ -3,39 +3,46 @@ package stackoverflow.domain.account.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import stackoverflow.domain.File.service.FileService;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
+import stackoverflow.domain.answer.repository.AnswerRepository;
+import stackoverflow.domain.question.repository.QuestionRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Optional;
 
-@Transactional
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final QuestionRepository questionRepository;
+    private final AnswerRepository answerRepository;
 
     private final FileService fileService;
 
     @Value("${file.img}")
     private String path;
 
+    @Transactional
     public Account addAccount(PostAccountReqDto postAccountReqDto) {
-        verifyAccountExist(postAccountReqDto.getEmail());
+        verifyEmailExist(postAccountReqDto.getEmail());
         Account account = setDefaultProperties(postAccountReqDto);
 
         return accountRepository.save(account);
     }
 
-    public Account modifyAccount(PatchAccountReqDto modifyAccountReqDto) {
+    @Transactional
+    public Account modifyAccount(PatchAccountReqDto modifyAccountReqDto, Long loginAccountId) {
         Account account = findAccount(modifyAccountReqDto.getAccountId());
+        verifyAuthority(account, loginAccountId);
 
         Optional.ofNullable(modifyAccountReqDto.getPassword())
                 .ifPresent(password -> account.setPassword(password));
@@ -43,7 +50,6 @@ public class AccountService {
                 .ifPresent(nickName -> account.setNickname(nickName));
 
         //파일 저장 후 파일 경로를 account 에 저장
-        //Todo 현재 문제점: 수정하면서 이전의 파일을 지우지 않음
         Optional<MultipartFile> optionalProfile = Optional.ofNullable(modifyAccountReqDto.getProfile());
         if (optionalProfile.isPresent()) {
             String filePath = null;
@@ -52,13 +58,17 @@ public class AccountService {
             } catch (IOException e) {
                 throw new RuntimeException("프로필 저장에 실패했습니다.");
             }
-            int start = filePath.lastIndexOf("/");
-            String fileName = filePath.substring(start);
-            String profilePath = "/file" + fileName;
-            account.setProfile(profilePath);
+            account.setProfile(filePath);
         }
 
         return accountRepository.save(account);
+    }
+
+    @Transactional
+    public void removeAccount(Account findAccount, Long loginAccountId) {
+        verifyAuthority(findAccount, loginAccountId);
+//        answerRepository.deleteAllById();
+        accountRepository.delete(findAccount);
     }
 
     public Account findAccount(Long accountId) {
@@ -67,7 +77,13 @@ public class AccountService {
         return optionalAccount.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
     }
 
-    private void verifyAccountExist(String email) {
+    private void verifyAuthority(Account findAccount, Long loginAccountId) {
+        if (!findAccount.getId().equals(loginAccountId)) {
+            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
+        }
+    }
+
+    private void verifyEmailExist(String email) {
         Optional<Account> optionalAccount = accountRepository.findByEmail(email);
 
         if (optionalAccount.isPresent()) {
@@ -84,11 +100,7 @@ public class AccountService {
         } catch (IOException e) {
             throw new RuntimeException("프로필 저장에 실패했습니다.");
         }
-        int start = filePath.lastIndexOf("/");
-        String fileName = filePath.substring(start);
-        String profilePath = "/file" + fileName;
-
-        Account createAccount = postAccountReqDto.toAccount(profilePath);
+        Account createAccount = postAccountReqDto.toAccount(filePath);
         createAccount.setRole("USER");
 
         return createAccount;

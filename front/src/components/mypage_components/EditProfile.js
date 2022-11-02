@@ -26,7 +26,7 @@ const EditProfile = () => {
     } else setUsernameError(false);
   }
   function checkPassword() {
-    const passwordRegexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegexp = /(?=.\d)(?=.[a-zA-ZS]).{8,}$/;
     if (!password || !passwordRegexp.test(password)) {
       setPasswordError(true);
     } else setPasswordError(false);
@@ -45,23 +45,25 @@ const EditProfile = () => {
     else return false;
   }
 
-  const [data, setData] = useState();
-  useEffect(() => {
-    fetch(`${BASE_URL}/accounts/1`)
-      .then((res) => {
-        if (!res.ok) {
-          // error coming back from server
-          throw Error('could not fetch the data for that resource');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setData(data);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  }, []);
+  // const [data, setData] = useState();
+  // useEffect(() => {
+  //   fetch(`${BASE_URL}/accounts/1`, {
+  //     method: 'PATCH',
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         // error coming back from server
+  //         throw Error('could not fetch the data for that resource');
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setData(data);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err.message);
+  //     });
+  // }, []);
 
   return (
     <div className="w-full">
@@ -88,6 +90,11 @@ const EditProfile = () => {
             onChange={handleUserName}
             className="w-3/6 p-1 border rounded border-soGray-normal"
           />
+          {usernameError && (
+            <p className="text-xs text-danger-500">
+              4자 이상부터 가능하며 특수 문자가 없어야 합니다.
+            </p>
+          )}
           <div className="font-semibold text-lg my-0.5">New password</div>
           <input
             type="password"
@@ -95,6 +102,11 @@ const EditProfile = () => {
             onChange={handlePassword}
             className="w-3/6 p-1 border rounded border-soGray-normal"
           />
+          {passwordError && (
+            <p className="text-xs text-danger-500">
+              영어와 숫자를 최소 1개 포함하여 8자 이상이어야합니다.
+            </p>
+          )}
           <div className="font-semibold text-lg my-0.5">
             New password (again)
           </div>
@@ -104,6 +116,11 @@ const EditProfile = () => {
             onChange={handlePasswordCheck}
             className="w-3/6 p-1 border rounded border-soGray-normal"
           />
+          {passwordError && (
+            <p className="text-xs text-danger-500">
+              The passwords do not match.
+            </p>
+          )}
           <p className="mt-2 text-xs text-gray-600">
             passwords must contain at least eight characters,
             <br /> including at least 1letter and 1 number.
@@ -111,13 +128,13 @@ const EditProfile = () => {
         </div>
       </form>
       <div>
-        <button className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium">
-          Save profile
-        </button>
         <button
-          className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary"
+          className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium"
           onClick={onSubmit}
         >
+          Save profile
+        </button>
+        <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
           Cancel
         </button>
       </div>

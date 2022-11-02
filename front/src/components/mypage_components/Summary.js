@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-import { Link } from 'react-router-dom';
-
-const Summary = () => {
-=======
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BASE_URL } from '../../util/api';
@@ -35,7 +30,7 @@ const Summary = () => {
   }
 
   console.log(data.content.reduce((pre, cur) => pre.totalVote + cur.totalVote));
->>>>>>> Stashed changes
+
   return (
     <div className="flex w-full">
       <div className="w-3/12 m-3">

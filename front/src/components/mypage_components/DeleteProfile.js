@@ -1,9 +1,3 @@
-<<<<<<< Updated upstream
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
-const DeleteProfile = () => {
-=======
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BASE_URL } from '../../util/api';
@@ -14,7 +8,7 @@ const DeleteProfile = () => {
       method: 'DELETE',
     }).then();
   };
->>>>>>> Stashed changes
+
   const [checkBox, setCheckBox] = useState([]);
   const changeHandler = (checked, id) => {
     if (checked) {

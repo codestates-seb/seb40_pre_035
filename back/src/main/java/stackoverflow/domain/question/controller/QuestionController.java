@@ -6,11 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import stackoverflow.domain.account.dto.QuestionAccountResDto;
-import stackoverflow.domain.question.dto.QuestionVoteReqDto;
-import stackoverflow.domain.question.dto.QuestionReqDto;
-import stackoverflow.domain.question.dto.QuestionResDto;
-import stackoverflow.domain.question.dto.QuestionsResDto;
+import stackoverflow.domain.question.dto.*;
 import stackoverflow.domain.question.entity.Question;
 import stackoverflow.domain.question.entity.QuestionVote;
 import stackoverflow.domain.question.service.QuestionService;
@@ -27,15 +23,16 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("/questions")
-    public ResponseEntity<SingleResDto<String>> questionAdd(@LoginAccountId Long loginAccountId,
-                                                               @Valid @RequestBody QuestionReqDto questionReqDto) {
+    public ResponseEntity<AddQuestionResDto> questionAdd(@LoginAccountId Long loginAccountId,
+                                                                       @Valid @RequestBody QuestionReqDto questionReqDto) {
 
         questionReqDto.setAccountId(loginAccountId);
         Question question = questionReqDto.toQuestion();
 
-        questionService.addQuestion(question);
+        Question addedQuestion = questionService.addQuestion(question);
 
-        return new ResponseEntity<>(new SingleResDto<>("success create question"), HttpStatus.CREATED);
+
+        return new ResponseEntity<>(new AddQuestionResDto(addedQuestion.getId()), HttpStatus.CREATED);
     }
 
     @PatchMapping("/questions/{questionId}")

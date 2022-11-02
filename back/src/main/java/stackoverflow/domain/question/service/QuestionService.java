@@ -28,14 +28,14 @@ public class QuestionService {
     private final QuestionVoteRepository questionVoteRepository;
 
     @Transactional
-    public void addQuestion(Question question) {
+    public Question addQuestion(Question question) {
 
         Account account = accountRepository.findById(question.getAccount().getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
 
         question.setAccount(account);
 
-        questionRepository.save(question);
+        return questionRepository.save(question);
     }
 
     @Transactional

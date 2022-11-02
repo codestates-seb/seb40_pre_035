@@ -58,10 +58,7 @@ public class AccountService {
             } catch (IOException e) {
                 throw new RuntimeException("프로필 저장에 실패했습니다.");
             }
-            int start = filePath.lastIndexOf("/");
-            String fileName = filePath.substring(start);
-            String profilePath = "/file" + fileName;
-            account.setProfile(profilePath);
+            account.setProfile(filePath);
         }
 
         return accountRepository.save(account);
@@ -103,11 +100,7 @@ public class AccountService {
         } catch (IOException e) {
             throw new RuntimeException("프로필 저장에 실패했습니다.");
         }
-        int start = filePath.lastIndexOf("/");
-        String fileName = filePath.substring(start);
-        String profilePath = "/file" + fileName;
-
-        Account createAccount = postAccountReqDto.toAccount(profilePath);
+        Account createAccount = postAccountReqDto.toAccount(filePath);
         createAccount.setRole("USER");
 
         return createAccount;

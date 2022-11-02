@@ -17,6 +17,7 @@ import stackoverflow.global.argumentreslover.LoginAccountId;
 import stackoverflow.global.common.dto.SingleResDto;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/accounts")
@@ -49,7 +50,10 @@ public class AccountController {
     public ResponseEntity<SingleResDto<String>> accountModify(@PathVariable long accountId,
                                                               @Valid @ModelAttribute PatchAccountReqDto modifyAccountReqDto,
                                                               @LoginAccountId Long loginAccountId) {
-        modifyAccountReqDto.setPassword(passwordEncoder.encode(modifyAccountReqDto.getPassword()));
+        //패스워드가 존재하면 암호화해서 넣는 로직
+        Optional.ofNullable(modifyAccountReqDto.getPassword())
+                        .ifPresent(password -> modifyAccountReqDto.setPassword(passwordEncoder.encode(password)));
+
         modifyAccountReqDto.setAccountId(accountId);
         accountService.modifyAccount(modifyAccountReqDto, loginAccountId);
 

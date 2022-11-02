@@ -99,7 +99,7 @@ class AccountControllerTest {
         //given
         String email = "mock2@gmail.com";
         String password = "mock1234";
-        String nickname = "moc2";
+        String nickname = "mocknickname";
         MockMultipartFile file = new MockMultipartFile("profile", "profile", "image/jpeg",
                 "file".getBytes());
 
@@ -178,7 +178,7 @@ class AccountControllerTest {
         long accountId = 1L;
         String accessToken = jwtTokenizer.delegateAccessToken(accountRepository.findById(accountId).get());
         String jwt = "Bearer " + accessToken;
-        String nickname = "modi";
+        String nickname = "modifynick";
         String password = "testModified1234";
         MockMultipartFile file = new MockMultipartFile("profile", "profile", "image/jpeg",
                 "file".getBytes());
@@ -229,7 +229,7 @@ class AccountControllerTest {
 
     }
 
-    @Test @Disabled
+    @Test
     @DisplayName("Account 삭제_성공")
     void accountRemove() throws Exception {
         //given

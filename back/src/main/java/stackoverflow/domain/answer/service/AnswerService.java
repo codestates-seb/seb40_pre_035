@@ -29,17 +29,15 @@ public class AnswerService {
     private final QuestionRepository questionRepository;
 
     @Transactional
-    public Answer createAnswer(Answer answer) {
+    public void createAnswer(Answer answer) {
         Account verifiedAccount = accountRepository.findById(answer.getAccount().getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
         Question verifiedQuestion = questionRepository.findById(answer.getQuestion().getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
         answer.setAccount(verifiedAccount);
         answer.setQuestion(verifiedQuestion);
-        answer.setCreatedAt(LocalDateTime.now());
-        answer.setModifiedAt(LocalDateTime.now());
 
-        return answerRepository.save(answer);
+        answerRepository.save(answer);
     }
 
     @Transactional

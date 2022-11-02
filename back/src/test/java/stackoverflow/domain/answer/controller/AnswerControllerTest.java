@@ -230,7 +230,7 @@ public class AnswerControllerTest {
                         requestParameters(
                                 parameterWithName("page").description("페이지 번호(default = 1"),
                                 parameterWithName("size").description("페이징 size(default = 10)"),
-                                parameterWithName("sort").description("정렬 조건(default = id, asc")
+                                parameterWithName("sort").description("정렬 조건(default = id, desc")
                         ),
                         responseFields(
                                 Arrays.asList(
@@ -245,7 +245,9 @@ public class AnswerControllerTest {
                                         fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Answer 생성계정 email"),
                                         fieldWithPath("content[].account.profile").type(JsonFieldType.STRING).description("Answer 생성계정 프로필 이미지 경로"),
                                         fieldWithPath("content[].account.nickname").type(JsonFieldType.STRING).description("Answer 생성계정 별칭"),
+
                                         fieldWithPath("content[].questionId").type(JsonFieldType.NUMBER).description("Question 식별자"),
+
                                         fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
                                         fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("전체 Answer 개수"),
                                         fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫 페이지 여부"),

@@ -117,7 +117,6 @@ public class AnswerControllerTest {
 
         Long answerId = 1001L;
         String content = "testAnswerContent";
-        int totalVote = 0;
 
         AnswerReqDto answerReqDto = new AnswerReqDto();
         answerReqDto.setContent(content);
@@ -302,14 +301,15 @@ public class AnswerControllerTest {
     @DisplayName("AnswerVote_생성_성공")
     public void addAnswerVote_Success_Test() throws Exception {
         //give
-        String jwt = "AccessToken_Value";
-        VoteState state = VoteState.UP;
-        Long answerId = 1L;
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
 
-        AddAnswerVoteReqDto addAnswerVoteReqDto = new AddAnswerVoteReqDto();
-        addAnswerVoteReqDto.setState(state);
+        Long answerId = 1001L;
+        String jwt = "Bearer " + accessToken;
+        AddAnswerVoteReqDto answerVoteReqDto = new AddAnswerVoteReqDto();
+        answerVoteReqDto.setState(VoteState.UP);
 
-        String body = gson.toJson(addAnswerVoteReqDto);
+        String body = gson.toJson(answerVoteReqDto);
 
         //when
         ResultActions actions = mockMvc.perform(

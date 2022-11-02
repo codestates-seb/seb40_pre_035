@@ -8,15 +8,23 @@ import org.springframework.web.multipart.MultipartFile;
 import stackoverflow.domain.File.service.FileService;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
+import stackoverflow.domain.account.dto.ProfileAccountResDto;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
+import stackoverflow.domain.answer.entity.Answer;
+import stackoverflow.domain.answer.entity.AnswerVote;
 import stackoverflow.domain.answer.repository.AnswerRepository;
+import stackoverflow.domain.question.entity.Question;
+import stackoverflow.domain.question.entity.QuestionVote;
 import stackoverflow.domain.question.repository.QuestionRepository;
+import stackoverflow.global.common.enums.VoteState;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
@@ -67,9 +75,10 @@ public class AccountService {
     @Transactional
     public void removeAccount(Account findAccount, Long loginAccountId) {
         verifyAuthority(findAccount, loginAccountId);
-//        answerRepository.deleteAllById();
+
         accountRepository.delete(findAccount);
     }
+
 
     public Account findAccount(Long accountId) {
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
@@ -104,5 +113,50 @@ public class AccountService {
         createAccount.setRole("USER");
 
         return createAccount;
+    }
+
+    public ProfileAccountResDto findProfileAccount(long accountId) {
+        Account account = findAccount(accountId);
+        List<Question> questionsList = account.getQuestionsList();
+        List<Answer> answerList = account.getAnswerList();
+
+        long totalQuestions = questionsList.size();
+        long totalAnswers = answerList.size();
+        long totalVotes = 0;
+
+
+        for (int i = 0; i < totalQuestions; i++) {
+            List<QuestionVote> questionVotes = questionsList.get(i)
+                    .getQuestionVotes();
+
+            long questionUPVote = questionVotes.stream()
+                    .map(QuestionVote::getState)
+                    .filter(voteState -> voteState.equals(VoteState.UP))
+                    .count();
+
+            totalVotes += 2 * questionUPVote - questionVotes.size();
+        }
+
+        for (int i = 0; i < totalAnswers; i++) {
+            List<AnswerVote> answerVotes = answerList.get(i)
+                    .getAnswerVotes();
+
+            long answerUPVote = answerVotes.stream()
+                    .map(AnswerVote::getState)
+                    .filter(voteState -> voteState.equals(VoteState.UP))
+                    .count();
+
+            totalVotes += 2 * answerUPVote - answerVotes.size();
+
+        }
+
+        return ProfileAccountResDto.builder()
+                .email(account.getEmail())
+                .nickname(account.getNickname())
+                .profile(account.getProfile())
+                .totalVotes(totalVotes)
+                .totalAnswers(totalAnswers)
+                .totalQuestions(totalQuestions)
+                .build();
     }
 }

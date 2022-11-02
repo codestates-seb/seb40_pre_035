@@ -4,11 +4,10 @@ package stackoverflow.domain.account.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import stackoverflow.domain.account.dto.AccountResDto;
+import stackoverflow.domain.account.dto.ProfileAccountResDto;
+import stackoverflow.domain.account.dto.LoginAccountResDto;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
 import stackoverflow.domain.account.entity.Account;
@@ -37,13 +36,11 @@ public class AccountController {
     }
 
     @GetMapping("/{accountId}")
-    public ResponseEntity<AccountResDto> accountDetails(@PathVariable long accountId) {
+    public ResponseEntity<ProfileAccountResDto> accountProfileDetails(@PathVariable long accountId) {
+        ProfileAccountResDto profileAccountResDto = accountService.findProfileAccount(accountId);
 
-        // DB에서 회원 찾는 로직
 
-        AccountResDto mockResDto = new AccountResDto("mock@gmail.com", "Mock nickname", "/mock/path");
-
-        return new ResponseEntity(mockResDto, HttpStatus.OK);
+        return new ResponseEntity(profileAccountResDto, HttpStatus.OK);
     }
 
     @PostMapping("/{accountId}")
@@ -70,10 +67,10 @@ public class AccountController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<AccountResDto> accountUserDetails(@AuthenticationPrincipal User user) {
-        // 현재 로그인한 회원 정보 조회
-        //@AuthenticationPrincipal 은 UserDetailsService 에서 리턴한 객체를 파라미터로 받을 수 있음
+    public ResponseEntity<LoginAccountResDto> accountUserDetails(@LoginAccountId Long loginAccountId) {
+        Account account = accountService.findAccount(loginAccountId);
+        LoginAccountResDto loginAccountResDto = new LoginAccountResDto(account);
 
-        return new ResponseEntity<>(new AccountResDto("user@gmail.com", "login user", "/path/user"), HttpStatus.OK);
+        return new ResponseEntity<>(loginAccountResDto, HttpStatus.OK);
     }
 }

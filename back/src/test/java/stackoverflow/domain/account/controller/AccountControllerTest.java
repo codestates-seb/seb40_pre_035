@@ -165,7 +165,10 @@ class AccountControllerTest {
                                 List.of(
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("nickname").type(JsonFieldType.STRING).description("이름"),
-                                        fieldWithPath("profile").type(JsonFieldType.STRING).description("프로필 이미지 경로")
+                                        fieldWithPath("profile").type(JsonFieldType.STRING).description("프로필 이미지 경로"),
+                                        fieldWithPath("totalVotes").type(JsonFieldType.NUMBER).description("총 투표 수"),
+                                        fieldWithPath("totalQuestions").type(JsonFieldType.NUMBER).description("총 질문 수"),
+                                        fieldWithPath("totalAnswers").type(JsonFieldType.NUMBER).description("총 답변 수")
                                 )
                         )
                 ));
@@ -272,9 +275,11 @@ class AccountControllerTest {
     @Test
     @DisplayName("로그인한 Account 조회_성공")
     void accountUserDetails() throws Exception {
-
         //given
-        String jwt = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX";
+        long accountId = 2L;
+        String accessToken = jwtTokenizer.delegateAccessToken(accountRepository.findById(accountId).get());
+        String jwt = "Bearer " + accessToken;
+
 
         //when
         ResultActions actions = mockMvc.perform(

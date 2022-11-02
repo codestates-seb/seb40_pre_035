@@ -102,6 +102,15 @@ public class AnswerController {
         return new ResponseEntity<>(new SingleResDto<>("success add Vote"), HttpStatus.CREATED);
     }
 
+    @PostMapping("/select/{answerId}")
+    public ResponseEntity<SingleResDto<String>> answerSelect(@LoginAccountId Long loginAccountId,
+                                                             @PathVariable Long answerId) {
+
+        answerService.selectAnswer(loginAccountId, answerId);
+
+        return new ResponseEntity<>(new SingleResDto<>("success select answer"), HttpStatus.CREATED);
+    }
+
 
     @GetMapping("/account/{accountId}")
     public ResponseEntity<PageDto> getAccountAnswers(@PathVariable Long accountId, Pageable pageable) {

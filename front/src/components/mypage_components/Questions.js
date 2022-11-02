@@ -30,7 +30,6 @@ const Questions = () => {
   }
 
   let content = data.content;
-  console.log(data.content);
 
   return (
     <div className="w-full m-3">
@@ -46,7 +45,7 @@ const Questions = () => {
           );
         })}
         {content === null ? (
-          <p className="p-12 m-2 text-center">
+          <p className="p-12 m-2 text-center ">
             You have not{' '}
             <Link to="/" className="text-secondary-500">
               asked

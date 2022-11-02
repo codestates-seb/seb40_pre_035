@@ -12,8 +12,6 @@ public class AnswerReqDto {
 
     private String content;
 
-    private int totalVote;
-
     private Long accountId;
 
     private Long questionId;

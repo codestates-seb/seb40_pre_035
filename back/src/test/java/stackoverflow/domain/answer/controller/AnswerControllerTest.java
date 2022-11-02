@@ -66,7 +66,6 @@ public class AnswerControllerTest {
 
         AnswerReqDto answerReqDto = new AnswerReqDto();
         answerReqDto.setContent(content);
-        answerReqDto.setTotalVote(totalVote);
         answerReqDto.setQuestionId(questionId);
 
         String body = gson.toJson(answerReqDto);
@@ -94,7 +93,6 @@ public class AnswerControllerTest {
                                 requestFields(
                                         List.of(
                                                 fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
-                                                fieldWithPath("totalVote").type(JsonFieldType.NUMBER).description("총 투표"),
                                                 fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("Question 식별자")
                                         )
                                 ),
@@ -124,7 +122,6 @@ public class AnswerControllerTest {
 
         AnswerReqDto answerReqDto = new AnswerReqDto();
         answerReqDto.setContent(content);
-        answerReqDto.setTotalVote(totalVote);
 
         String body = gson.toJson(answerReqDto);
 
@@ -153,8 +150,7 @@ public class AnswerControllerTest {
                                 ),
                                 requestFields(
                                         List.of(
-                                                fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
-                                                fieldWithPath("totalVote").type(JsonFieldType.NUMBER).description("총 투표")
+                                                fieldWithPath("content").type(JsonFieldType.STRING).description("내용")
                                         )
                                 ),
                                 responseFields(

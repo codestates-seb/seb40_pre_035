@@ -61,7 +61,6 @@ public class AnswerControllerTest {
 
         String jwt = "Bearer " + accessToken;
         String content = "testAnswerContent";
-        int totalVote = 0;
         Long questionId = 101L;
 
         AnswerReqDto answerReqDto = new AnswerReqDto();

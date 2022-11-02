@@ -35,7 +35,7 @@ const EditProfile = () => {
   return (
     <div className="w-full">
       <div className="pb-4 mb-6 border-b border-soGray-normal">
-        <h1 className="text-3xl font-medium">Edit your Profile</h1>
+        <h1 className="text-xxl font-medium">Edit your Profile</h1>
       </div>
       <form>
         <div className="mb-2 text-2xl font-medium"> Public information </div>

@@ -1,4 +1,25 @@
-function EditProfile() {
+import { useEffect, useState } from 'react';
+import { BASE_URL } from '../../util/api';
+
+const EditProfile = () => {
+  const [data, setData] = useState();
+  useEffect(() => {
+    fetch(`${BASE_URL}/accounts/1`)
+      .then((res) => {
+        if (!res.ok) {
+          // error coming back from server
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setData(data);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
   return (
     <div className="w-full">
       <div className="pb-4 mb-6 border-b border-soGray-normal">
@@ -12,7 +33,7 @@ function EditProfile() {
             <img src="../../public/logo192.png" alt="" className="w-40 h-40" />
             <a
               href="http://localhost:3000/"
-              className="absolute block w-40 py-2 text-sm text-center text-white bg-neutral-600/50 h-9 bottom-px"
+              className="absolute block w-40 py-2 text-sm text-center text-white bg-soGray-normal h-9 bottom-px"
             >
               Change picture
             </a>
@@ -50,6 +71,6 @@ function EditProfile() {
       </div>
     </div>
   );
-}
+};
 
 export default EditProfile;

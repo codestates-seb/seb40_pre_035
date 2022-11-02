@@ -1,7 +1,6 @@
 package stackoverflow.domain.answer.controller;
 
 import com.google.gson.Gson;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import stackoverflow.domain.account.entity.Account;
+import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.answer.dto.AddAnswerVoteReqDto;
 import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.global.common.enums.VoteState;
+import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +41,12 @@ public class AnswerControllerTest {
 
     @Autowired
     private Gson gson;
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private JwtTokenizer jwtTokenizer;
 
 
     //------------------------------------------------------------------------------------------------------
@@ -247,8 +255,11 @@ public class AnswerControllerTest {
     @DisplayName("Answer 삭제_성공")
     public void deleteAnswer_Success_Test() throws Exception {
         //given
-        String jwt = "AccessToken_Value";
-        Long answerId = 1L;
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
+        String jwt = "Bearer " + accessToken;
+        Long answerId = 1005L;
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -384,6 +395,44 @@ public class AnswerControllerTest {
                                 )
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("Answer 채택_성공")
+    public void answerSelect_Success_Test() throws Exception {
+
+        //given
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+        String jwt = "Bearer " + accessToken;
+        Long answerId = 1005L;
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                post("/answers/select/{answerId}", answerId)
+                        .header("Authorization", jwt));
+
+        //then
+        actions
+                .andExpect(status().isCreated())
+                .andDo(document("selectAnswer",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("Authorization").description("JWT")
+                                )
+                        ),
+                        pathParameters(
+                                parameterWithName("answerId").description("Answer 식별자")
+                        ),
+                        responseFields(
+                                Arrays.asList(
+                                        fieldWithPath("data").type(JsonFieldType.STRING).description("Api 성공 메시지")
+                                )
+                        )
+                        )
+                );
     }
 
 }

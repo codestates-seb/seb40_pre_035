@@ -29,7 +29,7 @@ public class Answer extends BaseTime {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<AnswerVote> answerVotes = new ArrayList<>();
 
     public void setAccount(Account account) {

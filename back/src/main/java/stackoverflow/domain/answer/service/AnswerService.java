@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.repository.AnswerRepository;
+import stackoverflow.domain.answer.repository.AnswerVoteRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 import stackoverflow.domain.account.entity.Account;
@@ -27,6 +28,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final AccountRepository accountRepository;
     private final QuestionRepository questionRepository;
+    private final AnswerVoteRepository answerVoteRepository;
 
     @Transactional
     public Answer createAnswer(Answer answer) {
@@ -76,8 +78,15 @@ public class AnswerService {
     }
 
 
-    public void deleteAnswer(Long id) {
-        Answer verifiedAnswer = findVerifiedAnswer(id);
+    @Transactional
+    public void removeAnswer(Long loginAccountId, Long answerId) {
+        Answer verifiedAnswer = findVerifiedAnswer(answerId);
+
+        if (!loginAccountId.equals(verifiedAnswer.getAccount().getId())) {
+            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
+        }
+
+        answerVoteRepository.deleteAll(verifiedAnswer.getAnswerVotes());
         answerRepository.delete(verifiedAnswer);
     }
 

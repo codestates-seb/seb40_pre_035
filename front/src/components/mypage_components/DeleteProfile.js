@@ -1,7 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { BASE_URL } from '../../util/api';
 
 const DeleteProfile = () => {
+  const onRemove = () => {
+    fetch(`${BASE_URL}/accounts/1`, {
+      method: 'DELETE',
+    }).then();
+  };
+
   const [checkBox, setCheckBox] = useState([]);
   const changeHandler = (checked, id) => {
     if (checked) {
@@ -67,6 +74,7 @@ const DeleteProfile = () => {
                 : ' bg-danger-700 text-white p-2.5 rounded '
             }
             disabled={disabled}
+            onClick={onRemove}
           >
             Delete profile
           </button>

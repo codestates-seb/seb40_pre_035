@@ -62,7 +62,7 @@ public class AnswerController {
         Answer answer = answerService.findAnswer(answerId);
         AnswerResDto answerResDto = new AnswerResDto(answer);  // 이 부분 수정됨
 
-        return new ResponseEntity<>(new SingleResDto<>(answerResDto), HttpStatus.OK);
+        return new ResponseEntity<>(answerResDto, HttpStatus.OK);
     }
 
 
@@ -90,9 +90,12 @@ public class AnswerController {
 
 
     @DeleteMapping("/{answerId}")
-    public ResponseEntity<SingleResDto<String>> deleteAnswer(@PathVariable Long answerId) {
+    public ResponseEntity<SingleResDto<String>> answerRemove(@LoginAccountId Long loginAccountId,
+                                                             @PathVariable Long answerId) {
 
-        return new ResponseEntity<>(new SingleResDto<>("success delete answer"), HttpStatus.OK);  /// 추후 NO_CONTENT로 변경해야함
+        answerService.removeAnswer(loginAccountId, answerId);
+
+        return new ResponseEntity<>(new SingleResDto<>("success delete answer"), HttpStatus.OK);
     }
 
 

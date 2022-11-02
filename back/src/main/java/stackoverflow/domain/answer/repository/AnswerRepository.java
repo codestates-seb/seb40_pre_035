@@ -28,4 +28,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
             "join fetch answer.question question where answer.id = :answerId")
     Optional<Answer> findByIdWithQuestion(@Param("answerId") Long answerId);
 
+    @Query(value = "select answer from Answer answer where answer.account.id = :accountId")
+    Page<Answer> findByAccountWithAll(@Param("accountId") Long accountId, Pageable pageable);
+
 }

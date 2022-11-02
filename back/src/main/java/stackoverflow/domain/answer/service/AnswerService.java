@@ -49,9 +49,9 @@ public class AnswerService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
 
         Long savedAccountId = verifiedAnswer.getAccount().getId();
-        Long loginedAccountId = answer.getAccount().getId();
+        Long loginAccountId = answer.getAccount().getId();
 
-        if (!savedAccountId.equals(loginedAccountId)) {
+        if (!savedAccountId.equals(loginAccountId)) {
             throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
         }
         else {
@@ -89,12 +89,8 @@ public class AnswerService {
 
 
     public Page<Answer> findAccountAnswers(Long accountId, Pageable pageable) {
-        Page<Answer> page = answerRepository.findAllByOrderByIdDesc(pageable);
-        List<Answer> list = page.getContent().stream()
-                .filter(a -> a.getAccount().getId().equals(accountId))
-                .collect(Collectors.toList());
 
-        return new PageImpl<>(list, pageable, list.size());
+        return answerRepository.findByAccountWithAll(accountId, pageable);
     }
 
     public Page<Answer> findQuestionAnswers(Long questionId, Pageable pageable) {

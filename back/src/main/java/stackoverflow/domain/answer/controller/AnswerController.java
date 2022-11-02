@@ -27,8 +27,8 @@ public class AnswerController {
     @PostMapping
     public ResponseEntity<SingleResDto<String>> postAnswer(@LoginAccountId Long loginAccountId,
                                                                  @RequestBody AnswerReqDto answerReqDto) {
+        answerReqDto.setAccountId(loginAccountId);
         Answer answer = answerReqDto.toAnswer();
-        answer.getAccount().setId(loginAccountId);
         answerService.createAnswer(answer);
 
         return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
@@ -39,9 +39,9 @@ public class AnswerController {
     public ResponseEntity<SingleResDto<String>> patchAnswer(@LoginAccountId Long loginAccountId,
                                                                   @PathVariable Long answerId,
                                                                   @RequestBody AnswerReqDto answerReqDto) {
+        answerReqDto.setAccountId(loginAccountId);
+        answerReqDto.setAnswerId(answerId);
         Answer answer = answerReqDto.toAnswer();
-        answer.getAccount().setId(loginAccountId);
-        answer.setId(answerId);
         answerService.updateAnswer(answer);
 
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);

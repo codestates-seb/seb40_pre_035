@@ -61,7 +61,6 @@ public class AnswerControllerTest {
 
         String jwt = "Bearer " + accessToken;
         String content = "testAnswerContent";
-        int totalVote = 0;
         Long questionId = 101L;
 
         AnswerReqDto answerReqDto = new AnswerReqDto();
@@ -118,7 +117,6 @@ public class AnswerControllerTest {
 
         Long answerId = 1001L;
         String content = "testAnswerContent";
-        int totalVote = 0;
 
         AnswerReqDto answerReqDto = new AnswerReqDto();
         answerReqDto.setContent(content);
@@ -310,10 +308,12 @@ public class AnswerControllerTest {
         Long answerId = 1005L;
         VoteState state = VoteState.UP;
 
-        AddAnswerVoteReqDto addAnswerVoteReqDto = new AddAnswerVoteReqDto();
-        addAnswerVoteReqDto.setState(state);
+        Long answerId = 1001L;
+        String jwt = "Bearer " + accessToken;
+        AddAnswerVoteReqDto answerVoteReqDto = new AddAnswerVoteReqDto();
+        answerVoteReqDto.setState(VoteState.UP);
 
-        String body = gson.toJson(addAnswerVoteReqDto);
+        String body = gson.toJson(answerVoteReqDto);
 
         //when
         ResultActions actions = mockMvc.perform(

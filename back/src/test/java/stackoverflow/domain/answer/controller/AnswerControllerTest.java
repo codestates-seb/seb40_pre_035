@@ -1,7 +1,6 @@
 package stackoverflow.domain.answer.controller;
 
 import com.google.gson.Gson;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
+import stackoverflow.domain.account.entity.Account;
+import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.answer.dto.AddAnswerVoteReqDto;
 import stackoverflow.domain.answer.dto.AnswerReqDto;
 import stackoverflow.global.common.enums.VoteState;
+import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +35,7 @@ import static stackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@Transactional
 public class AnswerControllerTest {
 
     @Autowired
@@ -40,19 +44,30 @@ public class AnswerControllerTest {
     @Autowired
     private Gson gson;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private JwtTokenizer jwtTokenizer;
+
 
     //------------------------------------------------------------------------------------------------------
     @Test
     @DisplayName("Answer 생성_성공")
     public void createAnswer_Success_Test() throws Exception {
         //given
-        String jwt = "AccessToken_Value";
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
+
+        String jwt = "Bearer " + accessToken;
         String content = "testAnswerContent";
         int totalVote = 0;
+        Long questionId = 101L;
 
         AnswerReqDto answerReqDto = new AnswerReqDto();
         answerReqDto.setContent(content);
         answerReqDto.setTotalVote(totalVote);
+        answerReqDto.setQuestionId(questionId);
 
         String body = gson.toJson(answerReqDto);
 
@@ -79,7 +94,8 @@ public class AnswerControllerTest {
                                 requestFields(
                                         List.of(
                                                 fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
-                                                fieldWithPath("totalVote").type(JsonFieldType.NUMBER).description("총 투표")
+                                                fieldWithPath("totalVote").type(JsonFieldType.NUMBER).description("총 투표"),
+                                                fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("Question 식별자")
                                         )
                                 ),
                                 responseFields(
@@ -97,9 +113,12 @@ public class AnswerControllerTest {
     @DisplayName("Answer 수정_성공")
     public void modifyQuestion_Success_Test() throws Exception {
         //given
-        String jwt = "AccessToken_Value";
+        Account account = accountRepository.findById(1L).get();
+        String accessToken = jwtTokenizer.delegateAccessToken(account);
 
-        Long answerId = 1L;
+        String jwt = "Bearer " + accessToken;
+
+        Long answerId = 1001L;
         String content = "testAnswerContent";
         int totalVote = 0;
 
@@ -153,7 +172,7 @@ public class AnswerControllerTest {
     @DisplayName("Answer 조회_성공")
     public void getAnswer_Success_Test() throws Exception {
         //given
-        Long answerId = 1L;
+        Long answerId = 1001L;
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -180,7 +199,9 @@ public class AnswerControllerTest {
                                         fieldWithPath("account.id").type(JsonFieldType.NUMBER).description("Answer 생성계정 식별자"),
                                         fieldWithPath("account.email").type(JsonFieldType.STRING).description("Answer 생성계정 email"),
                                         fieldWithPath("account.profile").type(JsonFieldType.STRING).description("Answer 생성계정 프로필 이미지 경로"),
-                                        fieldWithPath("account.nickname").type(JsonFieldType.STRING).description("Answer 생성계정 별칭")
+                                        fieldWithPath("account.nickname").type(JsonFieldType.STRING).description("Answer 생성계정 별칭"),
+                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("Question 식별자")
+
                                 )
                         )
                 ));
@@ -191,8 +212,6 @@ public class AnswerControllerTest {
     @Test
     @DisplayName("Answers 조회_성공")
     public void getAnswers_Success_Test() throws Exception {
-        //given
-        Long answerId = 1L;
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -226,7 +245,7 @@ public class AnswerControllerTest {
                                         fieldWithPath("content[].account.email").type(JsonFieldType.STRING).description("Answer 생성계정 email"),
                                         fieldWithPath("content[].account.profile").type(JsonFieldType.STRING).description("Answer 생성계정 프로필 이미지 경로"),
                                         fieldWithPath("content[].account.nickname").type(JsonFieldType.STRING).description("Answer 생성계정 별칭"),
-
+                                        fieldWithPath("content[].questionId").type(JsonFieldType.NUMBER).description("Question 식별자"),
                                         fieldWithPath("totalPages").type(JsonFieldType.NUMBER).description("총 페이지 수"),
                                         fieldWithPath("totalElements").type(JsonFieldType.NUMBER).description("전체 Answer 개수"),
                                         fieldWithPath("first").type(JsonFieldType.BOOLEAN).description("첫 페이지 여부"),

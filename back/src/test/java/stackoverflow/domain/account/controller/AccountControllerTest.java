@@ -1,6 +1,7 @@
 package stackoverflow.domain.account.controller;
 
 import com.google.gson.Gson;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -228,7 +229,7 @@ class AccountControllerTest {
 
     }
 
-    @Test
+    @Test @Disabled
     @DisplayName("Account 삭제_성공")
     void accountRemove() throws Exception {
         //given

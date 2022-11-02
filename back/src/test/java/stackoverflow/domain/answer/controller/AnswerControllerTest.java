@@ -304,6 +304,10 @@ public class AnswerControllerTest {
         Account account = accountRepository.findById(1L).get();
         String accessToken = jwtTokenizer.delegateAccessToken(account);
 
+        String jwt = "Bearer " + accessToken;
+        Long answerId = 1005L;
+        VoteState state = VoteState.UP;
+
         Long answerId = 1001L;
         String jwt = "Bearer " + accessToken;
         AddAnswerVoteReqDto answerVoteReqDto = new AddAnswerVoteReqDto();

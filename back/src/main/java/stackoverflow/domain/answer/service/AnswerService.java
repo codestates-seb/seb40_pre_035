@@ -6,15 +6,16 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import stackoverflow.domain.answer.entity.Answer;
-import stackoverflow.domain.answer.repository.AnswerRepository;
-import stackoverflow.domain.answer.repository.AnswerVoteRepository;
-import stackoverflow.global.exception.advice.BusinessLogicException;
-import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
+import stackoverflow.domain.answer.entity.Answer;
+import stackoverflow.domain.answer.entity.AnswerVote;
+import stackoverflow.domain.answer.repository.AnswerRepository;
+import stackoverflow.domain.answer.repository.AnswerVoteRepository;
 import stackoverflow.domain.question.entity.Question;
 import stackoverflow.domain.question.repository.QuestionRepository;
+import stackoverflow.global.exception.advice.BusinessLogicException;
+import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -115,6 +116,38 @@ public class AnswerService {
         } else {
             answer.setSelected(false);
         }
+    }
+
+    @Transactional
+    public void voteAnswer(AnswerVote answerVote) {
+
+        verifyAnswerVoteField(answerVote);
+
+        Long accountId = answerVote.getAccount().getId();
+        Long answerId = answerVote.getAnswer().getId();
+        Optional<AnswerVote> findOptionalAnswerVote =
+                answerVoteRepository.findByAnswerAndAccount(accountId, answerId);
+
+        if (findOptionalAnswerVote.isEmpty()) {
+            answerVoteRepository.save(answerVote);
+            return;
+        }
+
+        AnswerVote findAnswerVote = findOptionalAnswerVote.get();
+
+        if (answerVote.getState().equals(findAnswerVote.getState())) {
+            answerVoteRepository.delete(findAnswerVote);
+        } else {
+            throw new BusinessLogicException(ExceptionCode.ILLEGAL_VOTE);
+        }
+
+    }
+
+    private void verifyAnswerVoteField(AnswerVote answerVote) {
+        accountRepository.findById(answerVote.getAccount().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
+        answerRepository.findById(answerVote.getAnswer().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
     }
 
     private static void isSelectedAnswer(List<Answer> answers) {

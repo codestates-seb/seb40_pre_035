@@ -10,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity @Getter @Setter
 public class AnswerVote extends BaseTime {
+
     @Id @GeneratedValue
     @Column(name = "answerVote_id")
     private Long id;
@@ -25,4 +26,11 @@ public class AnswerVote extends BaseTime {
     @JoinColumn(name = "answer_id")
     private Answer answer;
 
+    @Builder
+    public AnswerVote(Long id, VoteState state, Account account, Answer answer) {
+        this.id = id;
+        this.state = state;
+        this.account = account;
+        this.answer = answer;
+    }
 }

@@ -98,7 +98,7 @@ class QuestionControllerTest {
                         ),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("data").type(JsonFieldType.STRING).description("Api 성공 메시지")
+                                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("Question 식별자")
                                 )
                         )
                 ));

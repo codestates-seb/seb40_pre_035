@@ -2,6 +2,49 @@ import { useEffect, useState } from 'react';
 import { BASE_URL } from '../../util/api';
 
 const EditProfile = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState('');
+
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordCheckError, setPasswordCheckError] = useState(false);
+
+  function handleUserName(e) {
+    setUsername(e.target.value);
+  }
+  function handlePassword(e) {
+    setPassword(e.target.value);
+  }
+  function handlePasswordCheck(e) {
+    setPasswordCheck(e.target.value);
+  }
+  function checkUsername() {
+    const usernameRegexp = /^[a-zA-Z가-헿0-9]{4,}$/;
+    if (!username || !usernameRegexp.test(username)) {
+      setUsernameError(true);
+    } else setUsernameError(false);
+  }
+  function checkPassword() {
+    const passwordRegexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!password || !passwordRegexp.test(password)) {
+      setPasswordError(true);
+    } else setPasswordError(false);
+  }
+  function checkPasswordCheck() {
+    if (password !== passwordCheck) {
+      setPasswordCheckError(true);
+    } else setPasswordCheckError(false);
+  }
+
+  function onSubmit() {
+    checkUsername();
+    checkPassword();
+    checkPasswordCheck();
+    if (!usernameError && !passwordError && !passwordCheckError) return true;
+    else return false;
+  }
+
   const [data, setData] = useState();
   useEffect(() => {
     fetch(`${BASE_URL}/accounts/1`)
@@ -41,18 +84,24 @@ const EditProfile = () => {
           <div className="font-semibold text-lg my-0.5">Display name</div>
           <input
             type="text"
+            value={username}
+            onChange={handleUserName}
             className="w-3/6 p-1 border rounded border-soGray-normal"
           />
           <div className="font-semibold text-lg my-0.5">New password</div>
           <input
-            type="text"
+            type="password"
+            value={password}
+            onChange={handlePassword}
             className="w-3/6 p-1 border rounded border-soGray-normal"
           />
           <div className="font-semibold text-lg my-0.5">
             New password (again)
           </div>
           <input
-            type="text"
+            type="password"
+            value={passwordCheck}
+            onChange={handlePasswordCheck}
             className="w-3/6 p-1 border rounded border-soGray-normal"
           />
           <p className="mt-2 text-xs text-gray-600">
@@ -65,7 +114,10 @@ const EditProfile = () => {
         <button className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium">
           Save profile
         </button>
-        <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
+        <button
+          className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary"
+          onClick={onSubmit}
+        >
           Cancel
         </button>
       </div>

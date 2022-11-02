@@ -356,6 +356,26 @@ include::{snippets}/deleteAnswer/http-response.adoc[]
 include::{snippets}/deleteAnswer/response-fields.adoc[]
 
 ***
+=== Question Answers 조회
+.curl-request
+include::{snippets}/QuestionAnswerList/curl-request.adoc[]
+
+.http-request
+include::{snippets}/QuestionAnswerList/http-request.adoc[]
+
+.request-path_parameters
+include::{snippets}/QuestionAnswerList/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/QuestionAnswerList/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/QuestionAnswerList/http-response.adoc[]
+
+.response-fields
+include::{snippets}/QuestionAnswerList/response-fields.adoc[]
+
+***
 === 단일 Answer 조회
 .curl-request
 include::{snippets}/getAnswer/curl-request.adoc[]
@@ -412,6 +432,26 @@ include::{snippets}/addAnswerVote/http-response.adoc[]
 
 .response-fields
 include::{snippets}/addAnswerVote/response-fields.adoc[]
+
+***
+=== Answer 채택
+.curl-request
+include::{snippets}/selectAnswer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/selectAnswer/http-request.adoc[]
+
+.request-header
+include::{snippets}/selectAnswer/request-headers.adoc[]
+
+.request-path_parameters
+include::{snippets}/selectAnswer/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/selectAnswer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/selectAnswer/response-fields.adoc[]
 
 
 ***

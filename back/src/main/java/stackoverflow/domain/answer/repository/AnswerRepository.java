@@ -16,9 +16,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
     Page<Answer> findAllByOrderByIdDesc(Pageable pageable);
 
-    @Query(value = "select m from Answer m where m.account.id = :accountId")
-    Page<Answer> findAllByAccountId(Long accountId, Pageable pageable);
-
     @EntityGraph(attributePaths = {"question", "account"})
     @Query(value = "select answer from Answer answer where answer.question.id = :questionId")
     Page<Answer> findByQuestionWithAll(@Param("questionId") Long questionId, Pageable pageable);
@@ -30,9 +27,5 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     @Query("select answer from Answer answer " +
             "join fetch answer.question question where answer.id = :answerId")
     Optional<Answer> findByIdWithQuestion(@Param("answerId") Long answerId);
-
-    @Query("select answer from Answer answer " +
-            "join fetch answer.account account where answer.id = :answerId")
-    Optional<Answer> findByIdWithAccount(@Param("answerId") Long answerId);
 
 }

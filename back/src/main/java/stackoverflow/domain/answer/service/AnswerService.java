@@ -31,23 +31,21 @@ public class AnswerService {
     private final AnswerVoteRepository answerVoteRepository;
 
     @Transactional
-    public Answer createAnswer(Answer answer) {
+    public void createAnswer(Answer answer) {
         Account verifiedAccount = accountRepository.findById(answer.getAccount().getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
         Question verifiedQuestion = questionRepository.findById(answer.getQuestion().getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
         answer.setAccount(verifiedAccount);
         answer.setQuestion(verifiedQuestion);
-        answer.setCreatedAt(LocalDateTime.now());
-        answer.setModifiedAt(LocalDateTime.now());
 
-        return answerRepository.save(answer);
+        answerRepository.save(answer);
     }
 
     @Transactional
-    public Answer updateAnswer(Answer answer) {
+    public void updateAnswer(Answer answer) {
         Answer verifiedAnswer = answerRepository.findByIdWithQuestion(answer.getId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // conflict로 pr 이후 수정하기 NOT_FOUND_ANSWER
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
 
         Long savedAccountId = verifiedAnswer.getAccount().getId();
         Long loginedAccountId = answer.getAccount().getId();
@@ -57,15 +55,13 @@ public class AnswerService {
         }
         else {
             answer.setModifiedAt(LocalDateTime.now());
-            Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));  // patchAnswer로 변경될 사항 추가하는 부분
-
-            return verifiedAnswer;
+            Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));  // patchAnswer로 변경될 사항 추가하는 부
         }
     }
 
 
     public Answer findAnswer(Long answerId) {
-        Answer verifiedAnswer = findVerifiedAnswer(answerId);  // 이 부분 수정됨
+        Answer verifiedAnswer = findVerifiedAnswer(answerId);
 
         return verifiedAnswer;
     }
@@ -96,9 +92,8 @@ public class AnswerService {
         List<Answer> list = page.getContent().stream()
                 .filter(a -> a.getAccount().getId().equals(accountId))
                 .collect(Collectors.toList());
-        Page<Answer> filteredPage = new PageImpl<>(list, pageable, list.size());
 
-        return filteredPage;
+        return new PageImpl<>(list, pageable, list.size());
     }
 
     public Page<Answer> findQuestionAnswers(Long questionId, Pageable pageable) {
@@ -148,8 +143,8 @@ public class AnswerService {
     }
 
     public Answer findVerifiedAnswer(Long answerId) {
-        Optional<Answer> optionalAnswer = answerRepository.findByIdWithQuestion(answerId);   // 이 부분 수정됨
-        Answer verifiedAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND));
+        Optional<Answer> optionalAnswer = answerRepository.findByIdWithQuestion(answerId);
+        Answer verifiedAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
 
         return verifiedAnswer;
     }

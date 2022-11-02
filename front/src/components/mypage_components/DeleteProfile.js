@@ -74,6 +74,7 @@ const DeleteProfile = () => {
                 : ' bg-danger-700 text-white p-2.5 rounded '
             }
             disabled={disabled}
+            onClick={onRemove}
           >
             Delete profile
           </button>

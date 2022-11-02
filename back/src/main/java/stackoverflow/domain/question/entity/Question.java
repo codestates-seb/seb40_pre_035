@@ -34,10 +34,6 @@ public class Question extends BaseTime {
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<QuestionVote> questionVotes;
 
-    public Question(Long id) {
-        this.id = id;
-    }
-
     @Builder
     public Question(Long id, String title, String content, Account account) {
         this.id = id;

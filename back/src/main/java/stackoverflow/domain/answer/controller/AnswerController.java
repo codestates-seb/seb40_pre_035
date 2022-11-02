@@ -62,7 +62,7 @@ public class AnswerController {
         Answer answer = answerService.findAnswer(answerId);
         AnswerResDto answerResDto = new AnswerResDto(answer);  // 이 부분 수정됨
 
-        return new ResponseEntity<>(new SingleResDto<>(answerResDto), HttpStatus.OK);
+        return new ResponseEntity<>(answerResDto, HttpStatus.OK);
     }
 
 

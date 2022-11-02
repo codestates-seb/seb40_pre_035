@@ -1,5 +1,5 @@
 INSERT INTO Account(account_id, createdAt, modifiedAt, email, nickname, password, profile, role) VALUES('1', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'test1@test.com', 'testNickname1', '{bcrypt}$2a$10$cBR6WPkscv66SOrXwOJ6jOH7akwby7R0p5reALf/cLhiNEDyPqnpa', 'test/path', 'USER');
-INSERT INTO ACCOUNT(account_id, createdAt, modifiedAt, email, nickname, password, profile, role) VALUES('2', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'login@gmail.com', 'logi', '{bcrypt}$2a$10$.84GwAUKxYN/hfzrlmCj0.W2273UHiXl5bfvF2Fnmk.I2bU6N..VW', 'test/path', 'USER');
+INSERT INTO Account(account_id, createdAt, modifiedAt, email, nickname, password, profile, role) VALUES('2', '2022-10-14 17:13:10', '2022-10-14 17:13:10', 'login@gmail.com', 'logi', '{bcrypt}$2a$10$.84GwAUKxYN/hfzrlmCj0.W2273UHiXl5bfvF2Fnmk.I2bU6N..VW', 'test/path', 'USER');
 
 
 INSERT INTO Question(question_id, createdAt, modifiedAt, content, title, account_id) VALUES('101', '2022-10-14 17:13:10', '2022-10-14 18:13:10', 'testContenttestContenttestContenttestContenttestContent', 'testTitle', '1');

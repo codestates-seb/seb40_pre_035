@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import stackoverflow.domain.account.dto.AccountResDto;
 import stackoverflow.domain.account.dto.PatchAccountReqDto;
 import stackoverflow.domain.account.dto.PostAccountReqDto;
+import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.service.AccountService;
 import stackoverflow.global.argumentreslover.LoginAccountId;
 import stackoverflow.global.common.dto.SingleResDto;

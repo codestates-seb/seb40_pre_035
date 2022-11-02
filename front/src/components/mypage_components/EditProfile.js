@@ -1,10 +1,22 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { BASE_URL } from '../../util/api';
 
 const EditProfile = () => {
   const [data, setData] = useState();
-  useEffect(() => {
-    fetch(`${BASE_URL}/accounts/1`)
+
+  const onEdit = useEffect(() => {
+    fetch(`${BASE_URL}/accounts/1`, {
+      method: 'PATCH',
+      header: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        // title,
+        // body,
+        // userId,
+      }),
+    })
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -63,10 +75,10 @@ const EditProfile = () => {
       </form>
       <div>
         <button className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium">
-          Save profile
+          <Link to="/mypage">Save profile</Link>
         </button>
         <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
-          Cancel
+          <Link to="/mypage">Cancel</Link>
         </button>
       </div>
     </div>

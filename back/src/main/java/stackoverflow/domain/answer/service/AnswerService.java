@@ -106,6 +106,47 @@ public class AnswerService {
         return byQuestionWithAll;
     }
 
+    @Transactional
+    public void selectAnswer(Long loginAccountId, Long answerId) {
+
+        Answer answer = verifiedAnswerWithAll(answerId);
+
+        Question question = answer.getQuestion();
+
+        if (!loginAccountId.equals(question.getAccount().getId())) {
+            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
+        }
+
+        if (!answer.isSelected()) {
+            List<Answer> answers = question.getAnswers();
+            isSelectedAnswer(answers);
+            answer.setSelected(true);
+        } else {
+            answer.setSelected(false);
+        }
+    }
+
+    private static void isSelectedAnswer(List<Answer> answers) {
+        for (Answer questionAnswer : answers) {
+            if (questionAnswer.isSelected()) {
+                throw new BusinessLogicException(ExceptionCode.DUPLICATED_SELECT);
+            }
+        }
+    }
+
+    private Answer verifiedAnswerWithAll(Long answerId) {
+        Answer answer = answerRepository.findByIdWithAll(answerId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
+
+        questionRepository.findByIdWithAll(answer.getQuestion().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+
+        accountRepository.findById(answer.getAccount().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
+
+        return answer;
+    }
+
     public Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findByIdWithQuestion(answerId);   // 이 부분 수정됨
         Answer verifiedAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND));

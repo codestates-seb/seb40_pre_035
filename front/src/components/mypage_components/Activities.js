@@ -3,7 +3,7 @@ import Summary from './Summary';
 import Answers from './Answers';
 import Questions from './Questions';
 
-function Activitise() {
+const Activitise = () => {
   const [currentTab, setCurrentTab] = useState(0);
 
   const menuArr = [
@@ -40,6 +40,6 @@ function Activitise() {
       {menuArr[currentTab].content}
     </div>
   );
-}
+};
 
 export default Activitise;

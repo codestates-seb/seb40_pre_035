@@ -10,7 +10,9 @@ public enum ExceptionCode {
     NOT_FOUND_QUESTION(400, "Question을 찾을 수 없습니다."),
     NON_ACCESS_MODIFY(400, "수정 권한이 없습니다."),
     ILLEGAL_FILENAME(400, "잘못된 형식의 Filename 입니다."),
+    NOT_FOUND_ANSWER(400, "Answer를 찾을 수 없습니다."),  // conflict난 부분 수정
     ILLEGAL_VOTE(400, "잘못된 Vote 요청입니다.");
+
 
     @Getter
     private int status;

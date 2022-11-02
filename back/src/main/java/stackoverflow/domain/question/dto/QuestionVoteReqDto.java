@@ -14,7 +14,9 @@ public class QuestionVoteReqDto {
     public QuestionVote toQuestionVote(Long accountId, Long questionId) {
         return QuestionVote.builder()
                 .account(new Account(accountId))
-                .question(new Question(questionId))
+                .question(Question.builder()
+                        .id(questionId)
+                        .build())
                 .state(this.state)
                 .build();
     }

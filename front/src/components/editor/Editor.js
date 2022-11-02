@@ -2,36 +2,26 @@ import { useRef } from 'react';
 import { Editor as Writer } from '@toast-ui/react-editor';
 import prism from 'prismjs';
 import 'prismjs/themes/prism.css';
-import { fetchUploadImage, BASE_URL } from '../../util/api';
+import { fetchUploadImage } from '../../util/api';
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 
-function Editor() {
+function Editor({ onChange, height = '300px' }) {
   const editorRef = useRef();
 
-  const handleOnChange = () => {
-    const data1 = editorRef.current.getInstance().getHTML();
-    const data2 = editorRef.current.getInstance().getMarkdown();
-    console.log(data1);
-    console.log(data2);
+  const onChangeHandle = () => {
+    const markdown = editorRef.current.getInstance().getMarkdown();
+    const json = JSON.stringify(markdown);
+    return onChange(json);
   };
 
   const onUploadImage = async (blob, callback) => {
-    console.log(blob);
-    let formData = new FormData();
-    formData.append('file', blob);
-    console.log(formData);
-
-    // let { data: path } =
-    let path = await fetchUploadImage(formData).then((data) => {
-      console.log(data);
-    });
-
-    // console.log(path);
-    // callback(path, 'alt text');
+    let path = await fetchUploadImage(blob);
+    console.log(`파일경로: ${path}`);
+    callback(path, blob.name);
     return false;
   };
 
@@ -39,13 +29,13 @@ function Editor() {
     <div className="editor-wrapper">
       <Writer
         previewStyle="tab"
-        height="300px"
+        height={height}
         initialEditType="markdown"
         initialValue="## *Your* **markdown** here"
         ref={editorRef}
         plugins={[[codeSyntaxHighlight, { highlighter: prism }]]}
         hideModeSwitch={true}
-        onChange={handleOnChange}
+        onChange={onChangeHandle}
         useCommandShortcut={false}
         hooks={{
           addImageBlobHook: onUploadImage,

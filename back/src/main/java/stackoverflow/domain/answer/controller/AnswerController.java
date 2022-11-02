@@ -47,10 +47,8 @@ public class AnswerController {
         Answer answer = answerReqDto.toAnswer();
         answer.getAccount().setId(loginAccountId);
         answer.setId(answerId);
-        Answer updatedAnswer = answerService.updateAnswer(answer);
-        AnswerResDto response = new AnswerResDto(updatedAnswer);
+        answerService.updateAnswer(answer);
 
-//        return new ResponseEntity<>(new SingleResDto<>(response), HttpStatus.OK);
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 

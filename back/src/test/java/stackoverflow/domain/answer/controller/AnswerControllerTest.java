@@ -308,8 +308,6 @@ public class AnswerControllerTest {
         Long answerId = 1005L;
         VoteState state = VoteState.UP;
 
-        Long answerId = 1001L;
-        String jwt = "Bearer " + accessToken;
         AddAnswerVoteReqDto answerVoteReqDto = new AddAnswerVoteReqDto();
         answerVoteReqDto.setState(VoteState.UP);
 

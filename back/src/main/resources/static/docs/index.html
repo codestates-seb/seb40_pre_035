@@ -445,20 +445,41 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_questioncontroller">1. QuestionController</a>
+<li><a href="#_accountcontroller">1. AccountController</a>
 <ul class="sectlevel2">
-<li><a href="#_question_생성">1.1. Question 생성</a></li>
-<li><a href="#_question_수정">1.2. Question 수정</a></li>
-<li><a href="#_question_삭제">1.3. Question 삭제</a></li>
-<li><a href="#_단일_question_조회">1.4. 단일 Question 조회</a></li>
-<li><a href="#_questions_조회">1.5. Questions 조회</a></li>
-<li><a href="#_questions_조회_unanswered">1.6. Questions 조회_UnAnswered</a></li>
-<li><a href="#_특정_account의_questions_검색">1.7. 특정 Account의 Questions 검색</a></li>
+<li><a href="#_account_로그인">1.1. Account 로그인</a></li>
+<li><a href="#_account_생성">1.2. Account 생성</a></li>
+<li><a href="#_account_수정">1.3. Account 수정</a></li>
+<li><a href="#_account_삭제">1.4. Account 삭제</a></li>
+<li><a href="#_단일_account_조회">1.5. 단일 Account 조회</a></li>
+<li><a href="#_로그인한_account_조회">1.6. 로그인한 Account 조회</a></li>
 </ul>
 </li>
-<li><a href="#_filecontroller">2. FileController</a>
+<li><a href="#_questioncontroller">2. QuestionController</a>
 <ul class="sectlevel2">
-<li><a href="#_fileupload">2.1. FileUpload</a></li>
+<li><a href="#_question_생성">2.1. Question 생성</a></li>
+<li><a href="#_question_수정">2.2. Question 수정</a></li>
+<li><a href="#_question_삭제">2.3. Question 삭제</a></li>
+<li><a href="#_단일_question_조회">2.4. 단일 Question 조회</a></li>
+<li><a href="#_questions_조회">2.5. Questions 조회</a></li>
+<li><a href="#_questions_조회_unanswered">2.6. Questions 조회_UnAnswered</a></li>
+<li><a href="#_특정_account의_questions_검색">2.7. 특정 Account의 Questions 검색</a></li>
+<li><a href="#_question_vote_생성">2.8. Question_Vote 생성</a></li>
+</ul>
+</li>
+<li><a href="#_answercontroller">3. AnswerController</a>
+<ul class="sectlevel2">
+<li><a href="#_answer_생성">3.1. Answer 생성</a></li>
+<li><a href="#_answer_수정">3.2. Answer 수정</a></li>
+<li><a href="#_answer_삭제">3.3. Answer 삭제</a></li>
+<li><a href="#_단일_answer_조회">3.4. 단일 Answer 조회</a></li>
+<li><a href="#_answers_조회">3.5. Answers 조회</a></li>
+<li><a href="#_answers_vote_생성">3.6. Answers_Vote 생성</a></li>
+</ul>
+</li>
+<li><a href="#_filecontroller">4. FileController</a>
+<ul class="sectlevel2">
+<li><a href="#_fileupload">4.1. FileUpload</a></li>
 </ul>
 </li>
 </ul>
@@ -468,47 +489,95 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>lastModified: 2022.10.25</p>
+<p>lastModified: 2022.10.28</p>
 </div>
 <hr>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_questioncontroller">1. QuestionController</h2>
+<h2 id="_accountcontroller">1. AccountController</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_question_생성">1.1. Question 생성</h3>
+<h3 id="_account_로그인">1.1. Account 로그인</h3>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/questions' -i -X POST \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/auth/login' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX' \
     -d '{
-  "title" : "testQuestionTitle",
-  "content" : "testQuestionContent"
+  "email" : "login@gmail.com",
+  "password" : "mock1234"
 }'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /questions HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /auth/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX
-Content-Length: 72
+Content-Length: 60
 Host: localhost:8080
 
 {
-  "title" : "testQuestionTitle",
-  "content" : "testQuestionContent"
+  "email" : "login@gmail.com",
+  "password" : "mock1234"
 }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. request-header</caption>
+<caption class="title">Table 1. request-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀 번호</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoyLCJ1c2VybmFtZSI6ImxvZ2luQGdtYWlsLmNvbSIsInN1YiI6IjIiLCJpYXQiOjE2NjczNjM4ODksImV4cCI6MTY2NzM2NTY4OX0.8dhgw3bL7l9DtDJpqEPLWBF-fjkQhr2eCMzw3CBJojQ
+Refresh: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjY3MzYzODg5LCJleHAiOjE2NjczODkwODl9.tiLKS5WHu9indMUDvJ_dXjPHVvqjSvoRswHINkwo3qE
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 30
+
+{
+  "data" : "success login"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. response-headers</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -527,7 +596,671 @@ Host: localhost:8080
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. request-fields</caption>
+<caption class="title">Table 3. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 API 성공 메세지</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_account_생성">1.2. Account 생성</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/accounts' -i -X POST \
+    -H 'Content-Type: multipart/form-data;charset=UTF-8' \
+    -F 'profile=@profile;type=image/jpeg' \
+    -F 'email=mock2@gmail.com' \
+    -F 'password=mock1234' \
+    -F 'nickname=moc2'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /accounts HTTP/1.1
+Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Host: localhost:8080
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=email
+
+mock2@gmail.com
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=password
+
+mock1234
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=nickname
+
+moc2
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=profile; filename=profile
+Content-Type: image/jpeg
+
+file
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. request-parts</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Part</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. request-parameters</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 39
+
+{
+  "data" : "success create account"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">등록 API 성공 메세지</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_account_수정">1.3. Account 수정</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/accounts/1' -i -X POST \
+    -H 'Content-Type: multipart/form-data;charset=UTF-8' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OCwiZXhwIjoxNjY3MzY1Njg4fQ.hfHxT7NRrlX-ucxEgc4lHkYd5oQ61QfSKT_G0BG_gPc' \
+    -F 'profile=@profile;type=image/jpeg' \
+    -F 'nickname=modi' \
+    -F 'password=testModified1234'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /accounts/1 HTTP/1.1
+Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OCwiZXhwIjoxNjY3MzY1Njg4fQ.hfHxT7NRrlX-ucxEgc4lHkYd5oQ61QfSKT_G0BG_gPc
+Host: localhost:8080
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=nickname
+
+modi
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=password
+
+testModified1234
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=profile; filename=profile
+Content-Type: image/jpeg
+
+file
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. request-header</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. /accounts/{accountId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Account 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. request-parts</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Part</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. request-parameters</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀 번호</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 39
+
+{
+  "data" : "success modify account"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정 API 성공 메세지</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_account_삭제">1.4. Account 삭제</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/accounts/1' -i -X DELETE \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /accounts/1 HTTP/1.1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. request-headers</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. /accounts/{accountId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Account 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 39
+
+{
+  "data" : "success delete account"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제 API 성공 메세지</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_단일_account_조회">1.5. 단일 Account 조회</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/accounts/1' -i -X GET \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /accounts/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 15. /accounts/{accountId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accountId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Account 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 92
+
+{
+  "email" : "mock@gmail.com",
+  "nickname" : "Mock nickname",
+  "profile" : "/mock/path"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 16. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지 경로</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_로그인한_account_조회">1.6. 로그인한 Account 조회</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/accounts/user' -i -X GET \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /accounts/user HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 17. request-header</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 89
+
+{
+  "email" : "user@gmail.com",
+  "nickname" : "login user",
+  "profile" : "/path/user"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 18. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 로그인 유저의 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 로그인 유저의 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 로그인 유저의 프로필 이미지 경로</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_questioncontroller">2. QuestionController</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_question_생성">2.1. Question 생성</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/questions' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0' \
+    -d '{
+  "title" : "testQuestionTitle",
+  "content" : "testQuestionContenttestQuestionContenttestQuestionContent"
+}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /questions HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0
+Content-Length: 110
+Host: localhost:8080
+
+{
+  "title" : "testQuestionTitle",
+  "content" : "testQuestionContenttestQuestionContenttestQuestionContent"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 19. request-header</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 20. request-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -575,7 +1308,7 @@ Content-Length: 40
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. response-fields</caption>
+<caption class="title">Table 21. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -599,38 +1332,38 @@ Content-Length: 40
 <hr>
 </div>
 <div class="sect2">
-<h3 id="_question_수정">1.2. Question 수정</h3>
+<h3 id="_question_수정">2.2. Question 수정</h3>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/questions' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0' \
     -d '{
   "title" : "testQuestionTitle",
-  "content" : "testQuestionContent"
+  "content" : "testQuestionContenttestQuestionContenttestQuestionContent"
 }'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /questions/1 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /questions/101 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX
-Content-Length: 72
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0
+Content-Length: 122
 Host: localhost:8080
 
 {
-  "title" : "testQuestionTitle",
-  "content" : "testQuestionContent"
+  "title" : "testQuestionTitleModify",
+  "content" : "testQuestionContenttestQuestionContenttestQuestionContentModify"
 }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. request-header</caption>
+<caption class="title">Table 22. request-header</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -649,7 +1382,7 @@ Host: localhost:8080
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. /questions/{questionId}</caption>
+<caption class="title">Table 23. /questions/{questionId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -668,7 +1401,7 @@ Host: localhost:8080
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. request-fields</caption>
+<caption class="title">Table 24. request-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -716,7 +1449,7 @@ Content-Length: 40
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. response-fields</caption>
+<caption class="title">Table 25. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -740,24 +1473,24 @@ Content-Length: 40
 <hr>
 </div>
 <div class="sect2">
-<h3 id="_question_삭제">1.3. Question 삭제</h3>
+<h3 id="_question_삭제">2.3. Question 삭제</h3>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/questions/1' -i -X DELETE \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/questions/101' -i -X DELETE \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /questions/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /questions/101 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. request-header</caption>
+<caption class="title">Table 26. request-header</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -776,7 +1509,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. /questions/{questionId}</caption>
+<caption class="title">Table 27. /questions/{questionId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -816,7 +1549,7 @@ Content-Length: 40
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. response-fields</caption>
+<caption class="title">Table 28. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -840,22 +1573,22 @@ Content-Length: 40
 <hr>
 </div>
 <div class="sect2">
-<h3 id="_단일_question_조회">1.4. 단일 Question 조회</h3>
+<h3 id="_단일_question_조회">2.4. 단일 Question 조회</h3>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/questions/1' -i -X GET</code></pre>
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/questions/101' -i -X GET</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /questions/1 HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /questions/101 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. /questions/{questionId}</caption>
+<caption class="title">Table 29. /questions/{questionId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -887,26 +1620,26 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 329
+Content-Length: 342
 
 {
-  "createdAt" : "2022-10-27T11:22:27.184727",
-  "modifiedAt" : "2022-10-27T11:22:27.184797",
-  "id" : 3,
-  "title" : "testQuestionTitle3",
-  "content" : "testQuestionContent3",
-  "totalVote" : 10,
+  "createdAt" : "2022-10-14T17:13:10",
+  "modifiedAt" : "2022-10-14T18:13:10",
+  "id" : 101,
+  "title" : "testTitle",
+  "content" : "testContenttestContenttestContenttestContenttestContent",
+  "totalVote" : -1,
   "account" : {
     "id" : 1,
-    "email" : "mock1@mock.com",
-    "profile" : "mock/mock1",
-    "nickname" : "mockNickname1"
+    "email" : "test1@test.com",
+    "profile" : "test/path",
+    "nickname" : "testNickname1"
   }
 }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. response-fields</caption>
+<caption class="title">Table 30. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -980,7 +1713,7 @@ Content-Length: 329
 <hr>
 </div>
 <div class="sect2">
-<h3 id="_questions_조회">1.5. Questions 조회</h3>
+<h3 id="_questions_조회">2.5. Questions 조회</h3>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
@@ -995,7 +1728,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. request-parameters</caption>
+<caption class="title">Table 31. request-parameters</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1039,163 +1772,163 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 4328
+Content-Length: 4401
 
 {
   "content" : [ {
-    "createdAt" : "2022-10-27T11:22:26.92868",
-    "modifiedAt" : "2022-10-27T11:22:26.928735",
-    "id" : 3,
-    "title" : "testQuestionTitle3",
-    "content" : "testQuestionContent3",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:33:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 121,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock0@mock.com",
-      "profile" : "mock/mock0",
-      "nickname" : "mockNickname0"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.928747",
-    "modifiedAt" : "2022-10-27T11:22:26.92875",
-    "id" : 8,
-    "title" : "testQuestionTitle8",
-    "content" : "testQuestionContent8",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:32:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 120,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
-      "id" : 6,
-      "email" : "mock5@mock.com",
-      "profile" : "mock/mock5",
-      "nickname" : "mockNickname5"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.928759",
-    "modifiedAt" : "2022-10-27T11:22:26.928761",
-    "id" : 13,
-    "title" : "testQuestionTitle13",
-    "content" : "testQuestionContent13",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:31:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 119,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
-      "id" : 11,
-      "email" : "mock10@mock.com",
-      "profile" : "mock/mock10",
-      "nickname" : "mockNickname10"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.928768",
-    "modifiedAt" : "2022-10-27T11:22:26.928771",
-    "id" : 18,
-    "title" : "testQuestionTitle18",
-    "content" : "testQuestionContent18",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:30:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 118,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
-      "id" : 16,
-      "email" : "mock15@mock.com",
-      "profile" : "mock/mock15",
-      "nickname" : "mockNickname15"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.928781",
-    "modifiedAt" : "2022-10-27T11:22:26.928784",
-    "id" : 23,
-    "title" : "testQuestionTitle23",
-    "content" : "testQuestionContent23",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:29:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 117,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
-      "id" : 21,
-      "email" : "mock20@mock.com",
-      "profile" : "mock/mock20",
-      "nickname" : "mockNickname20"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.928791",
-    "modifiedAt" : "2022-10-27T11:22:26.928793",
-    "id" : 28,
-    "title" : "testQuestionTitle28",
-    "content" : "testQuestionContent28",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:28:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 116,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
-      "id" : 26,
-      "email" : "mock25@mock.com",
-      "profile" : "mock/mock25",
-      "nickname" : "mockNickname25"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.928799",
-    "modifiedAt" : "2022-10-27T11:22:26.928802",
-    "id" : 33,
-    "title" : "testQuestionTitle33",
-    "content" : "testQuestionContent33",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:27:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 115,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
-      "id" : 31,
-      "email" : "mock30@mock.com",
-      "profile" : "mock/mock30",
-      "nickname" : "mockNickname30"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.928808",
-    "modifiedAt" : "2022-10-27T11:22:26.928811",
-    "id" : 38,
-    "title" : "testQuestionTitle38",
-    "content" : "testQuestionContent38",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:26:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 114,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
-      "id" : 36,
-      "email" : "mock35@mock.com",
-      "profile" : "mock/mock35",
-      "nickname" : "mockNickname35"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.928818",
-    "modifiedAt" : "2022-10-27T11:22:26.928821",
-    "id" : 43,
-    "title" : "testQuestionTitle43",
-    "content" : "testQuestionContent43",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:25:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 113,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
-      "id" : 41,
-      "email" : "mock40@mock.com",
-      "profile" : "mock/mock40",
-      "nickname" : "mockNickname40"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.928828",
-    "modifiedAt" : "2022-10-27T11:22:26.928831",
-    "id" : 48,
-    "title" : "testQuestionTitle48",
-    "content" : "testQuestionContent48",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:24:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 112,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
-      "id" : 46,
-      "email" : "mock45@mock.com",
-      "profile" : "mock/mock45",
-      "nickname" : "mockNickname45"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   } ],
-  "totalPages" : 10,
-  "totalElements" : 100,
-  "first" : false,
+  "totalPages" : 3,
+  "totalElements" : 21,
+  "first" : true,
   "last" : false,
   "sorted" : true,
   "size" : 10,
@@ -1205,7 +1938,7 @@ Content-Length: 4328
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. response-fields</caption>
+<caption class="title">Table 32. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1334,7 +2067,7 @@ Content-Length: 4328
 <hr>
 </div>
 <div class="sect2">
-<h3 id="_questions_조회_unanswered">1.6. Questions 조회_UnAnswered</h3>
+<h3 id="_questions_조회_unanswered">2.6. Questions 조회_UnAnswered</h3>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
@@ -1349,7 +2082,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. request-parameters</caption>
+<caption class="title">Table 33. request-parameters</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1393,163 +2126,163 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 4338
+Content-Length: 4401
 
 {
   "content" : [ {
-    "createdAt" : "2022-10-27T11:22:26.820058",
-    "modifiedAt" : "2022-10-27T11:22:26.820114",
-    "id" : 3,
-    "title" : "testQuestionTitle3",
-    "content" : "testQuestionContent3",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:33:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 121,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock0@mock.com",
-      "profile" : "mock/mock0",
-      "nickname" : "mockNickname0"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.820126",
-    "modifiedAt" : "2022-10-27T11:22:26.82013",
-    "id" : 8,
-    "title" : "testQuestionTitle8",
-    "content" : "testQuestionContent8",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:32:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 120,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
-      "id" : 6,
-      "email" : "mock5@mock.com",
-      "profile" : "mock/mock5",
-      "nickname" : "mockNickname5"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.820137",
-    "modifiedAt" : "2022-10-27T11:22:26.82014",
-    "id" : 13,
-    "title" : "testQuestionTitle13",
-    "content" : "testQuestionContent13",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:31:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 119,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
-      "id" : 11,
-      "email" : "mock10@mock.com",
-      "profile" : "mock/mock10",
-      "nickname" : "mockNickname10"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.820146",
-    "modifiedAt" : "2022-10-27T11:22:26.820149",
-    "id" : 18,
-    "title" : "testQuestionTitle18",
-    "content" : "testQuestionContent18",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:30:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 118,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
-      "id" : 16,
-      "email" : "mock15@mock.com",
-      "profile" : "mock/mock15",
-      "nickname" : "mockNickname15"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.820155",
-    "modifiedAt" : "2022-10-27T11:22:26.820158",
-    "id" : 23,
-    "title" : "testQuestionTitle23",
-    "content" : "testQuestionContent23",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:29:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 117,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
-      "id" : 21,
-      "email" : "mock20@mock.com",
-      "profile" : "mock/mock20",
-      "nickname" : "mockNickname20"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.820164",
-    "modifiedAt" : "2022-10-27T11:22:26.820167",
-    "id" : 28,
-    "title" : "testQuestionTitle28",
-    "content" : "testQuestionContent28",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:28:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 116,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
-      "id" : 26,
-      "email" : "mock25@mock.com",
-      "profile" : "mock/mock25",
-      "nickname" : "mockNickname25"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.820173",
-    "modifiedAt" : "2022-10-27T11:22:26.820176",
-    "id" : 33,
-    "title" : "testQuestionTitle33",
-    "content" : "testQuestionContent33",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:27:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 115,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
-      "id" : 31,
-      "email" : "mock30@mock.com",
-      "profile" : "mock/mock30",
-      "nickname" : "mockNickname30"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.820184",
-    "modifiedAt" : "2022-10-27T11:22:26.820186",
-    "id" : 38,
-    "title" : "testQuestionTitle38",
-    "content" : "testQuestionContent38",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:26:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 114,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
-      "id" : 36,
-      "email" : "mock35@mock.com",
-      "profile" : "mock/mock35",
-      "nickname" : "mockNickname35"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.820196",
-    "modifiedAt" : "2022-10-27T11:22:26.820198",
-    "id" : 43,
-    "title" : "testQuestionTitle43",
-    "content" : "testQuestionContent43",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:25:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 113,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
-      "id" : 41,
-      "email" : "mock40@mock.com",
-      "profile" : "mock/mock40",
-      "nickname" : "mockNickname40"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.820205",
-    "modifiedAt" : "2022-10-27T11:22:26.820208",
-    "id" : 48,
-    "title" : "testQuestionTitle48",
-    "content" : "testQuestionContent48",
-    "totalVote" : 10,
-    "answerCount" : 5,
+    "createdAt" : "2022-10-14T17:24:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 112,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
     "selectedAnswer" : false,
     "account" : {
-      "id" : 46,
-      "email" : "mock45@mock.com",
-      "profile" : "mock/mock45",
-      "nickname" : "mockNickname45"
+      "id" : 1,
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   } ],
-  "totalPages" : 10,
-  "totalElements" : 100,
-  "first" : false,
+  "totalPages" : 2,
+  "totalElements" : 20,
+  "first" : true,
   "last" : false,
   "sorted" : true,
   "size" : 10,
@@ -1559,7 +2292,7 @@ Content-Length: 4338
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. response-fields</caption>
+<caption class="title">Table 34. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1688,7 +2421,7 @@ Content-Length: 4338
 <hr>
 </div>
 <div class="sect2">
-<h3 id="_특정_account의_questions_검색">1.7. 특정 Account의 Questions 검색</h3>
+<h3 id="_특정_account의_questions_검색">2.7. 특정 Account의 Questions 검색</h3>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
@@ -1703,7 +2436,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. /questions/account/{accountId}</caption>
+<caption class="title">Table 35. /questions/account/{accountId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1722,7 +2455,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. request-parameters</caption>
+<caption class="title">Table 36. request-parameters</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1762,163 +2495,163 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 4298
+Content-Length: 4401
 
 {
   "content" : [ {
-    "createdAt" : "2022-10-27T11:22:26.653409",
-    "modifiedAt" : "2022-10-27T11:22:26.653447",
-    "id" : 3,
-    "title" : "testQuestionTitle3",
-    "content" : "testQuestionContent3",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:33:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 121,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.653537",
-    "modifiedAt" : "2022-10-27T11:22:26.653555",
-    "id" : 8,
-    "title" : "testQuestionTitle8",
-    "content" : "testQuestionContent8",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:32:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 120,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.653561",
-    "modifiedAt" : "2022-10-27T11:22:26.653564",
-    "id" : 13,
-    "title" : "testQuestionTitle13",
-    "content" : "testQuestionContent13",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:31:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 119,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.653569",
-    "modifiedAt" : "2022-10-27T11:22:26.653571",
-    "id" : 18,
-    "title" : "testQuestionTitle18",
-    "content" : "testQuestionContent18",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:30:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 118,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.653576",
-    "modifiedAt" : "2022-10-27T11:22:26.653579",
-    "id" : 23,
-    "title" : "testQuestionTitle23",
-    "content" : "testQuestionContent23",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:29:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 117,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.653584",
-    "modifiedAt" : "2022-10-27T11:22:26.653587",
-    "id" : 28,
-    "title" : "testQuestionTitle28",
-    "content" : "testQuestionContent28",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:28:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 116,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.653611",
-    "modifiedAt" : "2022-10-27T11:22:26.653614",
-    "id" : 33,
-    "title" : "testQuestionTitle33",
-    "content" : "testQuestionContent33",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:27:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 115,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.653618",
-    "modifiedAt" : "2022-10-27T11:22:26.653653",
-    "id" : 38,
-    "title" : "testQuestionTitle38",
-    "content" : "testQuestionContent38",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:26:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 114,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.653718",
-    "modifiedAt" : "2022-10-27T11:22:26.653761",
-    "id" : 43,
-    "title" : "testQuestionTitle43",
-    "content" : "testQuestionContent43",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:25:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 113,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   }, {
-    "createdAt" : "2022-10-27T11:22:26.653787",
-    "modifiedAt" : "2022-10-27T11:22:26.653819",
-    "id" : 48,
-    "title" : "testQuestionTitle48",
-    "content" : "testQuestionContent48",
-    "totalVote" : 10,
-    "answerCount" : 5,
-    "selectedAnswer" : true,
+    "createdAt" : "2022-10-14T17:24:10",
+    "modifiedAt" : "2022-10-14T18:13:10",
+    "id" : 112,
+    "title" : "testTitle",
+    "content" : "testContenttestContenttestContenttestContenttestContent",
+    "totalVote" : 0,
+    "answerCount" : 0,
+    "selectedAnswer" : false,
     "account" : {
       "id" : 1,
-      "email" : "mock1@mock.com",
-      "profile" : "mock/mock1",
-      "nickname" : "mockNickname1"
+      "email" : "test1@test.com",
+      "profile" : "test/path",
+      "nickname" : "testNickname1"
     }
   } ],
-  "totalPages" : 10,
-  "totalElements" : 100,
-  "first" : false,
+  "totalPages" : 3,
+  "totalElements" : 21,
+  "first" : true,
   "last" : false,
   "sorted" : true,
   "size" : 10,
@@ -1928,7 +2661,7 @@ Content-Length: 4298
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 19. response-fields</caption>
+<caption class="title">Table 37. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -2056,19 +2789,1122 @@ Content-Length: 4298
 </table>
 <hr>
 </div>
+<div class="sect2">
+<h3 id="_question_vote_생성">2.8. Question_Vote 생성</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/questionVote/107' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0' \
+    -d '{
+  "state" : "UP"
+}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /questionVote/107 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0
+Content-Length: 20
+Host: localhost:8080
+
+{
+  "state" : "UP"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 38. request-header</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 39. /questionVote/{questionId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>questionId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Question 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 40. request-field</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>state</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vote 상태</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 29
+
+{
+  "data" : "success vote"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 41. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Api 성공 메시지</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_filecontroller">2. FileController</h2>
+<h2 id="_answercontroller">3. AnswerController</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fileupload">2.1. FileUpload</h3>
+<h3 id="_answer_생성">3.1. Answer 생성</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/answers' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0' \
+    -d '{
+  "content" : "testAnswerContent",
+  "totalVote" : 0,
+  "questionId" : 101
+}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /answers HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0
+Content-Length: 78
+Host: localhost:8080
+
+{
+  "content" : "testAnswerContent",
+  "totalVote" : 0,
+  "questionId" : 101
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 42. request-header</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 43. request-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalVote</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 투표</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>questionId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Question 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 38
+
+{
+  "data" : "success create answer"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 44. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Api 성공 메시지</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_answer_수정">3.2. Answer 수정</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/answers/1001' -i -X PATCH \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0' \
+    -d '{
+  "content" : "testAnswerContent",
+  "totalVote" : 0
+}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /answers/1001 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OSwiZXhwIjoxNjY3MzY1Njg5fQ.Sp7HhlqXFBo4FGTQxDDjt5fXltAtUN26qQwTRTqAmD0
+Content-Length: 56
+Host: localhost:8080
+
+{
+  "content" : "testAnswerContent",
+  "totalVote" : 0
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 45. request-header</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 46. /answers/{answerId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>answerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 47. request-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalVote</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 투표</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 40
+
+{
+  "data" : "success modify question"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 48. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Api 성공 메시지</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_answer_삭제">3.3. Answer 삭제</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/answers/1' -i -X DELETE \
+    -H 'Authorization: AccessToken_Value'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /answers/1 HTTP/1.1
+Authorization: AccessToken_Value
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 49. request-header</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 50. /answers/{answerId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>answerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 38
+
+{
+  "data" : "success delete answer"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 51. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Api 성공 메시지</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_단일_answer_조회">3.4. 단일 Answer 조회</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/answers/1001' -i -X GET</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /answers/1001 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 52. /answers/{answerId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>answerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 295
+
+{
+  "createdAt" : "2022-10-14T17:13:10",
+  "modifiedAt" : "2022-10-14T17:13:10",
+  "id" : 1001,
+  "content" : "testcontent",
+  "totalVote" : 0,
+  "account" : {
+    "id" : 1,
+    "email" : "test1@test.com",
+    "profile" : "test/path",
+    "nickname" : "testNickname1"
+  },
+  "questionId" : 101
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 53. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 수정일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalVote</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer Vote</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>account</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>account.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>account.email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정 email</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>account.profile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정 프로필 이미지 경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>account.nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정 별칭</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>questionId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Question 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_answers_조회">3.5. Answers 조회</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/answers?page=1&amp;size=10&amp;sort=id%2Cdesc' -i -X GET</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /answers?page=1&amp;size=10&amp;sort=id%2Cdesc HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 54. request-parameters</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호(default = 1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 size(default = 10)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 조건(default = id, asc</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 3441
+
+{
+  "content" : [ {
+    "createdAt" : "2022-11-02T13:38:09.627026",
+    "modifiedAt" : "2022-11-02T13:38:09.62704",
+    "id" : 1,
+    "content" : "contents1",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 101,
+      "email" : "mock1@gmail.com",
+      "profile" : "profile1",
+      "nickname" : "nick1"
+    },
+    "questionId" : 101
+  }, {
+    "createdAt" : "2022-11-02T13:38:09.627048",
+    "modifiedAt" : "2022-11-02T13:38:09.627051",
+    "id" : 2,
+    "content" : "contents2",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 102,
+      "email" : "mock2@gmail.com",
+      "profile" : "profile2",
+      "nickname" : "nick2"
+    },
+    "questionId" : 101
+  }, {
+    "createdAt" : "2022-11-02T13:38:09.627055",
+    "modifiedAt" : "2022-11-02T13:38:09.627057",
+    "id" : 3,
+    "content" : "contents3",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 103,
+      "email" : "mock3@gmail.com",
+      "profile" : "profile3",
+      "nickname" : "nick3"
+    },
+    "questionId" : 101
+  }, {
+    "createdAt" : "2022-11-02T13:38:09.627061",
+    "modifiedAt" : "2022-11-02T13:38:09.627063",
+    "id" : 4,
+    "content" : "contents4",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 104,
+      "email" : "mock4@gmail.com",
+      "profile" : "profile4",
+      "nickname" : "nick4"
+    },
+    "questionId" : 101
+  }, {
+    "createdAt" : "2022-11-02T13:38:09.627067",
+    "modifiedAt" : "2022-11-02T13:38:09.627069",
+    "id" : 5,
+    "content" : "contents5",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 105,
+      "email" : "mock5@gmail.com",
+      "profile" : "profile5",
+      "nickname" : "nick5"
+    },
+    "questionId" : 101
+  }, {
+    "createdAt" : "2022-11-02T13:38:09.627074",
+    "modifiedAt" : "2022-11-02T13:38:09.627076",
+    "id" : 6,
+    "content" : "contents6",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 106,
+      "email" : "mock6@gmail.com",
+      "profile" : "profile6",
+      "nickname" : "nick6"
+    },
+    "questionId" : 101
+  }, {
+    "createdAt" : "2022-11-02T13:38:09.62708",
+    "modifiedAt" : "2022-11-02T13:38:09.627082",
+    "id" : 7,
+    "content" : "contents7",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 107,
+      "email" : "mock7@gmail.com",
+      "profile" : "profile7",
+      "nickname" : "nick7"
+    },
+    "questionId" : 101
+  }, {
+    "createdAt" : "2022-11-02T13:38:09.627086",
+    "modifiedAt" : "2022-11-02T13:38:09.627088",
+    "id" : 8,
+    "content" : "contents8",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 108,
+      "email" : "mock8@gmail.com",
+      "profile" : "profile8",
+      "nickname" : "nick8"
+    },
+    "questionId" : 101
+  }, {
+    "createdAt" : "2022-11-02T13:38:09.627092",
+    "modifiedAt" : "2022-11-02T13:38:09.627094",
+    "id" : 9,
+    "content" : "contents9",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 109,
+      "email" : "mock9@gmail.com",
+      "profile" : "profile9",
+      "nickname" : "nick9"
+    },
+    "questionId" : 101
+  }, {
+    "createdAt" : "2022-11-02T13:38:09.627098",
+    "modifiedAt" : "2022-11-02T13:38:09.6271",
+    "id" : 10,
+    "content" : "contents10",
+    "totalVote" : 2,
+    "account" : {
+      "id" : 110,
+      "email" : "mock10@gmail.com",
+      "profile" : "profile10",
+      "nickname" : "nick10"
+    },
+    "questionId" : 101
+  } ],
+  "totalPages" : 1,
+  "totalElements" : 10,
+  "first" : true,
+  "last" : true,
+  "sorted" : true,
+  "size" : 10,
+  "pageNumber" : 1,
+  "numberOfElements" : 10
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 55. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 수정일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].totalVote</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer Vote</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].account</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].account.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].account.email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정 email</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].account.profile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정 프로필 이미지 경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].account.nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 생성계정 별칭</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].questionId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Question 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalPages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 페이지 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전체 Answer 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>first</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">첫 페이지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>last</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 페이지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이징 size</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지 번호(0부터 시작)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이징된 Question 개수</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_answers_vote_생성">3.6. Answers_Vote 생성</h3>
+<div class="listingblock">
+<div class="title">curl-request</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/answers/answerVote/1' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -H 'Authorization: AccessToken_Value' \
+    -d '{
+  "state" : "UP"
+}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">http-request</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /answers/answerVote/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: AccessToken_Value
+Content-Length: 20
+Host: localhost:8080
+
+{
+  "state" : "UP"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 56. request-header</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 57. /answers/answerVote/{answerId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>answerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Answer 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 58. request-field</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>state</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vote 상태</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">http-response</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 33
+
+{
+  "data" : "success add Vote"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 59. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Api 성공 메시지</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_filecontroller">4. FileController</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fileupload">4.1. FileUpload</h3>
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/file' -i -X POST \
     -H 'Content-Type: multipart/form-data;charset=UTF-8' \
-    -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OCwiZXhwIjoxNjY3MzY1Njg4fQ.hfHxT7NRrlX-ucxEgc4lHkYd5oQ61QfSKT_G0BG_gPc' \
     -F 'file=@file;type=image/jpeg'</code></pre>
 </div>
 </div>
@@ -2077,7 +3913,7 @@ Content-Length: 4298
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">POST /file HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUxQHNhbXBsZS5jb20iLCJpZCI6MSwiZX
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzM2Mzg4OCwiZXhwIjoxNjY3MzY1Njg4fQ.hfHxT7NRrlX-ucxEgc4lHkYd5oQ61QfSKT_G0BG_gPc
 Host: localhost:8080
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
@@ -2089,7 +3925,7 @@ file
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 20. request-parts</caption>
+<caption class="title">Table 60. request-parts</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2121,15 +3957,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 131
+Content-Length: 124
 
 {
-  "data" : "https://travel-plan-repo-file.s3.ap-northeast-2.amazonaws.com/ProfileImg/00a76424-94a7-4683-aa0a-cbb0e683586b.jpeg"
+  "data" : "https://travel-plan-repo-file.s3.ap-northeast-2.amazonaws.com/Img/6bff99c6-974a-4ed6-b847-6ec6ad99b6ea.file"
 }</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 21. response-fields</caption>
+<caption class="title">Table 61. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -2157,7 +3993,7 @@ Content-Length: 131
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-10-27 10:00:15 +0900
+Last updated 2022-11-01 21:23:51 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

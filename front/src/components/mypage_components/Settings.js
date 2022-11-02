@@ -3,7 +3,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import EditProfile from './EditProfile';
 import DeleteProfile from './DeleteProfile';
 
-function Settings() {
+const Settings = () => {
   let [act, setAct] = useState(true);
   let [set, setSet] = useState(false);
 
@@ -60,6 +60,6 @@ function Settings() {
       </Routes>
     </div>
   );
-}
+};
 
 export default Settings;

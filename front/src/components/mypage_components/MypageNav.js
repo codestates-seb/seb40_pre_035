@@ -4,7 +4,7 @@ import Activitise from './Activities';
 import Settings from './Settings';
 import MyPage from '../../pages/MyPage';
 
-function MyPageNav() {
+const MyPageNav = () => {
   let [act, setAct] = useState(true);
   let [set, setSet] = useState(false);
 
@@ -59,6 +59,6 @@ function MyPageNav() {
       </Routes>
     </div>
   );
-}
+};
 
 export default MyPageNav;

@@ -1,4 +1,37 @@
-function EditProfile() {
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { BASE_URL } from '../../util/api';
+
+const EditProfile = () => {
+  const [data, setData] = useState();
+
+  const onEdit = useEffect(() => {
+    fetch(`${BASE_URL}/accounts/1`, {
+      method: 'PATCH',
+      header: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        // title,
+        // body,
+        // userId,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          // error coming back from server
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setData(data);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
   return (
     <div className="w-full">
       <div className="pb-4 mb-6 border-b border-soGray-normal">
@@ -12,7 +45,7 @@ function EditProfile() {
             <img src="../../public/logo192.png" alt="" className="w-40 h-40" />
             <a
               href="http://localhost:3000/"
-              className="absolute block w-40 py-2 text-sm text-center text-white bg-neutral-600/50 h-9 bottom-px"
+              className="absolute block w-40 py-2 text-sm text-center text-white bg-soGray-normal h-9 bottom-px"
             >
               Change picture
             </a>
@@ -42,14 +75,14 @@ function EditProfile() {
       </form>
       <div>
         <button className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium">
-          Save profile
+          <Link to="/mypage">Save profile</Link>
         </button>
         <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
-          Cancel
+          <Link to="/mypage">Cancel</Link>
         </button>
       </div>
     </div>
   );
-}
+};
 
 export default EditProfile;

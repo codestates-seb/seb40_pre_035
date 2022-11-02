@@ -1,15 +1,54 @@
 import '../../components/common.css';
+import { useState } from 'react';
 const LoginInfo = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  function handleEmail(e) {
+    setEmail(e.target.value);
+  }
+  function handlePassword(e) {
+    setPassword(e.target.value);
+  }
+
+  function checkEmail() {
+    !email ? setEmailError(true) : setEmailError(false);
+  }
+  function checkPassword() {
+    !password ? setPasswordError(true) : setPasswordError(false);
+  }
+
+  function onSubmit() {
+    checkEmail();
+    checkPassword();
+    if (!emailError && !passwordError) return true;
+    else return false;
+  }
+
+  // 동적으로 tailwindcss 추가
+  const borderColor = {
+    true: 'w-full px-2 py-1 border rounded border-danger-500',
+    false: 'w-full px-2 py-1 border rounded border-soGray-light',
+  };
+
   return (
     <div className="flex-col justify-center my-5 align-middle">
       <div className="px-5 pt-3 pb-10 bg-white rounded-md drop-shadow-xl">
-        <form>
+        <div className="form">
           <div className="flex-col justify-center mx-2 my-3">
             <div className="font-bold">Email</div>
             <input
               type="Email"
-              className="w-full px-2 py-1 border rounded border-soGray-light"
+              value={email}
+              onChange={handleEmail}
+              className={borderColor[emailError ?? false]}
             ></input>
+            {emailError && (
+              <p className="text-xxs text-danger-500">Email cannot be empty.</p>
+            )}
           </div>
           <div className="flex-col justify-center mx-2 my-3">
             <div className="flex">
@@ -24,11 +63,20 @@ const LoginInfo = () => {
 
             <input
               type="password"
-              className="w-full px-2 py-1 border rounded border-soGray-light"
+              value={password}
+              onChange={handlePassword}
+              className={borderColor[passwordError ?? false]}
             ></input>
+            {passwordError && (
+              <p className="text-xxs text-danger-500">
+                Password cannot be empty.
+              </p>
+            )}
           </div>
-          <button className="w-full mt-10 so-button-primary">Log in</button>
-        </form>
+          <button onClick={onSubmit} className="w-full mt-10 so-button-primary">
+            Log in
+          </button>
+        </div>
       </div>
       <div className="flex justify-center my-10">
         <p className="mx-1">{`Don't have an account?`}</p>

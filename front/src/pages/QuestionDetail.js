@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { BASE_URL } from '../util/api';
 import relTimeFormat from '../util/relativeTimeFormat';
 import Votes from '../components/questions/Votes';
 import AnswerList from '../components/answers/AnswerList';
+import QuestionDeleteModal from '../components/questions/QustionDeleteModal';
 import Loading from '../components/loading/Loading';
 import { Viewer } from '@toast-ui/react-editor';
 import '../components/common.css';
 
 function QuestionDetail() {
   const { id } = useParams();
-  // const { data, isPending, error } = useFetch(`${BASE_URL}/questions/${id}`);
   const navigate = useNavigate();
 
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModalDelete = () => {
+    setIsModalOpen(true);
+  };
+
+  const onClickEdit = (id) => {
+    navigate(`/question/update/${id}`);
+  };
+
+  const onClickAskQuestion = () => {
+    navigate('/question/create');
+  };
 
   useEffect(() => {
     fetch(`/questions/${id}`)
@@ -34,10 +46,6 @@ function QuestionDetail() {
       });
   }, []);
 
-  const onClickAskQuestion = () => {
-    navigate('/question/create');
-  };
-
   if (isPending) {
     return (
       <div>
@@ -47,12 +55,12 @@ function QuestionDetail() {
   }
 
   return (
-    <main className="p-4 content">
+    <div className="flex flex-row flex-auto">
       {data && (
-        <>
-          <div className="mb-3 border-b question-header border-soGray-light">
+        <div className="so-main-content max-w-none">
+          <div className="px-8 py-8 mb-3 border-b question-header border-soGray-light">
             <div className="flex justify-between mb-4 question-title">
-              <h2 className="row-auto pr-2 text-2xl font-medium break-words">
+              <h2 className="row-auto pr-2 font-medium leading-tight break-words text-xxl">
                 {data.title}
               </h2>
               <div className="flex justify-end basis-52">
@@ -78,32 +86,45 @@ function QuestionDetail() {
                   {data.account.nickname}
                 </span>
               </span>
-              <time className="s-user-card--time">
+              <time className="mr-4 s-user-card--time">
                 <span className="mr-1 text-soGray-normal">Asked</span>
-                <span className="text-soGray-darker">
+                <span
+                  className="text-soGray-darker"
+                  title={`${data.createdAt.split('T')[0]} ${
+                    data.createdAt.split('T')[1].split('.')[0]
+                  }`}
+                >
                   {relTimeFormat(data.createdAt)}
                 </span>
               </time>
+              <div>
+                <button onClick={onClickEdit} data-target={data.id}>
+                  Edit
+                </button>
+                <button onClick={showModalDelete} className="">
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
           <div className="mb-10 question-body">
             <div
-              role="main"
               aria-label="question and answers"
-              className="flex flex-row"
+              className="flex flex-row p-6"
             >
-              <div className="mr-4 question-votes">
+              <div className="flex justify-center mr-4 question-votes">
                 <Votes total={data.totalVote} />
               </div>
               <div className="flex-auto question-content so-editor">
-                <Viewer initialValue={data.content} />
+                <Viewer initialValue={JSON.parse(data.content)} />
               </div>
             </div>
           </div>
           <AnswerList questionId={data.id} />
-        </>
+        </div>
       )}
-    </main>
+      {isModalOpen ? <QuestionDeleteModal /> : null}
+    </div>
   );
 }
 

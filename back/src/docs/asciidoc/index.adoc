@@ -376,6 +376,26 @@ include::{snippets}/QuestionAnswerList/http-response.adoc[]
 include::{snippets}/QuestionAnswerList/response-fields.adoc[]
 
 ***
+=== Account Answers 조회
+.curl-request
+include::{snippets}/AccountAnswerList/curl-request.adoc[]
+
+.http-request
+include::{snippets}/AccountAnswerList/http-request.adoc[]
+
+.request-path_parameters
+include::{snippets}/AccountAnswerList/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/AccountAnswerList/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/AccountAnswerList/http-response.adoc[]
+
+.response-fields
+include::{snippets}/AccountAnswerList/response-fields.adoc[]
+
+***
 === 단일 Answer 조회
 .curl-request
 include::{snippets}/getAnswer/curl-request.adoc[]

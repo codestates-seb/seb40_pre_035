@@ -3,12 +3,8 @@
 @tailwind utilities;
 
 @layer components {
-  #root {
-    @apply bg-[#fefefe]
-  }
-
   .so-main-content {
-    @apply flex flex-col basis-auto border-soGray-light max-w-[840px] border-l border-r border-l-soGray-light border-r-soGray-light
+    @apply flex flex-col basis-auto border-soGray-light border-l border-r border-l-soGray-light border-r-soGray-light
   }
   
   .so-button-primary {

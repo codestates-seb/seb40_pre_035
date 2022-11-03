@@ -2,14 +2,14 @@ function Card({ item }) {
   //   const themeState = useSelector((state) => state.themeSlice).theme;
 
   return (
-    <div className="w-auto p-6 leading-7 text-left text-md border-b-1 border-buttonSecondary">
+    <div className="w-auto p-4 leading-7 text-left border-b text-md border-soGray-light">
       <div className="flex">
-        <div className="votecontainer text-[13px] text-right mt-1 ml-2.5 mr-6 mb-1.5 w-24">
+        <div className="votecontainer text-[13px] text-right mt-1 ml-2.5 mr-6 mb-1.5">
           <div className="Vote">{item.totalVote} votes</div>
           <div className="Answers">{item.answerCount} answers</div>
         </div>
         <div className="QuestionContainer pl-1.5">
-          <div className="mb-2 text-2xl QuestionTitle text-buttonPrimary">
+          <div className="mb-2 text-[1.2rem] QuestionTitle text-buttonPrimary">
             {item.title}
           </div>
           <div className="mb-2 QuestionSummary">{item.content}</div>

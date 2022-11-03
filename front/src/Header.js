@@ -7,20 +7,24 @@ const Header = () => {
     setIsLogin(!isLogin);
   };
   return (
-    <div className="sticky top-0 z-20 flex-col w-full drop-shadow">
+    <div className="sticky top-0 z-20 flex-col w-full drop-shadow h-[60px] flex-nowrap">
       <div className="h-1 bg-primary-300"></div>
-      <div className="flex justify-center px-4 py-4 bg-soGray-headerbg">
+      <div className="flex justify-center px-2 py-3 bg-soGray-headerbg">
         <div className="items-center mx-2 my-1">
           {ReactHtmlParser(IconLogo)}
         </div>
-        <button className="hover:bg-soGray-light" onClick={onClick}>
+        {/* <button className="hover:bg-soGray-light" onClick={onClick}>
           임시 isLogin toggle
-        </button>
-        <div className="flex items-center px-2 py-1 mx-2 mr-10 bg-white rounded-md grow">
+        </button> */}
+        <div className="flex items-center px-2 py-1 mx-2 mr-10 bg-white border rounded-md grow border-soGray-light focus:ring-secondary-300">
           <div className="flex mx-2 my-1 text-soGray-icon">
             {ReactHtmlParser(IconSearch)}
           </div>
-          <input type="text" placeholder="Search..."></input>
+          <input
+            type="text"
+            className="w-[calc(100%-40px)] focus:outline-none focus-visible:outline-none"
+            placeholder="Search..."
+          />
         </div>
         <div>{isLogin ? <LoginGNB /> : <LogoutGNB />}</div>
       </div>

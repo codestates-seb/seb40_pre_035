@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SidebarRight from '../components/home/SidebarRight';
 import Loading from '../components/loading/Loading';
+import Sidebar from '../components/sidebar/Sidebar';
 import Card from '../components/home/Card';
 
 function Home() {
@@ -35,7 +36,10 @@ function Home() {
   }
 
   return (
-    <div className="flex flex-row flex-auto">
+    <div className="flex flex-row justify-center flex-auto flex-nowrap">
+      <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px]">
+        <Sidebar />
+      </nav>
       <div className="so-main-content">
         <div className="flex flex-row items-center justify-between px-8 py-8">
           <h2 className="text-xxl">Top Questions</h2>

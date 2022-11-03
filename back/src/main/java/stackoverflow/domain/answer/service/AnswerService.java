@@ -163,19 +163,19 @@ public class AnswerService {
     }
 
 
-    public Answer checkQuestionAnswer(Long answerId) {
+    private Answer checkQuestionAnswer(Long answerId) {
         return answerRepository.findByIdWithQuestion(answerId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // 확인
     }
 
 
-    public Account checkAccount(Long accountId) {
+    private Account checkAccount(Long accountId) {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));  // 확인
     }
 
 
-    public Question checkQuestion(Long questionId) {
+    private Question checkQuestion(Long questionId) {
         return questionRepository.findByIdWithAll(questionId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));  // 확인
     }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BASE_URL } from '../../util/api';
 
-function QuestionFilter(questionId) {
+function QuestionFilter() {
   const [questionList, setQuestionList] = useState([]);
   const [isPending, setIsPending] = useState(true);
 
@@ -22,7 +22,7 @@ function QuestionFilter(questionId) {
         setIsPending(false);
         throw Error(error.message);
       });
-  }, [questionId]);
+  }, []);
 
   if (isPending) {
     return <div>Loading...</div>;
@@ -31,7 +31,7 @@ function QuestionFilter(questionId) {
   return (
     <div>
       <div
-        className="inline-flex rounded-md shadow-sm object-right"
+        className="inline-flex object-right rounded-md shadow-sm"
         role="group"
       >
         <div>
@@ -42,8 +42,7 @@ function QuestionFilter(questionId) {
                 return a.createdAt - b.createdAt;
               })
             }
-            className="py-2 px-4 text-sm font-regular text-black
-            bg-white rounded-l border border-soGray-normal hover:bg-soGray-light  focus:z-10  focus:bg-soGray-normal"
+            className="px-4 py-2 text-sm text-black bg-white border rounded-l font-regular border-soGray-normal hover:bg-soGray-light focus:z-10 focus:bg-soGray-normal"
           >
             Newest
           </button>
@@ -56,8 +55,7 @@ function QuestionFilter(questionId) {
                 return a.totalVote - b.totalVote;
               })
             }
-            className="py-2 px-4 text-sm font-regular text-black
-            bg-white rounded-lr border border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal focus:z-10 "
+            className="px-4 py-2 text-sm text-black bg-white border font-regular rounded-lr border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal focus:z-10 "
           >
             Vote
           </button>
@@ -70,8 +68,7 @@ function QuestionFilter(questionId) {
                 return a.answerCount - b.answerCount;
               })
             }
-            className="py-2 px-4 text-sm font-regular text-black
-            bg-white rounded-r border focus:z-10 border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal"
+            className="px-4 py-2 text-sm text-black bg-white border rounded-r font-regular focus:z-10 border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal"
           >
             Unanswered
           </button>

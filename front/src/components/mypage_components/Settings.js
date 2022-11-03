@@ -32,7 +32,7 @@ const Settings = () => {
               className={
                 act
                   ? 'py-1 pr-12 pl-3 m-0.5 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white'
-                  : 'py-1 pr-12 pl-3 m-0.5 hover:bg-soGray-normal hover:rounded-2xl'
+                  : 'py-1 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
               }
             >
               <Link to="/mypage/settings/editprofile">
@@ -43,7 +43,7 @@ const Settings = () => {
               className={
                 set
                   ? 'py-1 pr-12 pl-3 m-0.5 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white'
-                  : 'py-1 pr-12 pl-3 m-0.5 hover:bg-soGray-normal hover:rounded-2xl'
+                  : 'py-1 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
               }
             >
               <Link to="/mypage/settings/deleteprofile">

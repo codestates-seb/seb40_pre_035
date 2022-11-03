@@ -6,6 +6,9 @@ const DeleteProfile = () => {
   const onRemove = () => {
     fetch(`${BASE_URL}/accounts/1`, {
       method: 'DELETE',
+      // headers: {
+      //   Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjozLCJ1c2VybmFtZSI6ImRlbGV0ZUBnbWFpbC5jb20iLCJzdWIiOiIzIiwiaWF0IjoxNjY3Mzk4NTM5LCJleHAiOjE2Njc0MDAzMzl9.DYgsA5fGaNixvFNeKu31ix3JEfdobrRK0MiXBYSeMS0'
+      // }
     }).then();
   };
 
@@ -22,8 +25,8 @@ const DeleteProfile = () => {
 
   return (
     <div>
-      <div className="pb-4 mb-6 border-b">
-        <h1 className="text-xxl ">Delete Profile</h1>
+      <div className="pb-4 mb-6 border-b border-soGray-normal">
+        <h1 className="text-2xl ">Delete Profile</h1>
       </div>
       <p className="mb-4">
         Before confirming that you would like your profile deleted, we&#39;d

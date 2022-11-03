@@ -18,86 +18,76 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/questions")
 public class QuestionController {
 
     private final QuestionService questionService;
 
-    @PostMapping("/questions")
+    @PostMapping
     public ResponseEntity<AddQuestionResDto> questionAdd(@LoginAccountId Long loginAccountId,
-                                                                       @Valid @RequestBody QuestionReqDto questionReqDto) {
+                                                         @Valid @RequestBody AddQuestionReqDto addQuestionReqDto) {
 
-        questionReqDto.setAccountId(loginAccountId);
-        Question question = questionReqDto.toQuestion();
-
+        Question question = addQuestionReqDto.toQuestion(loginAccountId);
         Question addedQuestion = questionService.addQuestion(question);
-
 
         return new ResponseEntity<>(new AddQuestionResDto(addedQuestion.getId()), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/questions/{questionId}")
+    @PatchMapping("/{questionId}")
     public ResponseEntity<SingleResDto<String>> questionModify(@LoginAccountId Long loginAccountId,
                                                                @PathVariable Long questionId,
-                                                               @RequestBody QuestionReqDto questionReqDto) {
+                                                               @RequestBody ModifyQuestionReqDto modifyQuestionReqDto) {
 
-        questionReqDto.setAccountId(loginAccountId);
-        questionReqDto.setQuestionId(questionId);
-
-        Question question = questionReqDto.toQuestion();
-
+        Question question = modifyQuestionReqDto.toQuestion(loginAccountId, questionId);
         questionService.modifyQuestion(question);
 
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
 
-    @DeleteMapping("/questions/{questionId}")
+    @DeleteMapping("/{questionId}")
     public ResponseEntity<SingleResDto<String>> questionRemove(@LoginAccountId Long loginAccountId,
                                                                @PathVariable Long questionId) {
 
-        QuestionReqDto questionReqDto = new QuestionReqDto();
-        questionReqDto.setQuestionId(questionId);
-        questionReqDto.setAccountId(loginAccountId);
-
-        Question question = questionReqDto.toQuestion();
-
-        questionService.removeQuestion(question);
+        questionService.removeQuestion(loginAccountId, questionId);
 
         return new ResponseEntity<>(new SingleResDto<>("success delete question"), HttpStatus.OK);
     }
 
-    @GetMapping("/questions/{questionId}")
+    @GetMapping("/{questionId}")
     public ResponseEntity<QuestionResDto> questionDetails(@PathVariable Long questionId) {
 
         Question question = questionService.findQuestion(questionId);
-
         QuestionResDto questionResDto = new QuestionResDto(question);
 
         return new ResponseEntity<>(questionResDto, HttpStatus.OK);
     }
 
-    @GetMapping("/questions")
+    @GetMapping
     public ResponseEntity<PageDto<QuestionsResDto>> questionList(Pageable pageable,
                                                                  @RequestParam(required = false, defaultValue = "") String keyword) {
 
         Page<Question> questions = questionService.findQuestions(keyword, pageable);
         Page<QuestionsResDto> questionsRes = questions.map(QuestionsResDto::new);
+
         return new ResponseEntity<>(new PageDto<>(questionsRes), HttpStatus.OK);
     }
 
-    @GetMapping("/questions/account/{accountId}")
-    public ResponseEntity<PageDto<QuestionsResDto>> AccountQuestionList(@PathVariable Long accountId, Pageable pageable) {
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<PageDto<QuestionsResDto>> accountQuestionList(@PathVariable Long accountId, Pageable pageable) {
 
         Page<Question> questions = questionService.findAccountQuestions(accountId, pageable);
         Page<QuestionsResDto> questionsRes = questions.map(QuestionsResDto::new);
+
         return new ResponseEntity<>(new PageDto<>(questionsRes), HttpStatus.OK);
     }
 
-    @GetMapping("/questions/unAnswered")
-    public ResponseEntity<PageDto<QuestionsResDto>> getQuestionsUnAnswered(Pageable pageable,
+    @GetMapping("/unAnswered")
+    public ResponseEntity<PageDto<QuestionsResDto>> unAnsweredQuestionList(Pageable pageable,
                                                                            @RequestParam(required = false) String keyword) {
 
         Page<Question> unAnsweredQuestions = questionService.findUnAnsweredQuestions(keyword, pageable);
         Page<QuestionsResDto> questionRes = unAnsweredQuestions.map(QuestionsResDto::new);
+
         return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
     }
 
@@ -108,6 +98,7 @@ public class QuestionController {
 
         QuestionVote questionVote = questionVoteReqDto.toQuestionVote(loginAccountId, questionId);
         questionService.voteQuestion(questionVote);
+
         return new ResponseEntity<>(new SingleResDto<>("success vote"), HttpStatus.CREATED);
     }
 }

@@ -20,6 +20,7 @@ public class FileService {
         if (multipartFile == null || multipartFile.isEmpty()) {
             return null;
         }
+
         verifiedFilename(multipartFile.getOriginalFilename());
 
         return fileRepository.saveFile(multipartFile, path);

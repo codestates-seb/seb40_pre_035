@@ -91,8 +91,9 @@ const EditProfile = () => {
             className="w-3/6 p-1 border rounded border-soGray-normal"
           />
           {usernameError && (
-            <p className="text-xs text-danger-500">
-              4자 이상부터 가능하며 특수 문자가 없어야 합니다.
+            <p className="text-sm text-danger-500">
+              Display Name can only contain letters, digits, spaces, apostrophes
+              or hyphens and must start with a letter or digit
             </p>
           )}
           <div className="font-semibold text-lg my-0.5">New password</div>
@@ -103,8 +104,9 @@ const EditProfile = () => {
             className="w-3/6 p-1 border rounded border-soGray-normal"
           />
           {passwordError && (
-            <p className="text-xs text-danger-500">
-              영어와 숫자를 최소 1개 포함하여 8자 이상이어야합니다.
+            <p className="text-sm text-danger-500">
+              passwords must contain at least eight characters, including at
+              least 1letter and 1 number.
             </p>
           )}
           <div className="font-semibold text-lg my-0.5">
@@ -117,7 +119,7 @@ const EditProfile = () => {
             className="w-3/6 p-1 border rounded border-soGray-normal"
           />
           {passwordError && (
-            <p className="text-xs text-danger-500">
+            <p className="text-sm text-danger-500">
               The passwords do not match.
             </p>
           )}

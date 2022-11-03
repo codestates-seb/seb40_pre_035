@@ -66,19 +66,19 @@ const DeleteProfile = () => {
             the deletion of my profile.
           </p>
         </div>
-        <Link to="/">
-          <button
-            className={
-              !disabled
-                ? ' bg-danger-400 text-white p-2.5 rounded'
-                : ' bg-danger-700 text-white p-2.5 rounded '
-            }
-            disabled={disabled}
-            onClick={onRemove}
-          >
-            Delete profile
-          </button>
-        </Link>
+        {/* <Link to="/"> */}
+        <button
+          className={
+            !disabled
+              ? ' bg-danger-400 text-white p-2.5 rounded'
+              : ' bg-danger-700 text-white p-2.5 rounded '
+          }
+          disabled={disabled}
+          onClick={onRemove}
+        >
+          Delete profile
+        </button>
+        {/* </Link> */}
       </form>
     </div>
   );

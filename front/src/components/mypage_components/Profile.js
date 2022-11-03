@@ -5,7 +5,7 @@ const Profile = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/accounts/user`)
+    fetch(`${BASE_URL}/accounts/1`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server

@@ -59,7 +59,7 @@ public class AccountService {
 
         //파일 저장 후 파일 경로를 account 에 저장
         Optional<MultipartFile> optionalProfile = Optional.ofNullable(modifyAccountReqDto.getProfile());
-        if (optionalProfile.isPresent()) {
+        if (optionalProfile.isPresent() && !optionalProfile.get().isEmpty()) {
             String filePath = null;
             try {
                 filePath = fileService.storeFile(optionalProfile.get(), path);
@@ -103,6 +103,11 @@ public class AccountService {
     private Account setDefaultProperties(PostAccountReqDto postAccountReqDto) {  //이후에 구체화 예정
 
         MultipartFile profile = postAccountReqDto.getProfile();
+
+        if (profile.isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.NOT_PROFILE_IMG);
+        }
+
         String filePath = null;
         try {
             filePath = fileService.storeFile(profile, path);

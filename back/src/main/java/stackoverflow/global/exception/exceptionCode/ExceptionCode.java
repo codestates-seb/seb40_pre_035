@@ -12,7 +12,8 @@ public enum ExceptionCode {
     ILLEGAL_FILENAME(400, "잘못된 형식의 Filename 입니다."),
     NOT_FOUND_ANSWER(400, "Answer를 찾을 수 없습니다."),  // conflict난 부분 수정
     ILLEGAL_VOTE(400, "잘못된 Vote 요청입니다."),
-    DUPLICATED_SELECT(400, "이미 채택된 Answer가 있습니다");
+    DUPLICATED_SELECT(400, "이미 채택된 Answer가 있습니다"),
+    NOT_PROFILE_IMG(400, "회원가입 시 프로필 이미지가 필요합니다.");
 
 
     @Getter

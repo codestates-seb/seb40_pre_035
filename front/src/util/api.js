@@ -21,6 +21,7 @@ export const fetchUploadImage = async (blob) => {
       }
     })
     .then((data) => {
+      console.log(data);
       return data.data;
     })
     .catch((error) => {
@@ -34,7 +35,7 @@ export const fetchCreateQuestion = async (fetchData) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzQwMzM3OSwiZXhwIjoxNjY3NDA1MTc5fQ.tBnUxVdRDNw0Pjwkg-hIuMpy1PuFVbjec6vdZglS0dk',
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzQwMzM3OSwiZXhwIjoxNjY3NDA1MTc5fQ.tBnUxVdRDNw0Pjwkg-hIuMpy1PuFVbjec6vdZglS0dk',
     },
     body: JSON.stringify(fetchData),
   })
@@ -48,6 +49,30 @@ export const fetchCreateQuestion = async (fetchData) => {
     })
     .then((data) => {
       window.location.href = `/question/detail/${data.id}`;
+    })
+    .catch((error) => {
+      throw Error(error.message);
+    });
+};
+
+export const fetchCreateReview = async (fetchData) => {
+  fetch(`/answers?page=1&size=10&sort=id%2Cdesc`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjoxLCJ1c2VybmFtZSI6InRlc3QxQHRlc3QuY29tIiwic3ViIjoiMSIsImlhdCI6MTY2NzQwMzM3OSwiZXhwIjoxNjY3NDA1MTc5fQ.tBnUxVdRDNw0Pjwkg-hIuMpy1PuFVbjec6vdZglS0dk',
+    },
+    body: JSON.stringify(fetchData),
+  })
+    .then((response) => {
+      console.log(response);
+      if (!response.ok) {
+        throw Error('유효하지 않은 요청입니다.');
+      } else {
+        window.location.reload();
+        // return response.json();
+      }
     })
     .catch((error) => {
       throw Error(error.message);

@@ -19,14 +19,15 @@ function Editor({ onChange, height = '300px' }) {
   };
 
   const onUploadImage = async (blob, callback) => {
+    console.log(blob);
     let path = await fetchUploadImage(blob);
-    console.log(`파일경로: ${path}`);
+    console.log(`${path}`);
     callback(path, blob.name);
     return false;
   };
 
   return (
-    <div className="editor-wrapper">
+    <div className="mb-4 editor-wrapper">
       <Writer
         previewStyle="tab"
         height={height}

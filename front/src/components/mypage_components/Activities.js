@@ -17,7 +17,7 @@ const Activitise = () => {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex w-full">
       <nav className="my-3 ml-3 mr-8">
         <div className="flex flex-col">
           {menuArr.map((ele, index) => {

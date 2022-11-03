@@ -7,7 +7,7 @@ const Answers = () => {
   const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/answers/account/1?page=1&size=5&sort=id%2Cdesc`)
+    fetch(`${BASE_URL}/answers/account/1?page=1&size=99&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -33,19 +33,24 @@ const Answers = () => {
 
   return (
     <div className="w-full m-3">
-      <p className="mb-2 text-2xl font-medium">0 Answers</p>
+      <p className="mb-2 text-2xl font-medium">{content.length} Answers</p>
       <div className="border rounded border-soGray-normal">
         {content.map((el, index) => {
           return (
-            <div key={index} className="p-3 border-b border-soGray-normal">
+            <div
+              key={index}
+              className="px-3 py-2 border-b border-soGray-normal last:border-none"
+            >
               <div className="text-xs font-medium">{el.totalVote} votes</div>
-              <div className="">{el.content}</div>
+              <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis ">
+                {el.content}
+              </div>
               <div className="text-sm text-right">createdAt {el.createdAt}</div>
             </div>
           );
         })}
-        {content === null ? (
-          <p className="p-12 m-2 text-center ">
+        {content === null || content.length === 0 ? (
+          <p className="p-12 text-center border-b border-soGray-normal ">
             You have not{' '}
             <Link to="/" className="text-secondary-500">
               answered

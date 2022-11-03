@@ -11,8 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
-@Entity
+@Entity @Getter @Setter
 @NoArgsConstructor
 public class Answer extends BaseTime {
     @Id @Column(name = "answer_id")

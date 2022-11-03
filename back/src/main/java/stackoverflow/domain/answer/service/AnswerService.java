@@ -32,81 +32,67 @@ public class AnswerService {
     private final AnswerVoteRepository answerVoteRepository;
 
     @Transactional
-    public void createAnswer(Answer answer) {
-        accountRepository.findById(answer.getAccount().getId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
-        questionRepository.findById(answer.getQuestion().getId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+    public void addAnswer(Answer answer) {
 
+        checkAccount(answer.getAccount().getId());
+        checkQuestion(answer.getQuestion().getId());
 
         answerRepository.save(answer);
+
     }
+
 
     @Transactional
-    public void updateAnswer(Answer answer) {
-        Answer verifiedAnswer = answerRepository.findByIdWithQuestion(answer.getId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
+    public void modifyAnswer(Answer answer) {
 
-        Long savedAccountId = verifiedAnswer.getAccount().getId();
-        Long loginAccountId = answer.getAccount().getId();
+        Answer verifiedAnswer = checkAnswer(answer.getId());
+        verifyAccount(answer.getAccount().getId(), verifiedAnswer.getAccount().getId());
 
-        if (!savedAccountId.equals(loginAccountId)) {
-            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
-        }
-        else {
-            answer.setModifiedAt(LocalDateTime.now());
-            Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));  // patchAnswer로 변경될 사항 추가하는 부
-        }
-    }
+        answer.setModifiedAt(LocalDateTime.now());
+        Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));  // patchAnswer로 변경될 사항 추가하는 부
 
-
-    public Answer findAnswer(Long answerId) {
-        Answer verifiedAnswer = findVerifiedAnswer(answerId);
-
-        return verifiedAnswer;
-    }
-
-
-    public Page<Answer> findAnswers(Pageable pageable) {
-        Page<Answer> page = answerRepository.findAllByOrderByIdDesc(pageable);
-
-        return page;
     }
 
 
     @Transactional
     public void removeAnswer(Long loginAccountId, Long answerId) {
-        Answer verifiedAnswer = findVerifiedAnswer(answerId);
 
-        if (!loginAccountId.equals(verifiedAnswer.getAccount().getId())) {
-            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
-        }
+        Answer verifiedAnswer = checkAnswer(answerId);
+        verifyAccount(loginAccountId, verifiedAnswer.getAccount().getId());
 
         answerVoteRepository.deleteAll(verifiedAnswer.getAnswerVotes());
         answerRepository.delete(verifiedAnswer);
+
+    }
+
+
+    public Answer findAnswer(Long answerId) {
+        return checkAnswer(answerId);
+    }
+
+
+    public Page<Answer> findAnswers(Pageable pageable) {
+        return answerRepository.findAllByOrderByIdDesc(pageable);
     }
 
 
     public Page<Answer> findAccountAnswers(Long accountId, Pageable pageable) {
-
         return answerRepository.findByAccountWithAll(accountId, pageable);
     }
 
+
     public Page<Answer> findQuestionAnswers(Long questionId, Pageable pageable) {
-        Page<Answer> byQuestionWithAll = answerRepository.findByQuestionWithAll(questionId, pageable);
-        return byQuestionWithAll;
+        return answerRepository.findByQuestionWithAll(questionId, pageable);
     }
+
 
     @Transactional
     public void selectAnswer(Long loginAccountId, Long answerId) {
 
         Answer answer = verifiedAnswerWithAll(answerId);
-
         Question question = answer.getQuestion();
 
-        if (!loginAccountId.equals(question.getAccount().getId())) {
-            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
-        }
+        verifyAccount(loginAccountId, question.getAccount().getId());
 
         if (!answer.isSelected()) {
             List<Answer> answers = question.getAnswers();
@@ -115,7 +101,9 @@ public class AnswerService {
         } else {
             answer.setSelected(false);
         }
+
     }
+
 
     @Transactional
     public void voteAnswer(AnswerVote answerVote) {
@@ -142,38 +130,58 @@ public class AnswerService {
 
     }
 
+
     private void verifyAnswerVoteField(AnswerVote answerVote) {
-        accountRepository.findById(answerVote.getAccount().getId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
-        answerRepository.findById(answerVote.getAnswer().getId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
+
+        checkAccount(answerVote.getAccount().getId());
+        checkAnswer(answerVote.getAnswer().getId());
+
     }
 
+
     private static void isSelectedAnswer(List<Answer> answers) {
+
         for (Answer questionAnswer : answers) {
             if (questionAnswer.isSelected()) {
                 throw new BusinessLogicException(ExceptionCode.DUPLICATED_SELECT);
             }
         }
+
     }
+
 
     private Answer verifiedAnswerWithAll(Long answerId) {
-        Answer answer = answerRepository.findByIdWithAll(answerId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
 
-        questionRepository.findByIdWithAll(answer.getQuestion().getId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
-
-        accountRepository.findById(answer.getAccount().getId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
+        Answer answer = checkAnswer(answerId);
+        checkQuestion(answer.getQuestion().getId());
+        checkAccount(answer.getAccount().getId());
 
         return answer;
+
     }
 
-    public Answer findVerifiedAnswer(Long answerId) {
-        Optional<Answer> optionalAnswer = answerRepository.findByIdWithQuestion(answerId);
-        Answer verifiedAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
 
-        return verifiedAnswer;
+    public Answer checkAnswer(Long answerId) {
+        return answerRepository.findByIdWithQuestion(answerId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // 확인
+    }
+
+
+    public Account checkAccount(Long accountId) {
+        return accountRepository.findById(accountId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));  // 확인
+    }
+
+
+    public Question checkQuestion(Long questionId) {
+        return questionRepository.findByIdWithAll(questionId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));  // 확인
+    }
+
+
+    private void verifyAccount (Long loginAccountId, Long accountId) {
+        if (!loginAccountId.equals(accountId)) {
+            throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
+        }
     }
 }

@@ -29,7 +29,7 @@ public class AnswerController {
                                                                  @RequestBody AnswerReqDto answerReqDto) {
         answerReqDto.setAccountId(loginAccountId);
         Answer answer = answerReqDto.toAnswer();
-        answerService.createAnswer(answer);
+        answerService.addAnswer(answer);
 
         return new ResponseEntity<>(new SingleResDto<>("success create answer"), HttpStatus.CREATED);
     }
@@ -42,7 +42,7 @@ public class AnswerController {
         answerReqDto.setAccountId(loginAccountId);
         answerReqDto.setAnswerId(answerId);
         Answer answer = answerReqDto.toAnswer();
-        answerService.updateAnswer(answer);
+        answerService.modifyAnswer(answer);
 
         return new ResponseEntity<>(new SingleResDto<>("success modify question"), HttpStatus.OK);
     }
@@ -50,6 +50,7 @@ public class AnswerController {
 
     @GetMapping("/{answerId}")
     public ResponseEntity answerDetails(@PathVariable Long answerId) {
+
         Answer answer = answerService.findAnswer(answerId);
         AnswerResDto answerResDto = new AnswerResDto(answer);  // 이 부분 수정됨
 
@@ -60,6 +61,7 @@ public class AnswerController {
     @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<PageDto> answerList(Pageable pageable) {
+
         Page<Answer> page = answerService.findAnswers(pageable);
         Page<AnswerResDto> answersRes = page.map(AnswerResDto::new);
 
@@ -70,7 +72,6 @@ public class AnswerController {
     @DeleteMapping("/{answerId}")
     public ResponseEntity<SingleResDto<String>> answerRemove(@LoginAccountId Long loginAccountId,
                                                              @PathVariable Long answerId) {
-
         answerService.removeAnswer(loginAccountId, answerId);
 
         return new ResponseEntity<>(new SingleResDto<>("success delete answer"), HttpStatus.OK);
@@ -81,7 +82,6 @@ public class AnswerController {
     public ResponseEntity<SingleResDto<String>> answerVote(@LoginAccountId Long loginAccountId,
                                                               @PathVariable Long answerId,
                                                               @RequestBody AddAnswerVoteReqDto addAnswerVoteReqDto) {
-
         AnswerVote answerVote = addAnswerVoteReqDto.toAnswerVote(loginAccountId, answerId);
         answerService.voteAnswer(answerVote);
 
@@ -91,7 +91,6 @@ public class AnswerController {
     @PostMapping("/select/{answerId}")
     public ResponseEntity<SingleResDto<String>> answerSelect(@LoginAccountId Long loginAccountId,
                                                              @PathVariable Long answerId) {
-
         answerService.selectAnswer(loginAccountId, answerId);
 
         return new ResponseEntity<>(new SingleResDto<>("success select answer"), HttpStatus.CREATED);
@@ -99,7 +98,8 @@ public class AnswerController {
 
 
     @GetMapping("/account/{accountId}")
-    public ResponseEntity<PageDto> accountAnswerList(@PathVariable Long accountId, Pageable pageable) {
+    public ResponseEntity<PageDto> accountAnswerList(@PathVariable Long accountId,
+                                                     Pageable pageable) {
 
         Page<Answer> page = answerService.findAccountAnswers(accountId, pageable);
         Page<AnswerResDto> accountAnswerRes = page.map(answer-> new AnswerResDto(answer));
@@ -110,7 +110,6 @@ public class AnswerController {
     @GetMapping("/question/{questionId}")
     public ResponseEntity<PageDto<QuestionAnswerResDto>> questionAnswersList(@PathVariable Long questionId,
                                                                              Pageable pageable) {
-
         Page<Answer> questionAnswers = answerService.findQuestionAnswers(questionId, pageable);
         Page<QuestionAnswerResDto> questionAnswersRes = questionAnswers.map(QuestionAnswerResDto::new);
 

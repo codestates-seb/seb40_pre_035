@@ -8,9 +8,7 @@ import stackoverflow.domain.question.entity.Question;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class QuestionReqDto {
-
-    private Long questionId;
+public class AddQuestionReqDto {
 
     @NotBlank
     private String title;
@@ -18,14 +16,11 @@ public class QuestionReqDto {
     @Length(min = 50)
     private String content;
 
-    private Long accountId;
-
-    public Question toQuestion() {
+    public Question toQuestion(Long accountId) {
         return Question.builder()
-                .id(questionId)
                 .title(title)
                 .content(content)
-                .account(new Account(this.accountId))
+                .account(new Account(accountId))
                 .build();
     }
 }

@@ -16,7 +16,7 @@ public class FolderFileRepository implements FileRepository{
 
         multipartFile.transferTo(new java.io.File(fullPath));
 
-        return fullPath;
+        return "/file/" + storeFileName;
     }
 
     private String getStoreFileName(String originalFilename) {

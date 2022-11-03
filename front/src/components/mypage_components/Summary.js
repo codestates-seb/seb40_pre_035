@@ -92,12 +92,12 @@ const Summary = () => {
               return (
                 <div
                   key={index}
-                  className="p-3 overflow-hidden border-b border-soGray-normal whitespace-nowrap text-ellipsis last:border-none "
+                  className="p-3 pb-1 overflow-hidden border-b border-soGray-normal whitespace-nowrap text-ellipsis last:border-none "
                 >
                   <div className="text-xs font-medium">
                     {el.totalVote} votes
                   </div>
-                  <div className="">{el.content}</div>
+                  <div className="mb-0.5">{el.content}</div>
                   <div className="text-sm text-right">
                     createdAt {el.createdAt}
                   </div>
@@ -124,12 +124,12 @@ const Summary = () => {
               return (
                 <div
                   key={index}
-                  className="p-3 overflow-hidden border-b border-soGray-normal whitespace-nowrap text-ellipsis last:border-none "
+                  className="p-3 pb-1 overflow-hidden border-b border-soGray-normal whitespace-nowrap text-ellipsis last:border-none "
                 >
                   <div className="text-xs font-medium">
                     {el.totalVote} votes
                   </div>
-                  <div className="">{el.content}</div>
+                  <div className="mb-0.5">{el.content}</div>
                   <div className="text-sm text-right">
                     createdAt {el.createdAt}
                   </div>

@@ -43,4 +43,6 @@ public class Answer extends BaseTime {
     }
 
     public void setQuestion(Question question) { this.question = question;}
+
+    public boolean getSelect() { return this.selected; }
 }

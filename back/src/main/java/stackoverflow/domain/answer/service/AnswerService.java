@@ -45,7 +45,7 @@ public class AnswerService {
     @Transactional
     public void modifyAnswer(Answer answer) {
 
-        Answer verifiedAnswer = checkAnswer(answer.getId());
+        Answer verifiedAnswer = checkQuestionAnswer(answer.getId());
         verifyAccount(answer.getAccount().getId(), verifiedAnswer.getAccount().getId());
 
         answer.setModifiedAt(LocalDateTime.now());
@@ -57,7 +57,7 @@ public class AnswerService {
     @Transactional
     public void removeAnswer(Long loginAccountId, Long answerId) {
 
-        Answer verifiedAnswer = checkAnswer(answerId);
+        Answer verifiedAnswer = checkQuestionAnswer(answerId);
         verifyAccount(loginAccountId, verifiedAnswer.getAccount().getId());
 
         answerVoteRepository.deleteAll(verifiedAnswer.getAnswerVotes());
@@ -67,7 +67,7 @@ public class AnswerService {
 
 
     public Answer findAnswer(Long answerId) {
-        return checkAnswer(answerId);
+        return checkQuestionAnswer(answerId);
     }
 
 
@@ -134,7 +134,7 @@ public class AnswerService {
     private void verifyAnswerVoteField(AnswerVote answerVote) {
 
         checkAccount(answerVote.getAccount().getId());
-        checkAnswer(answerVote.getAnswer().getId());
+        checkQuestionAnswer(answerVote.getAnswer().getId());
 
     }
 
@@ -152,7 +152,9 @@ public class AnswerService {
 
     private Answer verifiedAnswerWithAll(Long answerId) {
 
-        Answer answer = checkAnswer(answerId);
+        Answer answer = answerRepository.findByIdWithAll(answerId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
+
         checkQuestion(answer.getQuestion().getId());
         checkAccount(answer.getAccount().getId());
 
@@ -161,7 +163,7 @@ public class AnswerService {
     }
 
 
-    public Answer checkAnswer(Long answerId) {
+    public Answer checkQuestionAnswer(Long answerId) {
         return answerRepository.findByIdWithQuestion(answerId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // 확인
     }

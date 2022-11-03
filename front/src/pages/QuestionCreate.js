@@ -19,7 +19,7 @@ function QuestionCreate() {
   };
 
   const onClickDiscard = () => {
-    navigator('/');
+    navigator('/question');
   };
 
   const onClickSubmit = () => {

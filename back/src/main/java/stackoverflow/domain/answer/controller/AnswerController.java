@@ -25,7 +25,7 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity<SingleResDto<String>> postAnswer(@LoginAccountId Long loginAccountId,
+    public ResponseEntity<SingleResDto<String>> answerAdd(@LoginAccountId Long loginAccountId,
                                                                  @RequestBody AnswerReqDto answerReqDto) {
         answerReqDto.setAccountId(loginAccountId);
         Answer answer = answerReqDto.toAnswer();
@@ -36,7 +36,7 @@ public class AnswerController {
 
 
     @PatchMapping("/{answerId}")
-    public ResponseEntity<SingleResDto<String>> patchAnswer(@LoginAccountId Long loginAccountId,
+    public ResponseEntity<SingleResDto<String>> answerModify(@LoginAccountId Long loginAccountId,
                                                                   @PathVariable Long answerId,
                                                                   @RequestBody AnswerReqDto answerReqDto) {
         answerReqDto.setAccountId(loginAccountId);
@@ -49,7 +49,7 @@ public class AnswerController {
 
 
     @GetMapping("/{answerId}")
-    public ResponseEntity getAnswer(@PathVariable Long answerId) {
+    public ResponseEntity answerDetails(@PathVariable Long answerId) {
         Answer answer = answerService.findAnswer(answerId);
         AnswerResDto answerResDto = new AnswerResDto(answer);  // 이 부분 수정됨
 
@@ -59,11 +59,11 @@ public class AnswerController {
 
     @Transactional(readOnly = true)
     @GetMapping
-    public ResponseEntity<PageDto> getAnswers(Pageable pageable) {
+    public ResponseEntity<PageDto> answerList(Pageable pageable) {
         Page<Answer> page = answerService.findAnswers(pageable);
-        Page<AnswerResDto> accountAnswersDtePage = page.map(AnswerResDto::new);
+        Page<AnswerResDto> answersRes = page.map(AnswerResDto::new);
 
-        return new ResponseEntity<>(new PageDto<>(accountAnswersDtePage), HttpStatus.OK);
+        return new ResponseEntity<>(new PageDto<>(answersRes), HttpStatus.OK);
     }
 
 
@@ -99,12 +99,12 @@ public class AnswerController {
 
 
     @GetMapping("/account/{accountId}")
-    public ResponseEntity<PageDto> getAccountAnswers(@PathVariable Long accountId, Pageable pageable) {
+    public ResponseEntity<PageDto> accountAnswerList(@PathVariable Long accountId, Pageable pageable) {
 
         Page<Answer> page = answerService.findAccountAnswers(accountId, pageable);
-        Page<AnswerResDto> pageDto= page.map(answer-> new AnswerResDto(answer));
+        Page<AnswerResDto> accountAnswerRes = page.map(answer-> new AnswerResDto(answer));
 
-        return new ResponseEntity<>(new PageDto(pageDto), HttpStatus.OK);
+        return new ResponseEntity<>(new PageDto(accountAnswerRes), HttpStatus.OK);
     }
 
     @GetMapping("/question/{questionId}")

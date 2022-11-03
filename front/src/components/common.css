@@ -3,10 +3,18 @@
 @tailwind utilities;
 
 @layer components {
+  #root {
+    @apply bg-[#fefefe]
+  }
+
+  .so-main-content {
+    @apply flex flex-col basis-auto border-soGray-light max-w-[840px] border-l border-r border-l-soGray-light border-r-soGray-light
+  }
+  
   .so-button-primary {
     box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
     border: 1px solid transparent;
-    @apply text-white bg-buttonPrimary px-3 h-10 whitespace-nowrap rounded-[4px] border-transparent font-medium hover:bg-secondary-400
+    @apply flex items-center text-white bg-buttonPrimary px-3 h-10 whitespace-nowrap rounded-[4px] border-transparent font-medium hover:bg-secondary-400
   }
 
   .so-button-dismiss {

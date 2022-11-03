@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import { BASE_URL } from '../../util/api';
 
 function Mainbar({ questionId }) {
-  console.log('questionId');
   const [questionList, setQuestionList] = useState([]);
   const [isPending, setIsPending] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,7 +40,6 @@ function Mainbar({ questionId }) {
 
   return (
     <>
-      {console.log(questionList)}
       <div className="flex flex-col">
         <ListTop />
         <div className="pt-10">

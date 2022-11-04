@@ -46,7 +46,7 @@ public class AnswerService {
     public void modifyAnswer(Answer answer) {
 
         Answer verifiedAnswer = verifyAnswerExist(answer.getId());
-        verifyAccountLogin(answer.getAccount().getId(), verifiedAnswer.getAccount().getId());
+        verifyAuthority(answer.getAccount().getId(), verifiedAnswer.getAccount().getId());
 
         answer.setModifiedAt(LocalDateTime.now());
 
@@ -59,7 +59,7 @@ public class AnswerService {
     public void removeAnswer(Long loginAccountId, Long answerId) {
 
         Answer verifiedAnswer = verifyAnswerExist(answerId);
-        verifyAccountLogin(loginAccountId, verifiedAnswer.getAccount().getId());
+        verifyAuthority(loginAccountId, verifiedAnswer.getAccount().getId());
 
         answerVoteRepository.deleteAll(verifiedAnswer.getAnswerVotes());
         answerRepository.delete(verifiedAnswer);
@@ -93,7 +93,7 @@ public class AnswerService {
         Answer answer = verifiedAnswerWithAll(answerId);
         Question question = answer.getQuestion();
 
-        verifyAccountLogin(loginAccountId, question.getAccount().getId());
+        verifyAuthority(loginAccountId, question.getAccount().getId());
 
         if (!answer.isSelected()) {
             List<Answer> answers = question.getAnswers();
@@ -186,7 +186,7 @@ public class AnswerService {
     }
 
 
-    private void verifyAccountLogin (Long loginAccountId, Long accountId) {
+    private void verifyAuthority (Long loginAccountId, Long accountId) {
         if (!loginAccountId.equals(accountId)) {
             throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
         }

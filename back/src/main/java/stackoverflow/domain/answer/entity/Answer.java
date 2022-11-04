@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity @Getter @Setter
+@Entity @Getter
 @NoArgsConstructor
 public class Answer extends BaseTime {
     @Id @Column(name = "answer_id")
@@ -43,5 +43,14 @@ public class Answer extends BaseTime {
 
     public void setQuestion(Question question) { this.question = question;}
 
-    public boolean getSelect() { return this.selected; }
+    public String setContent(String content) { return this.content = content; }
+
+    public boolean setSelected(boolean selected) { return this.selected = selected; }
+
+    public boolean getSelected() { return this.selected; }
+
+    public boolean isSelected() { return this.selected; }
+
+    public Long setId (Long id) { return this.id = id; }
+
 }

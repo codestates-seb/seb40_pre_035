@@ -1,11 +1,15 @@
 import '../../components/common.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { BASE_URL, fetchLogin, fetchUserInfo } from '../../util/api';
+import { useNavigate } from 'react-router-dom';
 const LoginInfo = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+  const [isValidate, setIsValidate] = useState(false);
 
   function handleEmail(e) {
     setEmail(e.target.value);
@@ -21,18 +25,52 @@ const LoginInfo = () => {
     !password ? setPasswordError(true) : setPasswordError(false);
   }
 
-  function onSubmit() {
-    checkEmail();
-    checkPassword();
-    if (!emailError && !passwordError) return true;
-    else return false;
-  }
-
   // 동적으로 tailwindcss 추가
   const borderColor = {
     true: 'w-full px-2 py-1 border rounded border-danger-500',
     false: 'w-full px-2 py-1 border rounded border-soGray-light',
   };
+
+  function validation() {
+    checkEmail();
+    checkPassword();
+    if (!emailError && !passwordError) return true;
+    else return false;
+  }
+  function onSubmit() {
+    validation() ? setIsValidate(true) : setIsValidate(false);
+    console.log('현재 isvalidate:', isValidate);
+  }
+
+  const navigate = useNavigate();
+  const goHome = () => {
+    navigate('/');
+  };
+  // 로그인 데이터 fetch
+  const onLoginData = async (callback) => {
+    const loginData = JSON.stringify({
+      email: email,
+      password: password,
+    });
+    console.log('loginData:', loginData);
+    await fetchLogin(loginData).then((data) => {
+      console.log(data);
+      console.log('로그인 성공');
+    });
+    let userdata = await fetchUserInfo().then((data) => {
+      console.log(data);
+      console.log('유저데이터얻기 성공');
+      console.log(data.profile);
+      // 원하는 페이지에서 data 가져다 사용하기
+      // goHome();
+    });
+    console.log(userdata);
+  };
+
+  if (isValidate) {
+    console.log('현재 isvalidate:', isValidate);
+    onLoginData();
+  }
 
   return (
     <div className="flex-col justify-center my-5 align-middle">

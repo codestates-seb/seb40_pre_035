@@ -21,12 +21,15 @@ const Profile = () => {
       });
   }, []);
 
+  const isLogin = { true: 'flex', false: 'flex invisible' };
+
   return (
     <div className="flex">
       <img src={data?.profile} alt="" className="w-32 h-32" />
       <div className="self-center ml-3">
         <div className="mx-2 mb-2 text-4xl font-bold ">{data?.nickname}</div>
-        <ul className="flex">
+
+        <ul className={isLogin[true ?? false]}>
           <li className="px-1.5">
             {/* <Link to="/">Logout</Link> */}
             <a href="/">Logout</a>

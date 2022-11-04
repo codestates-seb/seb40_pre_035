@@ -4,61 +4,46 @@ import EditProfile from './EditProfile';
 import DeleteProfile from './DeleteProfile';
 
 const Settings = () => {
-  let [act, setAct] = useState(true);
-  let [set, setSet] = useState(false);
+  // let [edit, setEdit] = useState(true);
+  // let [del, setDel] = useState(false);
 
-  const actHandler = () => {
-    act = true;
-    set = false;
-    setAct(act);
-    setSet(set);
-  };
-  const setHandler = () => {
-    act = false;
-    set = true;
-    setAct(act);
-    setSet(set);
-  };
+  // const editHandler = () => {
+  //   edit = true;
+  //   del = false;
+  //   setEdit(edit);
+  //   setDel(del);
+  // };
+  // const delHandler = () => {
+  //   edit = false;
+  //   del = true;
+  //   setEdit(edit);
+  //   setDel(del);
+  // };
 
   return (
-    <div className="flex">
-      <nav className="my-3 ml-3 mr-8 whitespace-nowrap">
-        <p className="py-1.5 pr-12 pl-3 text-xs font-bold">
-          RERSONAL INFORMATION
-        </p>
-        <div>
-          <ul className="w-10/12">
-            <li
-              className={
-                act
-                  ? 'py-1 pr-12 pl-3 m-0.5 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white'
-                  : 'py-1 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
-              }
-            >
-              <Link to="/mypage/settings/editprofile">
-                <button onClick={actHandler}>Edit Profile</button>
-              </Link>
-            </li>
-            <li
-              className={
-                set
-                  ? 'py-1 pr-12 pl-3 m-0.5 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white'
-                  : 'py-1 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
-              }
-            >
-              <Link to="/mypage/settings/deleteprofile">
-                <button onClick={setHandler}>Delete Profile</button>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+    <>
+      <ul className="flex mt-2 mb-4">
+        <li>
+          <Link to="/mypage/activity">
+            <button className="m-0.5 py-1.5 px-3 hover:bg-soGray-normal hover:rounded-2xl">
+              Activity
+            </button>
+          </Link>
+        </li>
+        <li>
+          <Link to="/mypage/settings">
+            <button className="m-0.5 py-1.5 px-3 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white">
+              Settings
+            </button>
+          </Link>
+        </li>
+      </ul>
       <Routes>
         <Route exact path="/*" element={<EditProfile />} />
         <Route path="/editprofile" element={<EditProfile />} />
         <Route path="/deleteprofile" element={<DeleteProfile />} />
       </Routes>
-    </div>
+    </>
   );
 };
 

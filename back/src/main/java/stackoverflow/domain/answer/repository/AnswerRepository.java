@@ -12,20 +12,19 @@ import java.util.Optional;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
+    // 모든 Answers 조회
     @EntityGraph(attributePaths = {"question", "account"})
     @Query(value = "select answer from Answer answer Order by answer.createdAt desc")
-    Page<Answer> findAll(Pageable pageable);
+    Page<Answer> findByAnswerWithAll(Pageable pageable);
 
+    // 주어진 Question Id에 해당하는 Answers 조회
     @EntityGraph(attributePaths = {"question", "account"})
     @Query(value = "select answer from Answer answer where answer.question.id = :questionId order by answer.createdAt desc")
     Page<Answer> findByQuestionWithAll(@Param("questionId") Long questionId, Pageable pageable);
 
+    // 주어진 Account Id에 해당하는 Answers 조회
     @EntityGraph(attributePaths = {"question", "account"})
     @Query(value = "select answer from Answer answer where answer.account.id = :accountId order by answer.createdAt desc")
     Page<Answer> findByAccountWithAll(@Param("accountId") Long accountId, Pageable pageable);
-
-    @EntityGraph(attributePaths = {"question", "account"})
-    @Query(value = "select answer from Answer answer where answer.id = :answerId")  // answer의 answerId가 들어온 answerId와 일치하는지 확인
-    Optional<Answer> findByIdWithAll(@Param("answerId") Long answerId);
 
 }

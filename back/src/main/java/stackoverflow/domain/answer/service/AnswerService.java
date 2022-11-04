@@ -67,11 +67,13 @@ public class AnswerService {
     }
 
 
-    public Answer findAnswer(Long answerId) { return verifyAnswerExist(answerId); }
+    public Answer findAnswer(Long answerId) {
+        return verifyAnswerExist(answerId);
+    }
 
 
     public Page<Answer> findAnswers(Pageable pageable) {
-        return answerRepository.findAll(pageable);
+        return answerRepository.findByAnswerWithAll(pageable);
     }
 
 
@@ -133,8 +135,10 @@ public class AnswerService {
     // 검증 메서드 부분 ----------------------------------------------------------------------
     private void verifyAnswerVoteField(AnswerVote answerVote) {
 
-        verifyAccountExist(answerVote.getAccount().getId());
-        verifyAnswerExist(answerVote.getAnswer().getId());
+        accountRepository.findById(answerVote.getAccount().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
+        answerRepository.findById(answerVote.getAnswer().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
 
     }
 
@@ -152,9 +156,12 @@ public class AnswerService {
 
     private Answer verifiedAnswerWithAll(Long answerId) {
 
-        Answer answer = verifyAnswerExist(answerId);
-        verifyQuestionExist(answer.getQuestion().getId());
-        verifyAccountExist(answer.getAccount().getId());
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
+        questionRepository.findById(answer.getQuestion().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
+        accountRepository.findById(answer.getAccount().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
 
         return answer;
 

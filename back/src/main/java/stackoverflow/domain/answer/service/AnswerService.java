@@ -162,7 +162,7 @@ public class AnswerService {
 
 
     private Answer checkQuestionAnswer(Long answerId) {
-        return answerRepository.findByIdWithAll(answerId)
+        return answerRepository.findById(answerId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // 확인
     }
 

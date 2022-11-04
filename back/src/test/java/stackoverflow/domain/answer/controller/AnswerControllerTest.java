@@ -311,7 +311,7 @@ public class AnswerControllerTest {
         VoteState state = VoteState.UP;
 
         AddAnswerVoteReqDto answerVoteReqDto = new AddAnswerVoteReqDto();
-        answerVoteReqDto.setState(VoteState.UP);
+        answerVoteReqDto.setState(state);
 
         String body = gson.toJson(answerVoteReqDto);
 

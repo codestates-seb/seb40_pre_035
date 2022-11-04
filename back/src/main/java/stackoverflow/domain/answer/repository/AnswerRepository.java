@@ -27,12 +27,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     Page<Answer> findByAccountWithAll(@Param("accountId") Long accountId, Pageable pageable);
 
     @EntityGraph(attributePaths = {"question", "account"})
-    @Query(value = "select answer from Answer answer where answer.id = :answerId")
+    @Query(value = "select answer from Answer answer where answer.id = :answerId")  // answer의 answerId가 들어온 answerId와 일치하는지 확인
     Optional<Answer> findByIdWithAll(@Param("answerId") Long answerId);
-
-    @EntityGraph(attributePaths = {"question", "account"})
-    @Query("select answer from Answer answer " +
-            "join fetch answer.question question where answer.id = :answerId")
-    Optional<Answer> findByIdWithQuestion(@Param("answerId") Long answerId);
 
 }

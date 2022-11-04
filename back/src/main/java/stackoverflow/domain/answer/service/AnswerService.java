@@ -152,9 +152,7 @@ public class AnswerService {
 
     private Answer verifiedAnswerWithAll(Long answerId) {
 
-        Answer answer = answerRepository.findByIdWithAll(answerId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));
-
+        Answer answer = checkQuestionAnswer(answerId);
         checkQuestion(answer.getQuestion().getId());
         checkAccount(answer.getAccount().getId());
 
@@ -164,7 +162,7 @@ public class AnswerService {
 
 
     private Answer checkQuestionAnswer(Long answerId) {
-        return answerRepository.findByIdWithQuestion(answerId)
+        return answerRepository.findByIdWithAll(answerId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // 확인
     }
 

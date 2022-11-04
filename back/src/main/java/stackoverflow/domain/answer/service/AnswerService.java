@@ -169,7 +169,7 @@ public class AnswerService {
 
 
     private Answer verifyAnswerExist(Long answerId) {
-        return answerRepository.findById(answerId)
+        return answerRepository.findByAnswer(answerId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // 확인
     }
 

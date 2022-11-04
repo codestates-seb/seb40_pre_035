@@ -1,6 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { BASE_URL, fetchSignup } from '../../util/api';
+import { useNavigate } from 'react-router-dom';
+import identicon1 from '../../images/identicon1.jpeg';
 import '../../components/common.css';
-const UserInfo = () => {
+
+const SignupInfo = () => {
+  const navigate = useNavigate();
+  const defaultImage = useRef();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -8,6 +14,8 @@ const UserInfo = () => {
   const [usernameError, setUsernameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+  const [isValidate, setIsValidate] = useState(false);
 
   function handleUserName(e) {
     setUsername(e.target.value);
@@ -37,13 +45,66 @@ const UserInfo = () => {
     } else setPasswordError(false);
   }
 
-  function onSubmit() {
+  function validation() {
     checkUsername();
     checkEmail();
     checkPassword();
     if (!usernameError && !passwordError) return true;
     else return false;
   }
+
+  function onSubmit() {
+    validation() ? setIsValidate(true) : setIsValidate(false);
+    console.log('현재 isvalidate:', isValidate);
+  }
+
+  const dataURLtoFile = (dataurl, fileName) => {
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], fileName, { type: mime });
+  };
+  const getRandomImage = async () => {
+    const b64data = defaultImage.current.currentSrc;
+    let imagefile = dataURLtoFile(b64data, 'defaultImage.jpeg');
+    return imagefile;
+  };
+
+  const onUpload = async (callback) => {
+    const formData = new FormData();
+    const finalImage = await getRandomImage();
+    formData.append('profile', finalImage);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('nickname', username);
+
+    const goLogin = () => {
+      navigate('/login');
+    };
+    let path = await fetchSignup(formData).then((data) => {
+      console.log(data);
+      // console.log('회원가입 성공');
+      // alert('회원가입에 성공했습니다.');
+      goLogin();
+    });
+    // fetch 성공하면 Main으로 navigate
+
+    // console.log(path);
+    // callback(path, 'alt text');
+    return false;
+  };
+
+  if (isValidate) {
+    onUpload();
+  }
+
   // 동적으로 tailwindcss 추가
   const borderColor = {
     true: 'w-full px-2 py-1 border rounded border-danger-500',
@@ -101,6 +162,12 @@ const UserInfo = () => {
           <button onClick={onSubmit} className="w-full mt-10 so-button-primary">
             Sign up
           </button>
+
+          <div className="">
+            <label htmlFor="file-input">
+              <img src={identicon1} ref={defaultImage} alt="default-profile" />
+            </label>
+          </div>
         </div>
       </div>
       <div className="flex justify-center my-5">
@@ -116,4 +183,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default SignupInfo;

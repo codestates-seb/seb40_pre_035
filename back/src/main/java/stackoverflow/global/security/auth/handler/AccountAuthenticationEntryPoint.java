@@ -18,14 +18,11 @@ public class AccountAuthenticationEntryPoint implements AuthenticationEntryPoint
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ExceptionCode exception = (ExceptionCode) request.getAttribute("exception");
-        if (exception.equals(ExceptionCode.ACCESS_TOKEN_EXPIRATION)) {
-            Gson gson = new Gson();
-            ExceptionCode exceptionCode = ExceptionCode.ACCESS_TOKEN_EXPIRATION;
-            ErrorResponse errorResponse = new ErrorResponse(exceptionCode.getStatus(), "BusinessLogicException", exceptionCode.getMessage());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setStatus(exceptionCode.getStatus());
-            response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
-        }
+        Gson gson = new Gson();
+        ExceptionCode exceptionCode = ExceptionCode.ACCESS_TOKEN_EXPIRATION;
+        ErrorResponse errorResponse = new ErrorResponse(exceptionCode.getStatus(), "BusinessLogicException", exceptionCode.getMessage());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(exceptionCode.getStatus());
+        response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
     }
 }

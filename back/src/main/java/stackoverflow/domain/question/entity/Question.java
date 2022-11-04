@@ -42,10 +42,6 @@ public class Question extends BaseTime {
         this.account = account;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     public void modify(Question question) {
         Optional.ofNullable(question.getTitle()).ifPresent(title -> this.title = title);
         Optional.ofNullable(question.getContent()).ifPresent(content -> this.content = content);

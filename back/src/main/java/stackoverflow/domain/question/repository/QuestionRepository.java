@@ -14,10 +14,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @EntityGraph(attributePaths = {"account"})
     @Query("select question from Question question where question.id = :questionId")
-    Optional<Question> findByIdWithAccount(@Param("questionId") Long questionId);
-
-    @EntityGraph(attributePaths = {"account"})
-    @Query("select question from Question question where question.id = :questionId")
     Optional<Question> findByIdWithAll(@Param("questionId") Long questionId);
 
     @EntityGraph(attributePaths = {"account"})

@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.question.dto.QuestionVoteReqDto;
-import stackoverflow.domain.question.dto.QuestionReqDto;
+import stackoverflow.domain.question.dto.AddQuestionReqDto;
 import stackoverflow.global.common.enums.VoteState;
 import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 
@@ -62,11 +62,11 @@ class QuestionControllerTest {
         String content = "testQuestionContenttestQuestionContenttestQuestionContent";
         String jwt = "Bearer " + accessToken;
 
-        QuestionReqDto questionReqDto = new QuestionReqDto();
-        questionReqDto.setTitle(title);
-        questionReqDto.setContent(content);
+        AddQuestionReqDto addQuestionReqDto = new AddQuestionReqDto();
+        addQuestionReqDto.setTitle(title);
+        addQuestionReqDto.setContent(content);
 
-        String body = gson.toJson(questionReqDto);
+        String body = gson.toJson(addQuestionReqDto);
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -117,11 +117,11 @@ class QuestionControllerTest {
         String content = "testQuestionContenttestQuestionContenttestQuestionContentModify";
         String jwt = "Bearer " + accessToken;
 
-        QuestionReqDto questionReqDto = new QuestionReqDto();
-        questionReqDto.setTitle(title);
-        questionReqDto.setContent(content);
+        AddQuestionReqDto addQuestionReqDto = new AddQuestionReqDto();
+        addQuestionReqDto.setTitle(title);
+        addQuestionReqDto.setContent(content);
 
-        String body = gson.toJson(questionReqDto);
+        String body = gson.toJson(addQuestionReqDto);
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -428,7 +428,7 @@ class QuestionControllerTest {
 
         //when
         ResultActions actions = mockMvc.perform(
-                post("/questionVote/{questionId}", questionId)
+                post("/questions/questionVote/{questionId}", questionId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", jwt)

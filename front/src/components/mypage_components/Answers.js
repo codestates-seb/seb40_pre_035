@@ -34,7 +34,7 @@ const Answers = () => {
   return (
     <div className="w-full m-3">
       <p className="mb-2 text-2xl font-medium">{content.length} Answers</p>
-      <div className="border rounded border-soGray-normal">
+      <div className="w-full border rounded border-soGray-normal">
         {content.map((el, index) => {
           return (
             <div

@@ -33,12 +33,11 @@ public class AnswerService {
 
     @Transactional
     public void createAnswer(Answer answer) {
-        Account verifiedAccount = accountRepository.findById(answer.getAccount().getId())
+        accountRepository.findById(answer.getAccount().getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
-        Question verifiedQuestion = questionRepository.findById(answer.getQuestion().getId())
+        questionRepository.findById(answer.getQuestion().getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));
-        answer.setAccount(verifiedAccount);
-        answer.setQuestion(verifiedQuestion);
+
 
         answerRepository.save(answer);
     }

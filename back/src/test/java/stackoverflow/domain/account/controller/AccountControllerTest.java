@@ -82,7 +82,8 @@ class AccountControllerTest {
                         ),
                         responseHeaders(
                                 List.of(
-                                        headerWithName("Authorization").description("JWT")
+                                        headerWithName("Authorization").description("JWT - Access Token"),
+                                        headerWithName("refresh").description("JWT - Refresh Token")
                                 )
                         ),
                         responseFields(

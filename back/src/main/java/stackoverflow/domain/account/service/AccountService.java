@@ -13,10 +13,8 @@ import stackoverflow.domain.account.entity.Account;
 import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.answer.entity.Answer;
 import stackoverflow.domain.answer.entity.AnswerVote;
-import stackoverflow.domain.answer.repository.AnswerRepository;
 import stackoverflow.domain.question.entity.Question;
 import stackoverflow.domain.question.entity.QuestionVote;
-import stackoverflow.domain.question.repository.QuestionRepository;
 import stackoverflow.global.common.enums.VoteState;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
@@ -24,15 +22,12 @@ import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class AccountService {
     private final AccountRepository accountRepository;
-    private final QuestionRepository questionRepository;
-    private final AnswerRepository answerRepository;
 
     private final FileService fileService;
 
@@ -48,16 +43,14 @@ public class AccountService {
     }
 
     @Transactional
-    public Account modifyAccount(PatchAccountReqDto modifyAccountReqDto, Long loginAccountId) {
-        Account account = findAccount(modifyAccountReqDto.getAccountId());
-        verifyAuthority(account, loginAccountId);
+    public Account modifyAccount(Account findAccount, PatchAccountReqDto modifyAccountReqDto) {
 
         Optional.ofNullable(modifyAccountReqDto.getPassword())
-                .ifPresent(password -> account.setPassword(password));
+                .ifPresent(password -> findAccount.setPassword(password));
         Optional.ofNullable(modifyAccountReqDto.getNickname())
-                .ifPresent(nickName -> account.setNickname(nickName));
+                .ifPresent(nickName -> findAccount.setNickname(nickName));
 
-        //파일 저장 후 파일 경로를 account 에 저장
+        //파일 저장 후 파일 경로를 findAccount 에 저장
         Optional<MultipartFile> optionalProfile = Optional.ofNullable(modifyAccountReqDto.getProfile());
         if (optionalProfile.isPresent() && !optionalProfile.get().isEmpty()) {
             String filePath = null;
@@ -66,15 +59,14 @@ public class AccountService {
             } catch (IOException e) {
                 throw new RuntimeException("프로필 저장에 실패했습니다.");
             }
-            account.setProfile(filePath);
+            findAccount.setProfile(filePath);
         }
 
-        return accountRepository.save(account);
+        return accountRepository.save(findAccount);
     }
 
     @Transactional
-    public void removeAccount(Account findAccount, Long loginAccountId) {
-        verifyAuthority(findAccount, loginAccountId);
+    public void removeAccount(Account findAccount) {
 
         accountRepository.delete(findAccount);
     }
@@ -86,7 +78,7 @@ public class AccountService {
         return optionalAccount.orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));
     }
 
-    private void verifyAuthority(Account findAccount, Long loginAccountId) {
+    public void verifyAuthority(Account findAccount, Long loginAccountId) {
         if (!findAccount.getId().equals(loginAccountId)) {
             throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
         }
@@ -101,7 +93,6 @@ public class AccountService {
     }
 
     private Account setDefaultProperties(PostAccountReqDto postAccountReqDto) {  //이후에 구체화 예정
-
         MultipartFile profile = postAccountReqDto.getProfile();
 
         if (profile.isEmpty()) {

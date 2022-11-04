@@ -29,7 +29,6 @@ public class AccountController {
     public ResponseEntity<SingleResDto<String>> accountAdd(@Valid @ModelAttribute PostAccountReqDto createAccountReqDto) {
         createAccountReqDto.setPassword(passwordEncoder.encode(createAccountReqDto.getPassword()));
 
-
         accountService.addAccount(createAccountReqDto);
 
         return new ResponseEntity<>(new SingleResDto<>("success create account"), HttpStatus.CREATED);
@@ -51,8 +50,10 @@ public class AccountController {
         Optional.ofNullable(modifyAccountReqDto.getPassword())
                         .ifPresent(password -> modifyAccountReqDto.setPassword(passwordEncoder.encode(password)));
 
-        modifyAccountReqDto.setAccountId(accountId);
-        accountService.modifyAccount(modifyAccountReqDto, loginAccountId);
+        Account findAccount = accountService.findAccount(accountId);
+        accountService.verifyAuthority(findAccount, loginAccountId);
+
+        accountService.modifyAccount(findAccount, modifyAccountReqDto);
 
         return new ResponseEntity<>(new SingleResDto<>("success modify account"), HttpStatus.OK);
     }
@@ -61,7 +62,8 @@ public class AccountController {
     public ResponseEntity<SingleResDto<String>> accountRemove(@PathVariable long accountId,
                                                               @LoginAccountId Long loginAccountId) {
         Account findAccount = accountService.findAccount(accountId);
-        accountService.removeAccount(findAccount, loginAccountId);
+        accountService.verifyAuthority(findAccount, loginAccountId);
+        accountService.removeAccount(findAccount);
 
         return new ResponseEntity<>(new SingleResDto<>("success delete account"), HttpStatus.OK);
     }
@@ -69,8 +71,7 @@ public class AccountController {
     @GetMapping("/user")
     public ResponseEntity<LoginAccountResDto> accountUserDetails(@LoginAccountId Long loginAccountId) {
         Account account = accountService.findAccount(loginAccountId);
-        LoginAccountResDto loginAccountResDto = new LoginAccountResDto(account);
 
-        return new ResponseEntity<>(loginAccountResDto, HttpStatus.OK);
+        return new ResponseEntity<>(new LoginAccountResDto(account), HttpStatus.OK);
     }
 }

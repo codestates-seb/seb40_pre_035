@@ -12,23 +12,23 @@ import java.util.Optional;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
-    Optional<Answer> findById(Long id);
-
-    Page<Answer> findAllByOrderByIdDesc(Pageable pageable);
+    @EntityGraph(attributePaths = {"question", "account"})
+    Page<Answer> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     @EntityGraph(attributePaths = {"question", "account"})
-    @Query(value = "select answer from Answer answer where answer.question.id = :questionId")
+    @Query(value = "select answer from Answer answer where answer.question.id = :questionId order by answer.createdAt desc")
     Page<Answer> findByQuestionWithAll(@Param("questionId") Long questionId, Pageable pageable);
 
     @EntityGraph(attributePaths = {"question", "account"})
     @Query(value = "select answer from Answer answer where answer.id = :answerId")
     Optional<Answer> findByIdWithAll(@Param("answerId") Long answerId);
 
-    @Query("select answer from Answer answer " +
-            "join fetch answer.question question where answer.id = :answerId")
-    Optional<Answer> findByIdWithQuestion(@Param("answerId") Long answerId);
+    @EntityGraph(attributePaths = {"account"})
+    @Query("select answer from Answer answer where answer.id = :answerId")
+    Optional<Answer> findByIdWithAccount(@Param("answerId") Long answerId);
 
-    @Query(value = "select answer from Answer answer where answer.account.id = :accountId")
+    @EntityGraph(attributePaths = {"question", "account"})
+    @Query(value = "select answer from Answer answer where answer.account.id = :accountId order by answer.createdAt desc")
     Page<Answer> findByAccountWithAll(@Param("accountId") Long accountId, Pageable pageable);
 
 }

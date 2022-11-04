@@ -82,7 +82,7 @@ public class QuestionService {
     }
 
     @Transactional
-    public void voteQuestion(QuestionVote questionVote) {
+    public String voteQuestion(QuestionVote questionVote) {
 
         verifyQuestionVoteField(questionVote);
 
@@ -93,13 +93,14 @@ public class QuestionService {
 
         if (findOptionalQuestionVote.isEmpty()) {
             questionVoteRepository.save(questionVote);
-            return;
+            return "success vote";
         }
 
         QuestionVote findQuestionVote = findOptionalQuestionVote.get();
 
         if (questionVote.getState().equals(findQuestionVote.getState())) {
             questionVoteRepository.delete(findQuestionVote);
+            return "cancel vote";
         } else {
             throw new BusinessLogicException(ExceptionCode.ILLEGAL_VOTE);
         }

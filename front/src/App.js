@@ -16,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <main className="flex flex-auto">
+      <main className="flex flex-auto min-h-[calc(100vh-180px)]">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/question" element={<QuestionList />} />

@@ -1,17 +1,28 @@
 import { IconLogo, IconSearch, IconPerson } from '@stackoverflow/stacks-icons';
 import ReactHtmlParser from 'react-html-parser';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
+  const search = useRef();
+
   const onClick = () => {
     setIsLogin(!isLogin);
   };
+
+  const onChangeSearch = (e) => {
+    console.log(e);
+    setIsFocus(true);
+  };
+
   return (
     <div className="sticky top-0 z-20 flex-col w-full drop-shadow h-[60px] flex-nowrap">
       <div className="h-1 bg-primary-300"></div>
       <div className="flex justify-center px-2 py-3 bg-soGray-headerbg">
         <div className="items-center mx-2 my-1">
-          {ReactHtmlParser(IconLogo)}
+          <Link to="/">{ReactHtmlParser(IconLogo)}</Link>
         </div>
         {/* <button className="hover:bg-soGray-light" onClick={onClick}>
           임시 isLogin toggle
@@ -24,6 +35,9 @@ const Header = () => {
             type="text"
             className="w-[calc(100%-40px)] focus:outline-none focus-visible:outline-none"
             placeholder="Search..."
+            onFocus={(e) => onChangeSearch(e)}
+            onBlur={(e) => onChangeSearch(e)}
+            ref={search}
           />
         </div>
         <div>{isLogin ? <LoginGNB /> : <LogoutGNB />}</div>

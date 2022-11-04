@@ -14,7 +14,7 @@ function Sidebar() {
             : ''
         } pl-5 py-2 mt-9 mb-2 font-normal`}
       >
-        <Link to={'/'}>Home</Link>
+        <Link to="/">Home</Link>
       </li>
       <li className="mt-3 mb-2">
         <ul>
@@ -39,7 +39,7 @@ function Sidebar() {
                 clipRule="evenodd"
               />
             </svg>
-            <Link to={'/question'}>Questions</Link>
+            <Link to="/question">Questions</Link>
           </li>
         </ul>
       </li>

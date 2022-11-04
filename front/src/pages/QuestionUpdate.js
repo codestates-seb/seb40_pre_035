@@ -4,7 +4,7 @@ import Editor from '../components/editor/Editor';
 function QuestionUpdate() {
   const handleOnChangeTitle = () => {};
   return (
-    <main className="bg-white py-4 px-6 pb-[80px] border-l-soGray-light border-l">
+    <div className="bg-white py-4 px-6 pb-[80px] border-l-soGray-light border-l">
       <div className="mb-4">
         <h5 className="font-bold">Title</h5>
         <p className="mb-2 text-sm">
@@ -56,7 +56,7 @@ function QuestionUpdate() {
           </button>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

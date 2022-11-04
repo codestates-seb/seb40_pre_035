@@ -33,7 +33,7 @@ function QuestionCreate() {
   };
 
   return (
-    <main className="so-askQuestion pb-[80px]">
+    <div className="so-askQuestion">
       <h1 className="p-2 my-8 font-bold text-xxl">Ask a public question</h1>
       <div className="mb-8 so-card-info selection:bg-buttonPrimary/50">
         <h2 className="mb-3 text-2xl">Writing a good question</h2>
@@ -125,7 +125,7 @@ function QuestionCreate() {
           </button>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

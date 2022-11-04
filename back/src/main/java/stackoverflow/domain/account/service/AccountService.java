@@ -20,7 +20,6 @@ import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,15 +46,9 @@ public class AccountService {
     public Account modifyAccount(Account findAccount, PatchAccountReqDto modifyAccountReqDto) {
 
         Optional.ofNullable(modifyAccountReqDto.getPassword())
-                .ifPresent(password -> {
-                    findAccount.setPassword(password);
-                    findAccount.setModifiedAt(LocalDateTime.now());
-                });
+                .ifPresent(password -> findAccount.setPassword(password));
         Optional.ofNullable(modifyAccountReqDto.getNickname())
-                .ifPresent(nickName -> {
-                    findAccount.setNickname(nickName);
-                    findAccount.setModifiedAt(LocalDateTime.now());
-                });
+                .ifPresent(nickName -> findAccount.setNickname(nickName));
 
         //파일 저장 후 파일 경로를 findAccount 에 저장
         Optional<MultipartFile> optionalProfile = Optional.ofNullable(modifyAccountReqDto.getProfile());
@@ -67,7 +60,6 @@ public class AccountService {
                 throw new RuntimeException("프로필 저장에 실패했습니다.");
             }
             findAccount.setProfile(filePath);
-            findAccount.setModifiedAt(LocalDateTime.now());
         }
 
 

@@ -7,6 +7,7 @@ import '../../components/common.css';
 const SignupInfo = () => {
   const navigate = useNavigate();
   const defaultImage = useRef();
+  const mounted = useRef(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,32 +31,67 @@ const SignupInfo = () => {
     const usernameRegexp = /^[a-zA-Z가-헿0-9]{4,}$/;
     if (!username || !usernameRegexp.test(username)) {
       setUsernameError(true);
-    } else setUsernameError(false);
+      return false;
+    } else {
+      setUsernameError(false);
+      return true;
+    }
   }
   function checkEmail() {
     const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     if (!email || !emailRegexp.test(email)) {
       setEmailError(true);
-    } else setEmailError(false);
+      return false;
+    } else {
+      setEmailError(false);
+      return true;
+    }
   }
   function checkPassword() {
     const passwordRegexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!password || !passwordRegexp.test(password)) {
       setPasswordError(true);
-    } else setPasswordError(false);
+      return false;
+    } else {
+      setPasswordError(false);
+      return true;
+    }
   }
 
   function validation() {
-    checkUsername();
-    checkEmail();
-    checkPassword();
-    if (!usernameError && !passwordError) return true;
-    else return false;
+    checkUsername()
+      ? console.log('username 유효')
+      : console.log('username 유효하지않음');
+    checkEmail()
+      ? console.log('email 유효')
+      : console.log('email 유효하지않음');
+    checkPassword()
+      ? console.log('password 유효')
+      : console.log('password 유효하지않음');
+
+    console.log('usernameError: ' + usernameError);
+    console.log('passwordError: ' + passwordError);
+    console.log('emailError: ' + emailError);
+
+    if (checkUsername() && checkEmail() && checkPassword()) {
+      console.log('signup ready');
+      return true;
+    }
+    return false;
+    // if (!usernameError && !passwordError && !emailError) {
+    //   console.log('signup ready');
+    //   return true;
+    // }
+    // return false;
   }
 
   function onSubmit() {
-    validation() ? setIsValidate(true) : setIsValidate(false);
-    console.log('현재 isvalidate:', isValidate);
+    // validation()
+    //   ? setIsValidate((check) => (check = true))
+    //   : setIsValidate((check) => (check = false));
+
+    console.log('현재 Signup isvalidate:', isValidate);
+    if (validation()) onUpload();
   }
 
   const dataURLtoFile = (dataurl, fileName) => {
@@ -91,7 +127,6 @@ const SignupInfo = () => {
     let path = await fetchSignup(formData).then((data) => {
       console.log(data);
       // console.log('회원가입 성공');
-      // alert('회원가입에 성공했습니다.');
       goLogin();
     });
     // fetch 성공하면 Main으로 navigate
@@ -100,10 +135,6 @@ const SignupInfo = () => {
     // callback(path, 'alt text');
     return false;
   };
-
-  if (isValidate) {
-    onUpload();
-  }
 
   // 동적으로 tailwindcss 추가
   const borderColor = {
@@ -137,9 +168,11 @@ const SignupInfo = () => {
               onChange={handleEmail}
               className={borderColor[emailError ?? false]}
             ></input>
-            <p className="text-xxs text-danger-500">
-              이메일 형식에 맞지 않습니다.
-            </p>
+            {emailError && (
+              <p className="text-xxs text-danger-500">
+                이메일 형식에 맞지 않습니다.
+              </p>
+            )}
           </div>
           <div className="flex-col justify-center mx-2 my-3">
             <div className="font-bold">Password</div>

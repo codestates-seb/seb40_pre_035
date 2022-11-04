@@ -19,10 +19,22 @@ const LoginInfo = () => {
   }
 
   function checkEmail() {
-    !email ? setEmailError(true) : setEmailError(false);
+    if (!email) {
+      setEmailError(true);
+      return false;
+    } else {
+      setEmailError(false);
+      return true;
+    }
   }
   function checkPassword() {
-    !password ? setPasswordError(true) : setPasswordError(false);
+    if (!password) {
+      setPasswordError(true);
+      return false;
+    } else {
+      setPasswordError(false);
+      return true;
+    }
   }
 
   // 동적으로 tailwindcss 추가
@@ -32,14 +44,28 @@ const LoginInfo = () => {
   };
 
   function validation() {
-    checkEmail();
-    checkPassword();
-    if (!emailError && !passwordError) return true;
-    else return false;
+    console.log('로그인 유효성 검사');
+    checkEmail()
+      ? console.log('email 유효')
+      : console.log('email 유효하지않음');
+    checkPassword()
+      ? console.log('password 유효')
+      : console.log('password 유효하지않음');
+
+    console.log('passwordError: ' + passwordError);
+    console.log('emailError: ' + emailError);
+    if (checkEmail() && checkPassword()) {
+      console.log('login ready');
+      return true;
+    } else return false;
   }
   function onSubmit() {
-    validation() ? setIsValidate(true) : setIsValidate(false);
-    console.log('현재 isvalidate:', isValidate);
+    // validation() ? setIsValidate(true) : setIsValidate(false);
+    console.log('현재 Login isvalidate:', isValidate);
+
+    if (validation()) {
+      onLoginData();
+    }
   }
 
   const navigate = useNavigate();
@@ -52,7 +78,7 @@ const LoginInfo = () => {
       email: email,
       password: password,
     });
-    console.log('loginData:', loginData);
+    console.log('inputData:', loginData);
     await fetchLogin(loginData).then((data) => {
       console.log(data);
       console.log('로그인 성공');
@@ -60,17 +86,12 @@ const LoginInfo = () => {
     let userdata = await fetchUserInfo().then((data) => {
       console.log(data);
       console.log('유저데이터얻기 성공');
-      console.log(data.profile);
+      // console.log(data.profile);
       // 원하는 페이지에서 data 가져다 사용하기
       // goHome();
     });
     console.log(userdata);
   };
-
-  if (isValidate) {
-    console.log('현재 isvalidate:', isValidate);
-    onLoginData();
-  }
 
   return (
     <div className="flex-col justify-center my-5 align-middle">

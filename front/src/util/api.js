@@ -77,8 +77,15 @@ export const fetchSignup = async (data) => {
     header: { 'Content-Type': 'multipart/form-data;charset=UTF-8' },
     body: data,
   })
-    .then((response) => {
-      console.log(response.body);
+    .then((res) => {
+      if (!res.ok) {
+        // error coming back from server
+        throw Error('could not fetch the data for that resource');
+      }
+      // if (response.data) {
+      //   return response.json();
+      // }
+      alert('회원가입 성공');
     })
     .catch((error) => {
       console.log(error.message);
@@ -127,22 +134,33 @@ export const fetchLogin = async (data) => {
 
 // 로그인한 Account 조회
 export const fetchUserInfo = async () => {
-  return fetch(`/accounts/user`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      Accept: 'application/json',
-      Authorization: sessionStorage.getItem('access_token'),
-    },
-  })
-    .then((res) => {
-      if (!res.ok) {
-        // error coming back from server
-        throw Error('could not fetch the data for that resource');
-      }
-      return res.json();
+  return (
+    fetch(`/accounts/user`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Accept: 'application/json',
+        Authorization: sessionStorage.getItem('access_token'),
+      },
     })
-    .catch((err) => {
-      console.error(err.message);
-    });
+      .then((res) => {
+        if (!res.ok) {
+          // error coming back from server
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      // .then((data) => {
+      //   console.log(data);
+      //   let userdata = {
+      //     email: data.email,
+      //     username: data.nickname,
+      //     profile: data.profile,
+      //   };
+      //   return userdata;
+      // })
+      .catch((err) => {
+        console.error(err.message);
+      })
+  );
 };

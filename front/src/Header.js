@@ -63,10 +63,10 @@ const LogoutGNB = () => {
   return (
     <>
       <button className="px-3 py-1 mx-2 border rounded text-blue hover:bg-buttonSecondaryHover bg-buttonSecondary border-secondary-200">
-        Log in
+        <Link to="/login">Log in</Link>
       </button>
       <button className="px-2 py-1 mx-1 text-white border rounded hover:bg-buttonPrimaryHover bg-buttonPrimary border-secondary-300">
-        Sign up
+        <Link to="/signup">Sign up</Link>
       </button>
     </>
   );

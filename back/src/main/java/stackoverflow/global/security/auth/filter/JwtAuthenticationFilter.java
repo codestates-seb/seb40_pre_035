@@ -51,7 +51,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String refreshToken = jwtTokenizer.delegateRefreshToken(account);
 
         response.setHeader("Authorization", "Bearer " + accessToken);
-        response.setHeader("Refresh", refreshToken);
+        //refresh token 사용안하므로 일단 제거
+//        response.setHeader("Refresh", refreshToken);
 
         String body = new Gson().toJson(new SingleResDto<>("success login"));
         response.setContentType("application/json");

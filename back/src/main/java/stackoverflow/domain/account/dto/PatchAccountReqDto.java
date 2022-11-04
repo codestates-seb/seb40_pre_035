@@ -12,8 +12,6 @@ import java.util.Optional;
 @Getter
 @Setter
 public class PatchAccountReqDto {
-    private Long accountId;
-
     @Pattern(regexp = "^[a-zA-Z가-헿0-9]{4,}$",
             message = "4자 이상부터 가능하며 특수 문자가 없어야 합니다.")
     private String nickname;

@@ -34,8 +34,8 @@ public class AnswerService {
     @Transactional
     public void addAnswer(Answer answer) {
 
-        verifyAccount(answer.getAccount().getId());
-        verifyQuestion(answer.getQuestion().getId());
+        verifyAccountExist(answer.getAccount().getId());
+        verifyQuestionExist(answer.getQuestion().getId());
 
         answerRepository.save(answer);
 
@@ -45,11 +45,12 @@ public class AnswerService {
     @Transactional
     public void modifyAnswer(Answer answer) {
 
-        Answer verifiedAnswer = verifyAnswer(answer.getId());
+        Answer verifiedAnswer = verifyAnswerExist(answer.getId());
         verifyAccountLogin(answer.getAccount().getId(), verifiedAnswer.getAccount().getId());
 
         answer.setModifiedAt(LocalDateTime.now());
-        Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));  // patchAnswer로 변경될 사항 추가하는 부
+
+        Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));
 
     }
 
@@ -57,7 +58,7 @@ public class AnswerService {
     @Transactional
     public void removeAnswer(Long loginAccountId, Long answerId) {
 
-        Answer verifiedAnswer = verifyAnswer(answerId);
+        Answer verifiedAnswer = verifyAnswerExist(answerId);
         verifyAccountLogin(loginAccountId, verifiedAnswer.getAccount().getId());
 
         answerVoteRepository.deleteAll(verifiedAnswer.getAnswerVotes());
@@ -66,13 +67,11 @@ public class AnswerService {
     }
 
 
-    public Answer findAnswer(Long answerId) {
-        return verifyAnswer(answerId);
-    }
+    public Answer findAnswer(Long answerId) { return verifyAnswerExist(answerId); }
 
 
     public Page<Answer> findAnswers(Pageable pageable) {
-        return answerRepository.findAllByOrderByIdDesc(pageable);
+        return answerRepository.findAll(pageable);
     }
 
 
@@ -131,10 +130,11 @@ public class AnswerService {
     }
 
 
+    // 검증 메서드 부분 ----------------------------------------------------------------------
     private void verifyAnswerVoteField(AnswerVote answerVote) {
 
-        verifyAccount(answerVote.getAccount().getId());
-        verifyAnswer(answerVote.getAnswer().getId());
+        verifyAccountExist(answerVote.getAccount().getId());
+        verifyAnswerExist(answerVote.getAnswer().getId());
 
     }
 
@@ -152,28 +152,28 @@ public class AnswerService {
 
     private Answer verifiedAnswerWithAll(Long answerId) {
 
-        Answer answer = verifyAnswer(answerId);
-        verifyQuestion(answer.getQuestion().getId());
-        verifyAccount(answer.getAccount().getId());
+        Answer answer = verifyAnswerExist(answerId);
+        verifyQuestionExist(answer.getQuestion().getId());
+        verifyAccountExist(answer.getAccount().getId());
 
         return answer;
 
     }
 
 
-    private Answer verifyAnswer(Long answerId) {
+    private Answer verifyAnswerExist(Long answerId) {
         return answerRepository.findById(answerId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // 확인
     }
 
 
-    private Account verifyAccount(Long accountId) {
+    private Account verifyAccountExist(Long accountId) {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));  // 확인
     }
 
 
-    private Question verifyQuestion(Long questionId) {
+    private Question verifyQuestionExist(Long questionId) {
         return questionRepository.findById(questionId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));  // 확인
     }

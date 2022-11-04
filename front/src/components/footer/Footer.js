@@ -3,7 +3,7 @@ import ReactHtmlParser from 'react-html-parser';
 const Footer = () => {
   return (
     <div className="flex-col">
-      <div className="flex px-4 pt-8 align-top text-soGray-light bg-soGray-footerbg">
+      <div className="flex px-4 pt-8 align-top h-[120px] text-soGray-light bg-soGray-footerbg">
         <div className="flex mx-5">{ReactHtmlParser(IconLogoGlyphMd)}</div>
         <div className="mt-2 mb-10 grow">
           <div className="font-bold">STACK OVERFLOW</div>

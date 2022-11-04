@@ -3,37 +3,37 @@
 @tailwind utilities;
 
 @layer components {
-  #root {
-    @apply bg-[#fefefe]
-  }
-
-  .so-main-content {
-    @apply flex flex-col basis-auto border-soGray-light max-w-[840px] border-l border-r border-l-soGray-light border-r-soGray-light
+  .so-main-wrapper {
+    @apply flex flex-row justify-center flex-auto flex-nowrap;
   }
   
+  .so-main-content {
+    @apply flex flex-col w-full pb-[80px] border-l border-r basis-auto border-soGray-light border-l-soGray-light border-r-soGray-light;
+  }
+
   .so-button-primary {
     box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
     border: 1px solid transparent;
-    @apply flex items-center text-white bg-buttonPrimary px-3 h-10 whitespace-nowrap rounded-[4px] border-transparent font-medium hover:bg-secondary-400
+    @apply flex items-center text-white bg-buttonPrimary px-3 h-10 whitespace-nowrap rounded-[4px] border-transparent font-medium hover:bg-secondary-400;
   }
 
   .so-button-dismiss {
-    @apply bg-white px-3 h-10 whitespace-nowrap font-normal bg-transparent
+    @apply h-10 px-3 font-normal bg-transparent bg-white whitespace-nowrap;
   }
 
   .so-askQuestion {
-    @apply bg-soGray-headerbg py-4 px-6 bg-[url('/src/images/ask-background.svg')] bg-no-repeat bg-right-top bg-[length:600px_auto]
+    @apply bg-soGray-headerbg py-4 px-6 bg-[url('/src/images/ask-background.svg')] bg-no-repeat bg-right-top bg-[length:600px_auto] pb-[80px] w-full;
   }
 
   .so-card {
-    @apply border border-soGray-light rounded-md bg-white p-6
+    @apply p-6 bg-white border rounded-md border-soGray-light;
   }
 
   .so-card-info {
-    @apply bg-[#EBF4FA] border border-[#A5CFED] p-6 rounded-md
+    @apply bg-[#EBF4FA] border border-[#A5CFED] p-6 rounded-md;
   }
-  
+
   .so-toast {
-    @apply will-change-transform animate-[toast_0.3s] text-secondary-700 fixed left-[50%] px-3 translate-x-[-50%] bottom-4 mb-8 bg-secondary-100 border border-secondary-400 min-h-[2.5rem] min-w-[4.5rem] rounded p-3 z-50 flex justify-center items-center
+    @apply will-change-transform animate-[toast_0.3s] text-secondary-700 fixed left-[50%] px-3 translate-x-[-50%] bottom-4 mb-8 bg-secondary-100 border border-secondary-400 min-h-[2.5rem] min-w-[4.5rem] rounded p-3 z-50 flex justify-center items-center;
   }
 }

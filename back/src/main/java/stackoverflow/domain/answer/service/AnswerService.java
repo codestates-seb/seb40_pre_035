@@ -34,8 +34,8 @@ public class AnswerService {
     @Transactional
     public void addAnswer(Answer answer) {
 
-        checkAccount(answer.getAccount().getId());
-        checkQuestion(answer.getQuestion().getId());
+        verifyAccount(answer.getAccount().getId());
+        verifyQuestion(answer.getQuestion().getId());
 
         answerRepository.save(answer);
 
@@ -45,8 +45,8 @@ public class AnswerService {
     @Transactional
     public void modifyAnswer(Answer answer) {
 
-        Answer verifiedAnswer = checkQuestionAnswer(answer.getId());
-        verifyAccount(answer.getAccount().getId(), verifiedAnswer.getAccount().getId());
+        Answer verifiedAnswer = verifyAnswer(answer.getId());
+        verifyAccountLogin(answer.getAccount().getId(), verifiedAnswer.getAccount().getId());
 
         answer.setModifiedAt(LocalDateTime.now());
         Optional.ofNullable(answer.getContent()).ifPresent(content -> verifiedAnswer.setContent(content));  // patchAnswer로 변경될 사항 추가하는 부
@@ -57,8 +57,8 @@ public class AnswerService {
     @Transactional
     public void removeAnswer(Long loginAccountId, Long answerId) {
 
-        Answer verifiedAnswer = checkQuestionAnswer(answerId);
-        verifyAccount(loginAccountId, verifiedAnswer.getAccount().getId());
+        Answer verifiedAnswer = verifyAnswer(answerId);
+        verifyAccountLogin(loginAccountId, verifiedAnswer.getAccount().getId());
 
         answerVoteRepository.deleteAll(verifiedAnswer.getAnswerVotes());
         answerRepository.delete(verifiedAnswer);
@@ -67,7 +67,7 @@ public class AnswerService {
 
 
     public Answer findAnswer(Long answerId) {
-        return checkQuestionAnswer(answerId);
+        return verifyAnswer(answerId);
     }
 
 
@@ -92,7 +92,7 @@ public class AnswerService {
         Answer answer = verifiedAnswerWithAll(answerId);
         Question question = answer.getQuestion();
 
-        verifyAccount(loginAccountId, question.getAccount().getId());
+        verifyAccountLogin(loginAccountId, question.getAccount().getId());
 
         if (!answer.isSelected()) {
             List<Answer> answers = question.getAnswers();
@@ -133,8 +133,8 @@ public class AnswerService {
 
     private void verifyAnswerVoteField(AnswerVote answerVote) {
 
-        checkAccount(answerVote.getAccount().getId());
-        checkQuestionAnswer(answerVote.getAnswer().getId());
+        verifyAccount(answerVote.getAccount().getId());
+        verifyAnswer(answerVote.getAnswer().getId());
 
     }
 
@@ -152,34 +152,34 @@ public class AnswerService {
 
     private Answer verifiedAnswerWithAll(Long answerId) {
 
-        Answer answer = checkQuestionAnswer(answerId);
-        checkQuestion(answer.getQuestion().getId());
-        checkAccount(answer.getAccount().getId());
+        Answer answer = verifyAnswer(answerId);
+        verifyQuestion(answer.getQuestion().getId());
+        verifyAccount(answer.getAccount().getId());
 
         return answer;
 
     }
 
 
-    private Answer checkQuestionAnswer(Long answerId) {
+    private Answer verifyAnswer(Long answerId) {
         return answerRepository.findById(answerId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ANSWER));  // 확인
     }
 
 
-    private Account checkAccount(Long accountId) {
+    private Account verifyAccount(Long accountId) {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_ACCOUNT));  // 확인
     }
 
 
-    private Question checkQuestion(Long questionId) {
-        return questionRepository.findByIdWithAll(questionId)
+    private Question verifyQuestion(Long questionId) {
+        return questionRepository.findById(questionId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_FOUND_QUESTION));  // 확인
     }
 
 
-    private void verifyAccount (Long loginAccountId, Long accountId) {
+    private void verifyAccountLogin (Long loginAccountId, Long accountId) {
         if (!loginAccountId.equals(accountId)) {
             throw new BusinessLogicException(ExceptionCode.NON_ACCESS_MODIFY);
         }

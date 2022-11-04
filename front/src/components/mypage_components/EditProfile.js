@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { BASE_URL } from '../../util/api';
 
 const EditProfile = () => {
@@ -66,81 +67,119 @@ const EditProfile = () => {
   // }, []);
 
   return (
-    <div className="w-full">
-      <div className="pb-4 mb-6 border-b border-soGray-normal">
-        <h1 className="text-3xl font-medium">Edit your Profile</h1>
-      </div>
-      <form>
-        <div className="mb-2 text-2xl font-medium"> Public information </div>
-        <div className="p-6 border rounded border-soGray-normal mb-7">
-          <div className="font-semibold">Profile image</div>
-          <div className="relative">
-            <img src="../../public/logo192.png" alt="" className="w-40 h-40" />
-            <a
-              href="http://localhost:3000/"
-              className="absolute block w-40 py-2 text-sm text-center text-white bg-soGray-normal h-9 bottom-px"
-            >
-              Change picture
-            </a>
-          </div>
-          <div className="font-semibold text-lg my-0.5">Display name</div>
-          <input
-            type="text"
-            value={username}
-            onChange={handleUserName}
-            className="w-3/6 p-1 border rounded border-soGray-normal"
-          />
-          {usernameError && (
-            <p className="text-sm text-danger-500">
-              Display Name can only contain letters, digits, spaces, apostrophes
-              or hyphens and must start with a letter or digit
-            </p>
-          )}
-          <div className="font-semibold text-lg my-0.5">New password</div>
-          <input
-            type="password"
-            value={password}
-            onChange={handlePassword}
-            className="w-3/6 p-1 border rounded border-soGray-normal"
-          />
-          {passwordError && (
-            <p className="text-sm text-danger-500">
-              passwords must contain at least eight characters, including at
-              least 1letter and 1 number.
-            </p>
-          )}
-          <div className="font-semibold text-lg my-0.5">
-            New password (again)
-          </div>
-          <input
-            type="password"
-            value={passwordCheck}
-            onChange={handlePasswordCheck}
-            className="w-3/6 p-1 border rounded border-soGray-normal"
-          />
-          {passwordError && (
-            <p className="text-sm text-danger-500">
-              The passwords do not match.
-            </p>
-          )}
-          <p className="mt-2 text-xs text-gray-600">
-            passwords must contain at least eight characters,
-            <br /> including at least 1letter and 1 number.
+    <>
+      <div className="flex">
+        <nav className="my-3 ml-3 mr-8 whitespace-nowrap">
+          <p className="py-1.5 pr-12 pl-3 text-xs font-bold">
+            RERSONAL INFORMATION
           </p>
+          <div>
+            <ul className="w-10/12">
+              <li
+                className={
+                  'py-1 pr-12 pl-3 m-0.5 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white'
+                }
+              >
+                <Link to="/mypage/settings/editprofile">
+                  <button>Edit Profile</button>
+                </Link>
+              </li>
+              <li
+                className={
+                  'py-1 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
+                }
+              >
+                <Link to="/mypage/settings/deleteprofile">
+                  <button>Delete Profile</button>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div className="w-full">
+          <div className="pb-4 mb-6 border-b border-soGray-normal">
+            <h1 className="text-3xl font-medium">Edit your Profile</h1>
+          </div>
+          <form>
+            <div className="mb-2 text-2xl font-medium">
+              {' '}
+              Public information{' '}
+            </div>
+            <div className="p-6 border rounded border-soGray-normal mb-7">
+              <div className="font-semibold">Profile image</div>
+              <div className="relative">
+                <img
+                  src="../../public/logo192.png"
+                  alt=""
+                  className="w-40 h-40"
+                />
+                <a
+                  href="http://localhost:3000/"
+                  className="absolute block w-40 py-2 text-sm text-center text-white bg-soGray-normal h-9 bottom-px"
+                >
+                  Change picture
+                </a>
+              </div>
+              <div className="font-semibold text-lg my-0.5">Display name</div>
+              <input
+                type="text"
+                value={username}
+                onChange={handleUserName}
+                className="w-3/6 p-1 border rounded border-soGray-normal"
+              />
+              {usernameError && (
+                <p className="text-sm text-danger-500">
+                  Display Name can only contain letters, digits, spaces,
+                  apostrophes or hyphens and must start with a letter or digit
+                </p>
+              )}
+              <div className="font-semibold text-lg my-0.5">New password</div>
+              <input
+                type="password"
+                value={password}
+                onChange={handlePassword}
+                className="w-3/6 p-1 border rounded border-soGray-normal"
+              />
+              {passwordError && (
+                <p className="text-sm text-danger-500">
+                  passwords must contain at least eight characters, including at
+                  least 1letter and 1 number.
+                </p>
+              )}
+              <div className="font-semibold text-lg my-0.5">
+                New password (again)
+              </div>
+              <input
+                type="password"
+                value={passwordCheck}
+                onChange={handlePasswordCheck}
+                className="w-3/6 p-1 border rounded border-soGray-normal"
+              />
+              {passwordError && (
+                <p className="text-sm text-danger-500">
+                  The passwords do not match.
+                </p>
+              )}
+              <p className="mt-2 text-xs text-gray-600">
+                passwords must contain at least eight characters,
+                <br /> including at least 1letter and 1 number.
+              </p>
+            </div>
+          </form>
+          <div>
+            <button
+              className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium"
+              onClick={onSubmit}
+            >
+              Save profile
+            </button>
+            <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
+              Cancel
+            </button>
+          </div>
         </div>
-      </form>
-      <div>
-        <button
-          className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium"
-          onClick={onSubmit}
-        >
-          Save profile
-        </button>
-        <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
-          Cancel
-        </button>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -4,7 +4,6 @@ import { BASE_URL } from '../../util/api';
 
 const Questions = () => {
   const [data, setData] = useState(null);
-  const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
     fetch(`${BASE_URL}/questions/account/1?page=1&size=99&sort=id%2Cdesc`)
@@ -16,41 +15,40 @@ const Questions = () => {
         return res.json();
       })
       .then((data) => {
-        setIsPending(false);
         setData(data);
       })
       .catch((err) => {
-        setIsPending(false);
         console.error(err.message);
       });
   }, []);
 
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
-  let content = data.content;
+  const isLogin = {
+    true: 'p-3 border-t border-soGray-normal',
+    false: 'p-3 hidden border-t border-soGray-normal',
+  };
 
   return (
     <div className="w-full m-3">
-      <p className="mb-2 text-2xl font-medium">{content.length} Questions</p>
-      <div className="box-content border rounded border-soGray-normal ">
-        {content.map((el, index) => {
+      <p className="mb-2 text-2xl font-medium">
+        {data?.content.length} Answers
+      </p>{' '}
+      <div className="w-full border rounded border-soGray-normal">
+        {data?.content.map((el, index) => {
           return (
             <div
               key={index}
-              className="px-3 py-2 border-b border-soGray-normal last:border-none"
+              className="p-4 border-t border-soGray-normal first:border-none"
             >
               <div className="text-xs font-medium">{el.totalVote} votes</div>
-              <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis ">
-                {el.content}
+              <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis text-secondary-500 ">
+                <a href={`../question/detail/${el.id}`}>{el.content}</a>
               </div>
-              <div className="text-sm text-right">createdAt {el.createdAt}</div>
+              <div className="text-sm text-right">asked {el.createdAt}</div>
             </div>
           );
         })}
-        {content === null || content.length === 0 ? (
-          <p className="p-12 text-center border-b border-soGray-normal ">
+        {data?.content === null || data?.content.length === 0 ? (
+          <p className="p-12 text-center ">
             You have not{' '}
             <Link to="/" className="text-secondary-500">
               asked
@@ -60,9 +58,9 @@ const Questions = () => {
         ) : (
           ''
         )}
-        <div className="p-3">
+        <div className={isLogin[true ?? false]}>
           <Link to="/" className="text-secondary-500">
-            Deleted questions
+            Deleted answers
           </Link>
         </div>
       </div>

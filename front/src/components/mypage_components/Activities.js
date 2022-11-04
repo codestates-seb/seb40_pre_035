@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Summary from './Summary';
 import Answers from './Answers';
 import Questions from './Questions';
@@ -17,28 +18,49 @@ const Activitise = () => {
   };
 
   return (
-    <div className="flex w-full">
-      <nav className="my-3 ml-3 mr-8">
-        <div className="flex flex-col">
-          {menuArr.map((ele, index) => {
-            return (
-              <button
-                key={index}
-                className={
-                  currentTab === index
-                    ? 'py-1.5 pr-12 pl-3 m-0.5 bg-soGray-bg rounded-2xl'
-                    : 'py-1.5 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
-                }
-                onClick={() => selectMenuHandler(index)}
-              >
-                {ele.name}
+    <>
+      <div className="w-full">
+        <ul className="flex mt-2 mb-4">
+          <li>
+            <Link to="/mypage/activity">
+              <button className="m-0.5 py-1.5 px-3 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white">
+                Activity
               </button>
-            );
-          })}
+            </Link>
+          </li>
+          <li>
+            <Link to="/mypage/settings">
+              <button className="m-0.5 py-1.5 px-3 hover:bg-soGray-normal hover:rounded-2xl">
+                Settings
+              </button>
+            </Link>
+          </li>
+        </ul>
+
+        <div className="flex w-11/12">
+          <nav className="my-3 ml-3 mr-8">
+            <div className="flex flex-col">
+              {menuArr.map((ele, index) => {
+                return (
+                  <button
+                    key={index}
+                    className={
+                      currentTab === index
+                        ? 'py-1.5 pr-12 pl-3 m-0.5 bg-soGray-bg rounded-2xl'
+                        : 'py-1.5 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
+                    }
+                    onClick={() => selectMenuHandler(index)}
+                  >
+                    {ele.name}
+                  </button>
+                );
+              })}
+            </div>
+          </nav>
+          {menuArr[currentTab].content}
         </div>
-      </nav>
-      {menuArr[currentTab].content}
-    </div>
+      </div>
+    </>
   );
 };
 

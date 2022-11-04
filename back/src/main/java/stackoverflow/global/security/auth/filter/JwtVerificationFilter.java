@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 import stackoverflow.global.security.auth.dto.TokenPrincipalDto;
 import stackoverflow.global.security.auth.jwt.JwtTokenizer;
 import stackoverflow.global.security.auth.utils.CustomAuthorityUtils;
@@ -33,7 +34,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
         } catch (ExpiredJwtException ee) {
-            request.setAttribute("exception", ee);
+            request.setAttribute("exception", ExceptionCode.ACCESS_TOKEN_EXPIRATION);
         } catch (Exception e) {
             request.setAttribute("exception", e);
         }

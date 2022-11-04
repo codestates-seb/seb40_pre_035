@@ -97,8 +97,8 @@ public class QuestionController {
                                                                 @RequestBody QuestionVoteReqDto questionVoteReqDto) {
 
         QuestionVote questionVote = questionVoteReqDto.toQuestionVote(loginAccountId, questionId);
-        questionService.voteQuestion(questionVote);
+        String votedQuestion = questionService.voteQuestion(questionVote);
 
-        return new ResponseEntity<>(new SingleResDto<>("success vote"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResDto<>(votedQuestion), HttpStatus.CREATED);
     }
 }

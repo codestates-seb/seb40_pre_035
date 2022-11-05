@@ -2,11 +2,13 @@ package stackoverflow.domain.question.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.domain.account.repository.AccountRepository;
 import stackoverflow.domain.answer.repository.AnswerRepository;
+import stackoverflow.domain.question.dto.QuestionsResDto;
 import stackoverflow.domain.question.entity.Question;
 import stackoverflow.domain.question.entity.QuestionVote;
 import stackoverflow.domain.question.repository.QuestionRepository;
@@ -14,7 +16,9 @@ import stackoverflow.domain.question.repository.QuestionVoteRepository;
 import stackoverflow.global.exception.advice.BusinessLogicException;
 import stackoverflow.global.exception.exceptionCode.ExceptionCode;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +83,21 @@ public class QuestionService {
 
     public Page<Question> findUnAnsweredQuestions(String keyword, Pageable pageable) {
         return questionRepository.findByUnAnsweredWithAll(keyword, pageable);
+    }
+
+    public Page<QuestionsResDto> findTotalVoteQuestions(String keyword, Pageable pageable) {
+
+        List<Question> questions = questionRepository.findWithAllOrderByCreatedAt(keyword);
+        List<QuestionsResDto> questionsResDtos = questions.stream()
+                .map(QuestionsResDto::new)
+                .sorted((q1, q2) -> q1.getTotalVote() > q2.getTotalVote() ? -1 : 1)
+                .collect(Collectors.toList());
+
+        int fromIndex = Math.min(pageable.getPageNumber() * pageable.getPageSize(), questions.size());
+        int toIndex = Math.min(fromIndex + pageable.getPageSize(), questions.size());
+        List<QuestionsResDto> questionsResDtoPage = questionsResDtos.subList(fromIndex, toIndex);
+
+        return new PageImpl<>(questionsResDtoPage, pageable, questions.size());
     }
 
     @Transactional

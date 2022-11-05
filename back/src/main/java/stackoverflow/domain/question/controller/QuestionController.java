@@ -83,12 +83,19 @@ public class QuestionController {
 
     @GetMapping("/unAnswered")
     public ResponseEntity<PageDto<QuestionsResDto>> unAnsweredQuestionList(Pageable pageable,
-                                                                           @RequestParam(required = false) String keyword) {
+                                                                           @RequestParam(required = false, defaultValue = "") String keyword) {
 
         Page<Question> unAnsweredQuestions = questionService.findUnAnsweredQuestions(keyword, pageable);
         Page<QuestionsResDto> questionRes = unAnsweredQuestions.map(QuestionsResDto::new);
 
         return new ResponseEntity<>(new PageDto<>(questionRes), HttpStatus.OK);
+    }
+
+    @GetMapping("/totalVote")
+    public ResponseEntity<PageDto<QuestionsResDto>> totalVoteQuestionList(Pageable pageable,
+                                                                          @RequestParam(required = false, defaultValue = "") String keyword) {
+        Page<QuestionsResDto> totalVoteQuestions = questionService.findTotalVoteQuestions(keyword, pageable);
+        return new ResponseEntity<>(new PageDto<>(totalVoteQuestions), HttpStatus.OK);
     }
 
     @PostMapping("/questionVote/{questionId}")

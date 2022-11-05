@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import stackoverflow.domain.question.entity.Question;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
@@ -31,4 +32,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "left join question.answers answer where answer.selected = true) " +
             "and question.title like %:title%")
     Page<Question> findByUnAnsweredWithAll(@Param("title") String title, Pageable pageable);
+
+    @EntityGraph(attributePaths = {"account"})
+    @Query("select question from Question question where question.title like %:title% order by question.createdAt desc")
+    List<Question> findWithAllOrderByCreatedAt(@Param("title") String title);
 }

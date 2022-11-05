@@ -230,6 +230,23 @@ include::{snippets}/getQuestions/http-response.adoc[]
 include::{snippets}/getQuestions/response-fields.adoc[]
 
 ***
+=== Questions 조회_TotalVote
+.curl-request
+include::{snippets}/getQuestionsTotalVote/curl-request.adoc[]
+
+.http-request
+include::{snippets}/getQuestionsTotalVote/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/getQuestionsTotalVote/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/getQuestionsTotalVote/http-response.adoc[]
+
+.response-fields
+include::{snippets}/getQuestionsTotalVote/response-fields.adoc[]
+
+***
 === Questions 조회_UnAnswered
 .curl-request
 include::{snippets}/getQuestionsUnAnswered/curl-request.adoc[]

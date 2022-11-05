@@ -5,6 +5,7 @@
   "dependencies": {
     "@stackoverflow/stacks-editor": "^0.8.2",
     "@stackoverflow/stacks-icons": "^4.0.0",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

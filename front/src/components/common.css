@@ -4,11 +4,19 @@
 
 @layer components {
   .so-main-wrapper {
-    @apply flex flex-row justify-center flex-auto flex-nowrap;
+    @apply flex flex-row flex-auto flex-nowrap w-[100vw];
   }
   
   .so-main-content {
     @apply flex flex-col w-full pb-[80px] border-l border-r basis-auto border-soGray-light border-l-soGray-light border-r-soGray-light;
+  }
+
+  .so-with-both-side {
+    @apply w-[calc(100vw-462px)]
+  }
+
+  .so-width-one-side {
+    @apply w-[calc(100vw-164px)]
   }
 
   .so-button-primary {
@@ -34,6 +42,14 @@
   }
 
   .so-toast {
-    @apply will-change-transform animate-[toast_0.3s] text-secondary-700 fixed left-[50%] px-3 translate-x-[-50%] bottom-4 mb-8 bg-secondary-100 border border-secondary-400 min-h-[2.5rem] min-w-[4.5rem] rounded p-3 z-50 flex justify-center items-center;
+    @apply will-change-transform animate-[toast_0.3s] fixed left-[50%] translate-x-[-50%] bottom-[150px] border min-h-[2rem] min-w-[4.5rem] rounded px-3 py-2 z-50 flex justify-center items-center;
+  }
+
+  .so-toast-danger {
+    @apply  text-danger-700 bg-danger-100 border-danger-700;
+  }
+
+  .so-toast-confirm {
+    @apply   text-secondary-700 bg-secondary-50 border-secondary-700;
   }
 }

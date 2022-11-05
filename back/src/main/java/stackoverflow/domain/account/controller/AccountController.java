@@ -70,8 +70,8 @@ public class AccountController {
 
     @GetMapping("/user")
     public ResponseEntity<LoginAccountResDto> accountUserDetails(@LoginAccountId Long loginAccountId) {
-        Account account = accountService.findAccount(loginAccountId);
+        Account findAccount = accountService.findAccount(loginAccountId);
 
-        return new ResponseEntity<>(new LoginAccountResDto(account), HttpStatus.OK);
+        return new ResponseEntity<>(new LoginAccountResDto(findAccount), HttpStatus.OK);
     }
 }

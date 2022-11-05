@@ -1,4 +1,3 @@
-import '../components/common.css';
 import Editor from '../components/editor/Editor';
 
 function QuestionUpdate() {

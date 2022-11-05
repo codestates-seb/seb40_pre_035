@@ -1,4 +1,3 @@
-import '../common.css';
 import { Icon } from '../../util/Icon';
 import { IconClearSm } from '@stackoverflow/stacks-icons';
 import { fetchDeleteQuestion } from '../../util/fetchQuestion';
@@ -15,7 +14,7 @@ function QuestionDelete({ postId, hideModal }) {
       <div className="p-6 bg-white rounded-md shadow-lg w-[440px] y-[230px]">
         <div className="flex justify-between mb-4">
           <h5 className="font-bold text-xxl">Are you absolutely sure?</h5>
-          <button>{Icon(IconClearSm)}</button>
+          <button onClick={() => hideModal(true)}>{Icon(IconClearSm)}</button>
         </div>
         <p className="mb-6 font-medium text-md">
           This action cannot be undone. This will permanently delete the

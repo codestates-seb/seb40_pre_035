@@ -37,18 +37,17 @@ export const fetchAnswerVote = async (id, status) => {
       state: status,
     }),
   })
-    .then((response) => {
-      console.log(response);
+    .then(async (response) => {
       if (!response.ok) {
-        throw Error(response);
+        return response.json().then((res) => {
+          throw Error(res.message);
+        });
       }
       return response.json();
     })
-    .then((data) => {
-      console.log(data);
-      return data && data.data;
-    })
+    .then((data) => data.data)
     .catch((error) => {
-      console.log(error.message);
+      // 'Vote had been sent, Please cancel vote first.'
+      showToast('Vote had been sent, Please cancel vote first.', 'danger');
     });
 };

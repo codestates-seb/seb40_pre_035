@@ -11,10 +11,7 @@ import relTimeFormat from '../util/relativeTimeFormat';
 import { fetchQuestionDetail } from '../util/fetchQuestion';
 import { fetchQuestionVote } from '../util/fetchVote';
 import { fetchAnswerList } from '../util/fetchAnswer';
-import { fetchUserInfo } from '../util/fetchLogin';
 import { showToast } from '../components/toast/Toast';
-
-import '../components/common.css';
 
 function QuestionDetail() {
   const { id } = useParams();
@@ -26,7 +23,6 @@ function QuestionDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClickQUpVote, setIsClickQUpVote] = useState(false);
   const [isClickQDownVote, setIsClickQDownVote] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
   const token = sessionStorage.getItem('access_token');
   const currUser = sessionStorage.getItem('userEmail');
 
@@ -56,6 +52,10 @@ function QuestionDetail() {
     fetchAnswerList(id).then((res) => {
       setAnswerList(res.content);
     });
+  };
+
+  const needUpdate = (flag) => {
+    setUpdate(flag);
   };
 
   const checkIfAuthor = (userInfo) => {
@@ -155,13 +155,15 @@ function QuestionDetail() {
 
             <div className="flex flex-row text-sm user-info align-center">
               <Link className="flex mr-4" to={`/mypage/${info.account.id}`}>
-                <img
-                  src={info.account.profile}
-                  alt={`${info.account?.nickname}'s user avatar`}
-                  width="16"
-                  height="16"
-                  className="mr-2"
-                />
+                {info.account.profile && (
+                  <img
+                    src={info.account.profile}
+                    alt={`${info.account?.nickname}'s user avatar`}
+                    width="16"
+                    height="16"
+                    className="mr-2"
+                  />
+                )}
                 <span className="text-soGray-darker">
                   {info.account?.nickname}
                 </span>
@@ -234,14 +236,18 @@ function QuestionDetail() {
               </div>
             </div>
           </div>
-          {answerList && <AnswerList list={answerList} />}
-          <AnswerCreate questionId={info.id} />
+          {answerList && <AnswerList list={answerList} updated={needUpdate} />}
+          <AnswerCreate questionId={info.id} updated={needUpdate} />
         </div>
       ) : (
         ''
       )}
       {isModalOpen ? (
-        <QuestionDeleteModal postId={info.id} hideModal={hideModalDelete} />
+        <QuestionDeleteModal
+          postId={info.id}
+          hideModal={hideModalDelete}
+          updated={needUpdate}
+        />
       ) : null}
     </div>
   );

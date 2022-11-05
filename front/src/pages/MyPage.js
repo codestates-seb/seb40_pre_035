@@ -11,7 +11,7 @@ function MyPage() {
       <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px]">
         <Sidebar />
       </nav>
-      <div className="p-6 so-main-content">
+      <div className="p-6 so-main-content so-with-one-side">
         <Profile />
         <Routes>
           <Route exact path="/*" element={<Activitise />} />

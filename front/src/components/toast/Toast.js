@@ -6,14 +6,19 @@ const TOAST_MS = 1500;
 
 export const showToast = (message = 'default message', type = 'confirm') => {
   let container = document.getElementById(TOAST_ID);
+
   if (!container) {
     container = document.createElement('div');
     container.setAttribute('id', TOAST_ID);
     document.body.appendChild(container);
-  }
 
-  const root = createRoot(container);
-  root.render(<Toast message={message} target={root} type={type} />);
+    const root = createRoot(container);
+    root.render(
+      <React.StrictMode>
+        <Toast message={message} target={root} type={type} />
+      </React.StrictMode>
+    );
+  }
 };
 
 export const HideToast = (target) => {

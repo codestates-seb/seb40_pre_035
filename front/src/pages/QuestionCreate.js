@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Editor from '../components/editor/Editor';
 import { fetchCreateQuestion } from '../util/fetchQuestion';
+import { checkIfLogined } from '../util/fetchLogin';
 import { showToast } from '../components/toast/Toast';
+
 import '../components/common.css';
 
 function QuestionCreate() {
@@ -31,6 +33,10 @@ function QuestionCreate() {
       fetchCreateQuestion({ title, content });
     }
   };
+
+  useEffect(() => {
+    checkIfLogined();
+  }, []);
 
   return (
     <div className="so-askQuestion">

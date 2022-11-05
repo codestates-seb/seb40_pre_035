@@ -1,23 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import Sidebar from '../components/sidebar/Sidebar';
 import { Viewer } from '@toast-ui/react-editor';
-import { fetchQuestionDetail } from '../util/fetchQuestion';
-import { fetchAnswerList } from '../util/fetchAnswer';
+import Sidebar from '../components/sidebar/Sidebar';
 import QuestionDeleteModal from '../components/questions/QustionDeleteModal';
 import AnswerList from '../components/answers/AnswerList';
 import AnswerCreate from '../components/answers/AnswerCreate';
 import Loading from '../components/loading/Loading';
-import relTimeFormat from '../util/relativeTimeFormat';
 import renderToMarkdown from '../util/renderMarkdown';
+import relTimeFormat from '../util/relativeTimeFormat';
+import { fetchQuestionDetail } from '../util/fetchQuestion';
 import { fetchQuestionVote } from '../util/fetchVote';
+import { fetchAnswerList } from '../util/fetchAnswer';
+import { fetchUserInfo } from '../util/fetchLogin';
 import { showToast } from '../components/toast/Toast';
+
 import '../components/common.css';
 
 function QuestionDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const [info, setInfo] = useState({});
   const [answerList, setAnswerList] = useState([]);
   const [update, setUpdate] = useState(true);
@@ -25,6 +26,7 @@ function QuestionDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClickQUpVote, setIsClickQUpVote] = useState(false);
   const [isClickQDownVote, setIsClickQDownVote] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const token = sessionStorage.getItem('access_token');
   const currUser = sessionStorage.getItem('userEmail');
 

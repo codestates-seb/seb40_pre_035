@@ -1,3 +1,4 @@
+import { showToast } from '../components/toast/Toast';
 export const BASE_URL = 'http://13.125.238.70:8080'; // 다른페이지에서 아직 참조중이라 남겨둡니다
 
 export const fetchLogin = async (data) => {
@@ -64,4 +65,15 @@ export const fetchUserInfo = async () => {
         console.error(err.message);
       })
   );
+};
+
+export const checkIfLogined = async () => {
+  return await fetchUserInfo().then((data) => {
+    if (!data) {
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
+      showToast('Please log in.', 'danger');
+    }
+  });
 };

@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { BASE_URL } from '../../util/fetchLogin';
 
 const DeleteProfile = () => {
+  const { id } = useParams();
+
+  const accesstoken = sessionStorage.access_token;
   const onRemove = () => {
-    fetch(`${BASE_URL}/accounts/3`, {
+    fetch(`/accounts/${id}`, {
       method: 'DELETE',
       header: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImlkIjozLCJ1c2VybmFtZSI6ImRlbGV0ZUBnbWFpbC5jb20iLCJzdWIiOiIzIiwiaWF0IjoxNjY3NDMzODYzLCJleHAiOjE2Njc0MzU2NjN9.g1fX057uw1L-qwLONUR6fz4eYWT8Lcfwl7CM-SRncmg',
+        Authorization: accesstoken,
       },
     }).then();
   };
@@ -26,7 +28,7 @@ const DeleteProfile = () => {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex mb-28">
         <nav className="my-3 ml-3 mr-8 whitespace-nowrap">
           <p className="py-1.5 pr-12 pl-3 text-xs font-bold">
             RERSONAL INFORMATION
@@ -38,7 +40,7 @@ const DeleteProfile = () => {
                   'py-1 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
                 }
               >
-                <Link to="/mypage/settings/editprofile">
+                <Link to={`/mypage/${id}/settings/editprofile`}>
                   <button>Edit Profile</button>
                 </Link>
               </li>
@@ -47,7 +49,7 @@ const DeleteProfile = () => {
                   'py-1 pr-12 pl-3 m-0.5 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white'
                 }
               >
-                <Link to="/mypage/settings/deleteprofile">
+                <Link to={`/mypage/${id}/settings/deleteprofile`}>
                   <button>Delete Profile</button>
                 </Link>
               </li>

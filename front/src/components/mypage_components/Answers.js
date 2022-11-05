@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { BASE_URL } from '../../util/fetchLogin';
+import { Link, useParams } from 'react-router-dom';
 
 const Answers = () => {
+  const { id } = useParams();
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/answers/account/1?page=1&size=99&sort=id%2Cdesc`)
+    fetch(`/answers/account/${id}?page=1&size=99&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -22,13 +22,20 @@ const Answers = () => {
       });
   }, []);
 
-  const date = (el) => {
-    el.toUTCString();
-  };
-
   const isLogin = {
     true: 'p-3 border-t border-soGray-normal',
     false: 'p-3 hidden border-t border-soGray-normal',
+  };
+
+  const options = {
+    month: 'short',
+    day: 'numeric',
+  };
+  const hourOptions = {
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
   };
 
   return (
@@ -47,7 +54,14 @@ const Answers = () => {
               <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis text-secondary-500">
                 <a href={`../question/detail/${el.id}`}>{el.content}</a>
               </div>
-              <div className="text-sm text-right">anwsered {el.createdAt}</div>
+              <div className="text-xs text-right">
+                anwsered{' '}
+                {new Date(el.createdAt).toLocaleDateString('en-US', options)} at{' '}
+                {new Date(el.createdAt).toLocaleDateString(
+                  'en-US',
+                  hourOptions
+                )}
+              </div>
             </div>
           );
         })}

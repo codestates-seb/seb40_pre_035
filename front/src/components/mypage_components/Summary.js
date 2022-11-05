@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const Summary = () => {
+  const { id } = useParams();
   const [profile, setProfile] = useState(null);
   const [answers, setAnswers] = useState(null);
   const [questions, setQuestions] = useState(null);
 
   useEffect(() => {
-    fetch(`/accounts/1`)
+    fetch(`/accounts/${id}`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -24,7 +25,7 @@ const Summary = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`/answers/account/1?page=1&size=3&sort=id%2Cdesc`)
+    fetch(`/answers/account/${id}?page=1&size=3&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -43,7 +44,7 @@ const Summary = () => {
   const answersContent = answers?.content;
 
   useEffect(() => {
-    fetch(`/questions/account/1?page=1&size=3&sort=id%2Cdesc`)
+    fetch(`/questions/account/${id}?page=1&size=3&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server

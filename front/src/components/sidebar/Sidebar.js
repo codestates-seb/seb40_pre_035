@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 function Sidebar() {
   const location = useLocation();
   const path = location.pathname.split('/')[1];
-  console.log(path);
 
   return (
     <ol className="flex flex-col w-full text-[15px]">

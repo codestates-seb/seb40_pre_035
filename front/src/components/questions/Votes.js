@@ -1,21 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { fetchVote } from '../../util/fetchVote';
+import { showToast } from '../toast/Toast';
 
-function VoteController({ total }) {
-  const [count, setCount] = useState(total);
+function Votes({ total, postId, updated, type = 'question' }) {
+  const [isClickUpVote, setIsClickUpVote] = useState(false);
+  const [isClickDownVote, setIsClickDownVote] = useState(false);
 
   const onClickUpVote = () => {
-    setCount(count + 1);
+    setIsClickUpVote(true);
+    onChangeVote('UP');
   };
 
   const onClickDownVote = () => {
-    setCount(count - 1);
+    setIsClickDownVote(true);
+    onChangeVote('DOWN');
+  };
+
+  const onChangeVote = async (status) => {
+    await fetchVote(postId, status, type).then((res) => {
+      console.log(res);
+      if (res) {
+        if (res === 'cancel vote') {
+          showToast('Down Vote is Canceled.');
+        } else if (res === 'success vote') {
+          showToast('Down Vote is Canceled.');
+        }
+      }
+      setIsClickDownVote(false);
+    });
   };
 
   return (
-    <div className="flex flex-col mb-5 mr-4 vote-group">
+    <div className="flex flex-col mr-4 vote-group">
       <button
         className="flex justify-center"
         aria-label="Up vote"
+        data-status="UP"
         onClick={onClickUpVote}
       >
         <svg
@@ -24,17 +44,16 @@ function VoteController({ total }) {
           width="36"
           height="36"
           viewBox="0 0 36 36"
-          // fill={}
+          fill={isClickUpVote ? '#f48225' : '#BABFC3'}
         >
           <path d="M2 25h32L18 9 2 25Z"></path>
         </svg>
       </button>
-      <div className="flex my-3 vote-count" data-value={total}>
-        {count}
-      </div>
+      <div className="flex justify-center my-3">{total}</div>
       <button
         className="flex justify-center"
         aria-label="Down vote"
+        data-status="DOWN"
         onClick={onClickDownVote}
       >
         <svg
@@ -43,6 +62,7 @@ function VoteController({ total }) {
           width="36"
           height="36"
           viewBox="0 0 36 36"
+          fill={isClickDownVote ? '#f48225' : '#BABFC3'}
         >
           <path d="M2 11h32L18 27 2 11Z"></path>
         </svg>
@@ -51,4 +71,4 @@ function VoteController({ total }) {
   );
 }
 
-export default VoteController;
+export default Votes;

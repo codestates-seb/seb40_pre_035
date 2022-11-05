@@ -2,30 +2,34 @@ import { Link } from 'react-router-dom';
 import relTimeFormat from '../../util/relativeTimeFormat';
 
 function Card({ item }) {
-  //   const themeState = useSelector((state) => state.themeSlice).theme;
-  console.log(item);
   return (
-    <div className="w-auto p-4 leading-7 text-left border-b text-md border-soGray-light">
-      <div className="flex">
-        <div className="votecontainer text-[13px] text-right mt-1 ml-2.5 mr-6 mb-1.5">
+    <div className="w-auto p-4 pr-0 leading-7 text-left border-b text-md border-soGray-light">
+      <div className="flex w-full">
+        <div className="text-[13px] text-right mt-1 mr-6 shrink-0 grow-0 basis-[80px]">
           <div className="Vote">{item.totalVote} votes</div>
           <div className="Answers">{item.answerCount} answers</div>
         </div>
-        <div className="QuestionContainer pl-1.5">
-          <div className="text-[1.2rem] QuestionTitle text-buttonPrimary font-semibold">
+        <div className="flex flex-col flex-wrap shrink-1 grow-1 w-[calc(100%-105px)] basis-auto pl-1.5">
+          <div className="text-[1.2rem] line-clamp-2 break-all w-full text-buttonPrimary font-semibold mb-2">
             <Link to={`/question/detail/${item.id}`}>{item.title}</Link>
           </div>
-          <div className="mb-2 truncate QuestionSummary">{item.content}</div>
+          <div className="w-full mb-4 text-sm break-all line-clamp-2">
+            {console.log(item.content)}
+            {item.content
+              .split('')
+              .map((el) => el.match(/^[a-zA-Zㄱ-힣0-9]*$/))
+              .slice(0, 100)}
+          </div>
 
-          <div
-            className="UserInfoContainer flex text-[13px] text-soGray-darker
-            w-[40rem] mb-2 space-x-2"
-          >
-            <img
-              src={item.account.profile}
-              alt={`${item.account.nickname}'s Avatar`}
-            />
-            <div className="font-semibold userName text-soGray-darker">
+          <div className="w-full flex items-center flex-row text-[13px] text-soGray-darker space-x-2">
+            <div className="w-[24px] h-[24px]">
+              <img
+                className="w-full h-auto"
+                src={item.account.profile}
+                alt={`${item.account.nickname}'s Avatar`}
+              />
+            </div>
+            <div className="font-semibold text-soGray-darker">
               {item.account.nickname}
             </div>
             <time className="mr-4 s-user-card--time">

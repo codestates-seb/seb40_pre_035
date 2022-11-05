@@ -1,7 +1,7 @@
 import { IconLogo, IconSearch, IconPerson } from '@stackoverflow/stacks-icons';
 import ReactHtmlParser from 'react-html-parser';
 import { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Icon } from './util/Icon';
 import { fetchUserInfo } from './util/fetchLogin';
 import { data } from 'autoprefixer';
@@ -12,14 +12,20 @@ const Header = () => {
   const [userProfileImage, setUserProfileImage] = useState('');
   const [searchText, setSearchText] = useState('');
   const search = useRef();
-
+  const navigator = useNavigate();
   useEffect(() => {
     checkLoginState();
   });
 
   function handleSearch(e) {
     setSearchText(e.target.value);
-    console.log(searchText);
+    // 로컬스토리지에 검색어 저장
+    localStorage.setItem('searchText', searchText);
+
+    if (e.key === 'Enter' && searchText) {
+      // 검색어 존재 & 엔터키 누르면 /question으로 이동
+      navigator('/question');
+    }
   }
 
   const checkLoginState = () => {
@@ -109,6 +115,7 @@ const Header = () => {
             className="w-[calc(100%-40px)] focus:outline-none focus-visible:outline-none"
             placeholder="Search..."
             onChange={handleSearch}
+            onKeyPress={handleSearch}
             onFocus={(e) => onChangeSearch(e)}
             onBlur={(e) => onChangeSearch(e)}
             ref={search}

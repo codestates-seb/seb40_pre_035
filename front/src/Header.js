@@ -9,11 +9,17 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [userProfileImage, setUserProfileImage] = useState('');
+  const [searchText, setSearchText] = useState('');
   const search = useRef();
 
   useEffect(() => {
     checkLoginState();
   });
+
+  function handleSearch(e) {
+    setSearchText(e.target.value);
+    console.log(searchText);
+  }
 
   const checkLoginState = () => {
     // 세션스토리지에 저장되어있고, 현재 주소가 /login이나 signup이 아니면(home등에 진입한상태)
@@ -22,12 +28,10 @@ const Header = () => {
     const isLoginPath =
       currentPath === 'login' || currentPath === 'signup' ? true : false;
     if (sessionStorage.getItem('access_token') && !isLoginPath) {
-      console.log('chekLoginState if 문 통과함.');
       setIsLogin(true);
       getUserProfile();
     } else {
       setIsLogin(false);
-      console.log('chekLoginState if 문 통과 안함.');
     }
   };
 
@@ -91,6 +95,7 @@ const Header = () => {
             type="text"
             className="w-[calc(100%-40px)] focus:outline-none focus-visible:outline-none"
             placeholder="Search..."
+            onChange={handleSearch}
             onFocus={(e) => onChangeSearch(e)}
             onBlur={(e) => onChangeSearch(e)}
             ref={search}

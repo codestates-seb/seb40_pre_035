@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { BASE_URL } from '../../util/fetchLogin';
+import { Link, useParams } from 'react-router-dom';
 
 const EditProfile = () => {
+  const { id } = useParams();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
@@ -46,29 +47,35 @@ const EditProfile = () => {
     else return false;
   }
 
-  // const [data, setData] = useState();
-  // useEffect(() => {
-  //   fetch(`${BASE_URL}/accounts/1`, {
-  //     method: 'PATCH',
-  //   })
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         // error coming back from server
-  //         throw Error('could not fetch the data for that resource');
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setData(data);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err.message);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch(
+      `/accounts/1`,
+      {
+        method: 'PATCH',
+        'Content-Type': 'multipart/form-data;charset=UTF-8',
+        Authorization: `${sessionStorage.access_token}`,
+      }
+      // body: JSON.stringify({
+      //   // profile,
+      //   username ,
+      //   password ,
+      // })
+    )
+      .then((res) => {
+        if (!res.ok) {
+          // error coming back from server
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
 
   return (
     <>
-      <div className="flex">
+      <div className="flex mb-28">
         <nav className="my-3 ml-3 mr-8 whitespace-nowrap">
           <p className="py-1.5 pr-12 pl-3 text-xs font-bold">
             RERSONAL INFORMATION
@@ -80,7 +87,7 @@ const EditProfile = () => {
                   'py-1 pr-12 pl-3 m-0.5 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white'
                 }
               >
-                <Link to="/mypage/settings/editprofile">
+                <Link to={`/mypage/${id}/settings/editprofile`}>
                   <button>Edit Profile</button>
                 </Link>
               </li>
@@ -89,7 +96,7 @@ const EditProfile = () => {
                   'py-1 pr-12 pl-3 m-0.5 hover:bg-soGray-light hover:rounded-2xl'
                 }
               >
-                <Link to="/mypage/settings/deleteprofile">
+                <Link to={`/mypage/${id}/settings/deleteprofile`}>
                   <button>Delete Profile</button>
                 </Link>
               </li>

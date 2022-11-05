@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { BASE_URL } from '../../util/fetchLogin';
 
 const Summary = () => {
   const [profile, setProfile] = useState(null);
@@ -8,7 +7,7 @@ const Summary = () => {
   const [questions, setQuestions] = useState(null);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/accounts/1`)
+    fetch(`/accounts/1`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -25,7 +24,7 @@ const Summary = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/answers/account/1?page=1&size=5&sort=id%2Cdesc`)
+    fetch(`/answers/account/1?page=1&size=3&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -44,7 +43,7 @@ const Summary = () => {
   const answersContent = answers?.content;
 
   useEffect(() => {
-    fetch(`${BASE_URL}/questions/account/1?page=1&size=5&sort=id%2Cdesc`)
+    fetch(`/questions/account/1?page=1&size=3&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -62,6 +61,7 @@ const Summary = () => {
 
   const questionsContent = questions?.content;
 
+  const options = { month: 'short', day: 'numeric', year: 'numeric' };
   // console.log(data.content.reduce((pre, cur) => pre.totalVote + cur.totalVote));
 
   return (
@@ -108,8 +108,11 @@ const Summary = () => {
                   <div className="mb-0.5 pl-1 text-secondary-500 grow overflow-hidden whitespace-nowrap text-ellipsis">
                     <a href={`../question/detail/${el.id}`}>{el.content}</a>
                   </div>
-                  <div className="flex items-center justify-center text-sm text-right">
-                    {el.createdAt}
+                  <div className="flex items-center justify-center text-xs text-right">
+                    {new Date(el.createdAt).toLocaleDateString(
+                      'en-US',
+                      options
+                    )}
                   </div>
                 </div>
               );
@@ -150,8 +153,11 @@ const Summary = () => {
                   <div className="mb-0.5 pl-1 text-secondary-500 grow overflow-hidden whitespace-nowrap text-ellipsis">
                     <a href={`../question/detail/${el.id}`}>{el.content}</a>
                   </div>
-                  <div className="flex items-center justify-center text-sm text-right">
-                    {el.createdAt}
+                  <div className="flex items-center justify-center text-xs text-right">
+                    {new Date(el.createdAt).toLocaleDateString(
+                      'en-US',
+                      options
+                    )}
                   </div>
                 </div>
               );

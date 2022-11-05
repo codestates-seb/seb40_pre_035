@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import Summary from './Summary';
 import Answers from './Answers';
 import Questions from './Questions';
 
 const Activitise = () => {
+  const { id } = useParams();
+  const [idData, setIdData] = useState();
   const [currentTab, setCurrentTab] = useState(0);
 
   const menuArr = [
@@ -17,19 +19,42 @@ const Activitise = () => {
     setCurrentTab(index);
   };
 
+  useEffect(() => {
+    fetch(`/accounts/${id}`)
+      .then((res) => {
+        if (!res.ok) {
+          // error coming back from server
+          throw Error('could not fetch the data for that resource');
+        }
+        return res.json();
+      })
+      .then((idData) => {
+        setIdData(idData);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }, []);
+
+  const login = () => {
+    return sessionStorage.userEmail === idData?.email;
+  };
+
+  const isLogin = { true: '', false: 'invisible' };
+
   return (
     <>
-      <div className="w-full">
+      <div className="w-full mb-28 ">
         <ul className="flex mt-2 mb-4">
           <li>
-            <Link to="/mypage/activity">
+            <Link to={`/mypage/${id}/activity`}>
               <button className="m-0.5 py-1.5 px-3 bg-primary-400 rounded-2xl hover:bg-primary-700 text-white">
                 Activity
               </button>
             </Link>
           </li>
-          <li>
-            <Link to="/mypage/settings">
+          <li className={isLogin[login() ?? false]}>
+            <Link to={`/mypage/${id}/settings`}>
               <button className="m-0.5 py-1.5 px-3 hover:bg-soGray-normal hover:rounded-2xl">
                 Settings
               </button>

@@ -1,11 +1,12 @@
+import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { BASE_URL } from '../../util/fetchLogin';
 
 const Profile = () => {
-  const [data, setData] = useState(null);
+  const { id } = useParams();
+  const [idData, setIdData] = useState(null);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/accounts/1`)
+    fetch(`/accounts/${id}`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -13,36 +14,48 @@ const Profile = () => {
         }
         return res.json();
       })
-      .then((data) => {
-        setData(data);
+      .then((idData) => {
+        setIdData(idData);
       })
       .catch((err) => {
         console.error(err.message);
       });
   }, []);
 
+  console.log(idData);
+
+  const logout = () => {
+    sessionStorage.access_token = '';
+  };
+
+  const login = () => {
+    return sessionStorage.userEmail === idData?.email;
+  };
+
   const isLogin = { true: 'flex', false: 'flex invisible' };
 
   return (
     <div className="flex">
-      <img src={data?.profile} alt="" className="w-32 h-32" />
+      <img src={idData?.profile} alt="" className="w-32 h-32" />
       <div className="self-center ml-3">
-        <div className="mx-2 mb-2 text-4xl font-bold ">{data?.nickname}</div>
+        <div className="mx-2 mb-2 text-4xl font-bold ">{idData?.nickname}</div>
 
-        <ul className={isLogin[true ?? false]}>
+        <ul className={isLogin[login() ?? false]}>
           <li className="px-1.5">
             {/* <Link to="/">Logout</Link> */}
-            <a href="/">Logout</a>
+            <a href="/" onClick={logout}>
+              Logout
+            </a>
           </li>
           /
           <li className="px-1.5">
-            {/* <Link to="/settings">Edit Profile</Link> */}
-            <a href="/mypage/settings/editprofile">Edit Profile</a>
+            <Link to={`./settings/editprofile`}>Edit Profile</Link>
+            {/* <a href="./settings/editprofile">Edit Profile</a> */}
           </li>
           /
           <li className="px-1.5">
-            {/* <Link to="/settings">Delete Profile</Link> */}
-            <a href="/mypage/settings/deleteprofile">Delete Profile</a>
+            <Link to={`./settings/deleteprofile`}>Delete Profile</Link>
+            {/* <a href=".settings/deleteprofile">Delete Profile</a> */}
           </li>
         </ul>
       </div>

@@ -49,6 +49,10 @@ const Header = () => {
   const getUserProfile = async () => {
     return await fetchUserInfo().then((data) => {
       setUserProfileImage(data.profile);
+
+      // 유저이메일 저장
+      const userEmail = data.email;
+      sessionStorage.setItem('userEmail', userEmail);
     });
   };
   const LoginGNB = () => {

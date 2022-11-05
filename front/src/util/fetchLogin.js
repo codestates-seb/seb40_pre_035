@@ -13,10 +13,8 @@ export const fetchLogin = async (data) => {
       if (!res.ok) {
         throw Error('could not fetch the data for that resource');
       }
-      console.log(res.headers);
-      console.log(res.headers.get('Authorization'));
-      console.log(res.headers.get('refresh'));
 
+      // 토큰 저장
       const accessToken = res.headers.get('Authorization');
       const refreshToken = res.headers.get('refresh');
       sessionStorage.setItem('access_token', accessToken); // 30분

@@ -3,7 +3,7 @@ import ReactHtmlParser from 'react-html-parser';
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from './util/Icon';
-import { fetchUserInfo } from './util/api';
+import { fetchUserInfo } from './util/fetchLogin';
 import { data } from 'autoprefixer';
 
 const Header = () => {

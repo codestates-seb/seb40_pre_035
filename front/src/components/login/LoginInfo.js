@@ -1,6 +1,6 @@
 import '../../components/common.css';
 import { useState, useEffect } from 'react';
-import { BASE_URL, fetchLogin, fetchUserInfo } from '../../util/api';
+import { fetchLogin, fetchUserInfo } from '../../util/fetchLogin';
 import { useNavigate } from 'react-router-dom';
 const LoginInfo = () => {
   const [email, setEmail] = useState('');

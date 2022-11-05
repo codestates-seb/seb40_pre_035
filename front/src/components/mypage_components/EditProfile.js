@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BASE_URL } from '../../util/api';
+import { BASE_URL } from '../../util/fetchLogin';
 
 const EditProfile = () => {
   const [username, setUsername] = useState('');

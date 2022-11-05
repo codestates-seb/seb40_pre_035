@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { BASE_URL } from '../../util/api';
+import { BASE_URL } from '../../util/fetchLogin';
 
 const Summary = () => {
   const [profile, setProfile] = useState(null);

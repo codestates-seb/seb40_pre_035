@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BASE_URL } from '../../util/api';
+import { BASE_URL } from '../../util/fetchLogin';
 
 const Profile = () => {
   const [data, setData] = useState(null);

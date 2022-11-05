@@ -3,7 +3,7 @@ import Pagination from './Pagination';
 import ListMiddle from './QuestionListMiddle';
 import Card from './Card';
 import { useState, useEffect } from 'react';
-import { BASE_URL } from '../../util/api';
+import { BASE_URL } from '../../util/fetchLogin';
 
 function Mainbar({ questionId }) {
   const [questionList, setQuestionList] = useState([]);

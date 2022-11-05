@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BASE_URL } from '../../util/api';
+import { BASE_URL } from '../../util/fetchLogin';
 
 const Answers = () => {
   const [data, setData] = useState(null);

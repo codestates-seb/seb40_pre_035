@@ -1,20 +1,87 @@
 import { IconLogo, IconSearch, IconPerson } from '@stackoverflow/stacks-icons';
-import { useState, useRef } from 'react';
+import ReactHtmlParser from 'react-html-parser';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from './util/Icon';
+import { fetchUserInfo } from './util/fetchLogin';
+import { data } from 'autoprefixer';
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
+  const [userProfileImage, setUserProfileImage] = useState('');
+  const [searchText, setSearchText] = useState('');
   const search = useRef();
 
-  const onClick = () => {
-    setIsLogin(!isLogin);
+  useEffect(() => {
+    checkLoginState();
+  });
+
+  function handleSearch(e) {
+    setSearchText(e.target.value);
+    console.log(searchText);
+  }
+
+  const checkLoginState = () => {
+    // 세션스토리지에 저장되어있고, 현재 주소가 /login이나 signup이 아니면(home등에 진입한상태)
+    // isLogin 상태 true. header에 프로필이미지 구현.
+    const currentPath = window.location.pathname;
+    const isLoginPath =
+      currentPath === 'login' || currentPath === 'signup' ? true : false;
+    if (sessionStorage.getItem('access_token') && !isLoginPath) {
+      setIsLogin(true);
+      getUserProfile();
+    } else {
+      setIsLogin(false);
+    }
+  };
+
+  const onLogoutClick = () => {
+    sessionStorage.clear();
+    setIsLogin(false);
   };
 
   const onChangeSearch = (e) => {
     console.log(e);
     setIsFocus(true);
+  };
+
+  const getUserProfile = async () => {
+    return await fetchUserInfo().then((data) => {
+      setUserProfileImage(data.profile);
+    });
+  };
+  const LoginGNB = () => {
+    return (
+      <div className="flex">
+        <button
+          onClick={onLogoutClick}
+          className="px-3 py-1 mx-2 text-gray hover:bg-soGray-light"
+        >
+          {/* //TODO: 여기는 main으로 보내기 */}
+          <Link to="/login">Logout</Link>
+        </button>
+        <div className="items-center p-2 hover:bg-soGray-light">
+          <Link to="/mypage/1">
+            {/* //TODO: 임시로 1번으로 이동 */}
+            <img src={userProfileImage} alt="userProfile"></img>
+          </Link>
+        </div>
+      </div>
+    );
+  };
+
+  const LogoutGNB = () => {
+    return (
+      <>
+        <button className="px-3 py-1 mx-2 border rounded text-blue hover:bg-buttonSecondaryHover bg-buttonSecondary border-secondary-200">
+          <Link to="/login">Log in</Link>
+        </button>
+        <button className="px-2 py-1 mx-1 text-white border rounded hover:bg-buttonPrimaryHover bg-buttonPrimary border-secondary-300">
+          <Link to="/signup">Sign up</Link>
+        </button>
+      </>
+    );
   };
 
   return (
@@ -24,9 +91,6 @@ const Header = () => {
         <div className="items-center mx-2 my-1">
           <Link to="/">{Icon(IconLogo)}</Link>
         </div>
-        {/* <button className="hover:bg-soGray-light" onClick={onClick}>
-          임시 isLogin toggle
-        </button> */}
         <div className="flex items-center px-2 py-1 mx-2 mr-10 bg-white border rounded-md grow border-soGray-light focus:ring-secondary-300">
           <div className="flex mx-2 my-1 text-soGray-icon">
             {Icon(IconSearch)}
@@ -35,6 +99,7 @@ const Header = () => {
             type="text"
             className="w-[calc(100%-40px)] focus:outline-none focus-visible:outline-none"
             placeholder="Search..."
+            onChange={handleSearch}
             onFocus={(e) => onChangeSearch(e)}
             onBlur={(e) => onChangeSearch(e)}
             ref={search}
@@ -43,32 +108,6 @@ const Header = () => {
         <div>{isLogin ? <LoginGNB /> : <LogoutGNB />}</div>
       </div>
     </div>
-  );
-};
-
-const LoginGNB = () => {
-  return (
-    <div className="flex">
-      <button className="px-3 py-1 mx-2 text-gray hover:bg-soGray-light">
-        Logout
-      </button>
-      <div className="items-center p-2 hover:bg-soGray-light">
-        {Icon(IconPerson)}
-      </div>
-    </div>
-  );
-};
-
-const LogoutGNB = () => {
-  return (
-    <>
-      <button className="px-3 py-1 mx-2 border rounded text-blue hover:bg-buttonSecondaryHover bg-buttonSecondary border-secondary-200">
-        <Link to="/login">Log in</Link>
-      </button>
-      <button className="px-2 py-1 mx-1 text-white border rounded hover:bg-buttonPrimaryHover bg-buttonPrimary border-secondary-300">
-        <Link to="/signup">Sign up</Link>
-      </button>
-    </>
   );
 };
 

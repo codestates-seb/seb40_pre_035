@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { BASE_URL, fetchSignup } from '../../util/api';
+import { fetchSignup } from '../../util/fetchSignup';
 import { useNavigate } from 'react-router-dom';
 import identicon1 from '../../images/identicon1.jpeg';
 import '../../components/common.css';

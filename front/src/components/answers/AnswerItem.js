@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import Votes from '../questions/Votes';
 import { Viewer } from '@toast-ui/react-editor';
-import relTimeFormat from '../../util/relativeTimeFormat';
 import AnswerDeleteModal from '../answers/AnswerDeleteModal';
+import relTimeFormat from '../../util/relativeTimeFormat';
+import renderToMarkdown from '../../util/renderMarkdown';
 
 function AnswerItem({ item, setUpdate }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,7 +48,7 @@ function AnswerItem({ item, setUpdate }) {
             </button>
           </div>
         </div>
-        <Viewer initialValue={item.content} />
+        <Viewer initialValue={renderToMarkdown(item.content)} />
       </div>
       {isModalOpen ? <AnswerDeleteModal /> : null}
     </div>

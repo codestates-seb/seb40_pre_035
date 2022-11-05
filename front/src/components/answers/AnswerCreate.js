@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Editor from '../editor/Editor';
 import { fetchCreateAnswer } from '../../util/fetchAnswer';
 import { showToast } from '../toast/Toast';
@@ -7,8 +6,6 @@ import '../../components/common.css';
 
 function AnswerCreate({ questionId, updated }) {
   const [content, setContent] = useState('');
-  const [isEditorClear, setIsEditorClear] = useState(false);
-  const navigator = useNavigate();
 
   const onChangeContent = (content) => {
     setContent(content);
@@ -18,7 +15,9 @@ function AnswerCreate({ questionId, updated }) {
     if (content.length < 50) {
       showToast('Minimum 50 characters.');
     } else {
-      fetchCreateAnswer({ questionId, content }, updated);
+      fetchCreateAnswer({ questionId, content }).then(() => {
+        window.location.reload();
+      });
     }
   };
 

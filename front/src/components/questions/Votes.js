@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchVote } from '../../util/fetchVote';
+import { fetchQuestionVote, fetchAnswerVote } from '../../util/fetchVote';
 import { showToast } from '../toast/Toast';
 
 function Votes({ total, postId, updated, type = 'question' }) {
@@ -17,7 +17,7 @@ function Votes({ total, postId, updated, type = 'question' }) {
   };
 
   const onChangeVote = async (status) => {
-    await fetchVote(postId, status, type).then((res) => {
+    await fetchQuestionVote(postId, status, type).then((res) => {
       console.log(res);
       if (res) {
         if (res === 'cancel vote') {

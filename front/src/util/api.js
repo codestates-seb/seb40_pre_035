@@ -126,6 +126,7 @@ export const fetchLogin = async (data) => {
       console.log(data.data);
       console.log('로그인 되었습니다.');
       alert('로그인되었습니다.');
+      window.location.reload();
     })
     .catch((err) => {
       console.error(err.message);

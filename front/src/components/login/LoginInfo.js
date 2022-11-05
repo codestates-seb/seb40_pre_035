@@ -83,14 +83,15 @@ const LoginInfo = () => {
       console.log(data);
       console.log('로그인 성공');
     });
-    let userdata = await fetchUserInfo().then((data) => {
-      console.log(data);
-      console.log('유저데이터얻기 성공');
-      // console.log(data.profile);
-      // 원하는 페이지에서 data 가져다 사용하기
-      // goHome();
-    });
-    console.log(userdata);
+    goHome();
+    // let userdata = await fetchUserInfo().then((data) => {
+    //   console.log(data);
+    //   console.log('유저데이터얻기 성공');
+    //   // console.log(data.profile);
+    //   // 원하는 페이지에서 data 가져다 사용하기
+    //   goHome();
+    // });
+    // console.log(userdata);
   };
 
   return (
@@ -114,7 +115,7 @@ const LoginInfo = () => {
               <div className="font-bold">Password</div>
               <a
                 href="./login"
-                className="ml-auto align-middle text-secondary-500 hover:text-secondary-300"
+                className="ml-auto align-bottom text-xxs text-secondary-500 hover:text-secondary-300"
               >
                 Forgot password?
               </a>
@@ -132,7 +133,10 @@ const LoginInfo = () => {
               </p>
             )}
           </div>
-          <button onClick={onSubmit} className="w-full mt-10 so-button-primary">
+          <button
+            onClick={onSubmit}
+            className="flex justify-center w-full mt-10 text-center so-button-primary"
+          >
             Log in
           </button>
         </div>

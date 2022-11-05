@@ -62,7 +62,10 @@ const Header = () => {
           <Link to="/login">Logout</Link>
         </button>
         <div className="items-center p-2 hover:bg-soGray-light">
-          <img src={userProfileImage} alt="userProfile"></img>
+          <Link to="/mypage/1">
+            {/* //TODO: 임시로 1번으로 이동 */}
+            <img src={userProfileImage} alt="userProfile"></img>
+          </Link>
         </div>
       </div>
     );

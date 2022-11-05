@@ -40,8 +40,8 @@ function Home() {
       <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px] flex-grow-0 flex-shrink-0 basis-[164px]">
         <Sidebar />
       </nav>
-      <div className="so-main-content">
-        <div className="flex flex-row items-center justify-between px-8 py-8">
+      <div className="so-main-content so-with-both-side">
+        <div className="flex flex-row items-center justify-between px-6 py-8">
           <h2 className="text-xxl">Top Questions</h2>
           <Link to="/question/create" className="so-button-primary">
             Ask Question

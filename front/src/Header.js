@@ -1,7 +1,7 @@
 import { IconLogo, IconSearch, IconPerson } from '@stackoverflow/stacks-icons';
-import ReactHtmlParser from 'react-html-parser';
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { Icon } from './util/Icon';
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -22,14 +22,14 @@ const Header = () => {
       <div className="h-1 bg-primary-300"></div>
       <div className="flex justify-center px-2 py-3 bg-soGray-headerbg">
         <div className="items-center mx-2 my-1">
-          <Link to="/">{ReactHtmlParser(IconLogo)}</Link>
+          <Link to="/">{Icon(IconLogo)}</Link>
         </div>
         {/* <button className="hover:bg-soGray-light" onClick={onClick}>
           임시 isLogin toggle
         </button> */}
         <div className="flex items-center px-2 py-1 mx-2 mr-10 bg-white border rounded-md grow border-soGray-light focus:ring-secondary-300">
           <div className="flex mx-2 my-1 text-soGray-icon">
-            {ReactHtmlParser(IconSearch)}
+            {Icon(IconSearch)}
           </div>
           <input
             type="text"
@@ -53,7 +53,7 @@ const LoginGNB = () => {
         Logout
       </button>
       <div className="items-center p-2 hover:bg-soGray-light">
-        {ReactHtmlParser(IconPerson)}
+        {Icon(IconPerson)}
       </div>
     </div>
   );

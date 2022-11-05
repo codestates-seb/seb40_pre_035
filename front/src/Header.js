@@ -64,7 +64,12 @@ const Header = () => {
         <div className="items-center p-2 hover:bg-soGray-light">
           <Link to="/mypage/1">
             {/* //TODO: 임시로 1번으로 이동 */}
-            <img src={userProfileImage} alt="userProfile"></img>
+            <img
+              src={userProfileImage}
+              alt="userProfile"
+              width={25}
+              height={25}
+            ></img>
           </Link>
         </div>
       </div>

@@ -196,7 +196,7 @@ const SignupInfo = () => {
             Sign up
           </button>
 
-          <div className="">
+          <div className="hidden">
             <label htmlFor="file-input">
               <img src={identicon1} ref={defaultImage} alt="default-profile" />
             </label>

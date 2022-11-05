@@ -302,6 +302,7 @@ class AccountControllerTest {
                         ),
                         responseFields(
                                 List.of(
+                                        fieldWithPath("accountId").type(JsonFieldType.NUMBER).description("현재 로그인 유저의 id"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("현재 로그인 유저의 이메일"),
                                         fieldWithPath("nickname").type(JsonFieldType.STRING).description("현재 로그인 유저의 이름"),
                                         fieldWithPath("profile").type(JsonFieldType.STRING).description("현재 로그인 유저의 프로필 이미지 경로")

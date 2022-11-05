@@ -15,7 +15,7 @@ export const fetchAnswerList = async (id) => {
   );
 };
 
-export const fetchCreateAnswer = async (fetchData, updated) => {
+export const fetchCreateAnswer = async (fetchData) => {
   console.log(fetchData);
   return fetch(`/answers`, {
     method: 'POST',
@@ -32,9 +32,6 @@ export const fetchCreateAnswer = async (fetchData, updated) => {
         throw Error('유효하지 않은 요청입니다.');
       }
       return response.json();
-    })
-    .then(() => {
-      // updated(true);
     })
     .catch((error) => {
       throw Error(error.message);

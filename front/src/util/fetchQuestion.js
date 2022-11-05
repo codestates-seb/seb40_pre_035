@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 export const fetchQuestionDetail = async (id) => {
   return fetch(`/questions/${id}`)
     .then((response) => {
@@ -42,8 +40,6 @@ export const fetchQuestionList = async (page, filter) => {
 };
 
 export const fetchCreateQuestion = async (fetchData) => {
-  const navigate = useNavigate();
-
   fetch(`/questions`, {
     method: 'POST',
     headers: {
@@ -61,7 +57,29 @@ export const fetchCreateQuestion = async (fetchData) => {
       return response.json();
     })
     .then((data) => {
-      navigate(`/question/detail/${data.id}`);
+      window.location.href = `/question/detail/${data.id}`;
+    })
+    .catch((error) => {
+      throw Error(error.message);
+    });
+};
+
+export const fetchDeleteQuestion = async (id) => {
+  fetch(`/questions/${id}`, {
+    method: 'DELETE',
+    headers: {
+      authorization: sessionStorage.getItem('access_token'),
+    },
+  })
+    .then((response) => {
+      console.log(response);
+      if (!response.ok) {
+        throw Error('유효하지 않은 요청입니다.');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      window.location.href = `/question`;
     })
     .catch((error) => {
       throw Error(error.message);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import Sidebar from '../components/sidebar/Sidebar';
 import { Viewer } from '@toast-ui/react-editor';
 import { fetchQuestionDetail } from '../util/fetchQuestion';
@@ -7,10 +7,11 @@ import { fetchAnswerList } from '../util/fetchAnswer';
 import QuestionDeleteModal from '../components/questions/QustionDeleteModal';
 import AnswerList from '../components/answers/AnswerList';
 import AnswerCreate from '../components/answers/AnswerCreate';
-import Votes from '../components/questions/Votes';
 import Loading from '../components/loading/Loading';
 import relTimeFormat from '../util/relativeTimeFormat';
-
+import renderToMarkdown from '../util/renderMarkdown';
+import { fetchQuestionVote } from '../util/fetchVote';
+import { showToast } from '../components/toast/Toast';
 import '../components/common.css';
 
 function QuestionDetail() {
@@ -19,13 +20,20 @@ function QuestionDetail() {
 
   const [info, setInfo] = useState({});
   const [answerList, setAnswerList] = useState([]);
-  const [questionUpdate, setQuestionUpdate] = useState(true);
-  const [answerUpdate, setAnswerUpdate] = useState(true);
+  const [update, setUpdate] = useState(true);
   const [isPending, setIsPending] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClickQUpVote, setIsClickQUpVote] = useState(false);
+  const [isClickQDownVote, setIsClickQDownVote] = useState(false);
+  const token = sessionStorage.getItem('access_token');
+  const currUser = sessionStorage.getItem('userEmail');
 
   const showModalDelete = () => {
     setIsModalOpen(true);
+  };
+
+  const hideModalDelete = (flag) => {
+    setIsModalOpen(!flag);
   };
 
   const onClickEdit = (id) => {
@@ -36,24 +44,82 @@ function QuestionDetail() {
     navigate('/question/create');
   };
 
-  useEffect(() => {
-    if (questionUpdate || answerUpdate) {
-      fetchQuestionDetail(id).then((res) => {
-        console.log('question 리스트 조회');
-        setIsPending(false);
-        setInfo(res);
-        setQuestionUpdate(false);
-      });
+  const getQuestion = (id) => {
+    fetchQuestionDetail(id).then((res) => {
+      setInfo(res);
+    });
+  };
 
-      fetchAnswerList(id).then((res) => {
-        setIsPending(false);
-        setAnswerList(res.content);
-        console.log('answers 리스트 조회');
-        console.log(answerList);
-        setAnswerUpdate(false);
-      });
+  const getAnswer = (id) => {
+    fetchAnswerList(id).then((res) => {
+      setAnswerList(res.content);
+    });
+  };
+
+  const checkIfAuthor = (userInfo) => {
+    if (token && currUser) {
+      const author = userInfo.email;
+      if (author !== currUser) return '';
+      return (
+        <div>
+          <button onClick={onClickEdit} data-target={info.id} className="mr-2">
+            Edit
+          </button>
+          |
+          <button onClick={showModalDelete} className="ml-2">
+            Delete
+          </button>
+        </div>
+      );
     }
-  }, [questionUpdate, answerUpdate]);
+  };
+
+  const onClickQUpVote = (id) => {
+    if (!token) {
+      showToast('Please Login first.', 'danger');
+    }
+    setIsClickQUpVote(true);
+    fetchQuestionVote(id, 'UP').then((message) => {
+      if (message) {
+        if (message === 'cancel vote') {
+          showToast('Up vote is canceled. 🥲');
+          setUpdate(true);
+        } else if (message === 'success vote') {
+          showToast('Your vote has been sent.. 😊');
+          setUpdate(true);
+        }
+      }
+      setIsClickQUpVote(false);
+    });
+  };
+
+  const onClickQDownVote = (id) => {
+    if (!token) {
+      showToast('Please Login first.', 'danger');
+    }
+    setIsClickQDownVote(true);
+    fetchQuestionVote(id, 'DOWN').then((message) => {
+      if (message) {
+        if (message === 'cancel vote') {
+          showToast('Down Vote is Canceled. 😊');
+          setUpdate(true);
+        } else if (message === 'success vote') {
+          showToast('Your vote has been sent.. 🥲');
+          setUpdate(true);
+        }
+      }
+      setIsClickQDownVote(false);
+    });
+  };
+
+  useEffect(() => {
+    if (update) {
+      getQuestion(id);
+      getAnswer(id);
+      setUpdate(false);
+      setIsPending(false);
+    }
+  }, [update]);
 
   if (isPending) {
     return (
@@ -68,7 +134,7 @@ function QuestionDetail() {
       <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px] flex-grow-0 flex-shrink-0 basis-[164px]">
         <Sidebar />
       </nav>
-      {info && (
+      {!isPending && Object.keys(info).length ? (
         <div className="so-main-content max-w-none so-with-one-side">
           <div className="px-8 pt-8 pb-4 mb-3 border-b question-header border-soGray-light">
             <div className="flex justify-between mb-4 question-title">
@@ -86,18 +152,18 @@ function QuestionDetail() {
             </div>
 
             <div className="flex flex-row text-sm user-info align-center">
-              <span className="flex mr-4">
+              <Link className="flex mr-4" to={`/mypage/${info.account.id}`}>
                 <img
-                  src={`${info.account.profile}`}
-                  alt={`${info.account.nickname}'s user avatar`}
+                  src={info.account.profile}
+                  alt={`${info.account?.nickname}'s user avatar`}
                   width="16"
                   height="16"
                   className="mr-2"
                 />
                 <span className="text-soGray-darker">
-                  {info.account.nickname}
+                  {info.account?.nickname}
                 </span>
-              </span>
+              </Link>
               <time className="mr-4 s-user-card--time">
                 <span className="mr-1 text-soGray-normal">Asked</span>
                 <span
@@ -109,19 +175,7 @@ function QuestionDetail() {
                   {relTimeFormat(info.createdAt)}
                 </span>
               </time>
-              <div>
-                <button
-                  onClick={onClickEdit}
-                  data-target={info.id}
-                  className="mr-2"
-                >
-                  Edit
-                </button>
-                |
-                <button onClick={showModalDelete} className="ml-2">
-                  Delete
-                </button>
-              </div>
+              {info && checkIfAuthor(info.account)}
             </div>
           </div>
           <div className="mb-10 question-body">
@@ -130,25 +184,63 @@ function QuestionDetail() {
               className="flex flex-row p-6"
             >
               <div className="flex justify-center mr-4 question-votes">
-                <Votes
-                  total={info.totalVote}
-                  postId={info.id}
-                  updated={setQuestionUpdate}
-                  type="question"
-                />
+                <div className="flex flex-col mr-4 vote-group">
+                  <button
+                    className="flex justify-center"
+                    aria-label="Up vote"
+                    data-status="UP"
+                    onClick={() => onClickQUpVote(info.id)}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="svg-icon iconArrowUpLg"
+                      width="36"
+                      height="36"
+                      viewBox="0 0 36 36"
+                      fill={isClickQUpVote ? '#f48225' : '#BABFC3'}
+                    >
+                      <path d="M2 25h32L18 9 2 25Z"></path>
+                    </svg>
+                  </button>
+                  <div className="flex justify-center my-3">
+                    {info ? info.totalVote : ''}
+                  </div>
+                  <button
+                    className="flex justify-center"
+                    aria-label="Down vote"
+                    data-status="DOWN"
+                    onClick={() => onClickQDownVote(info.id)}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="svg-icon iconArrowDownLg"
+                      width="36"
+                      height="36"
+                      viewBox="0 0 36 36"
+                      fill={isClickQDownVote ? '#f48225' : '#BABFC3'}
+                    >
+                      <path d="M2 11h32L18 27 2 11Z"></path>
+                    </svg>
+                  </button>
+                </div>
               </div>
               <div className="flex-auto question-content">
-                <Viewer initialValue={JSON.parse(info.content)} />
+                <Viewer
+                  viewer="true"
+                  initialValue={renderToMarkdown(info.content)}
+                />
               </div>
             </div>
           </div>
-          {answerList && (
-            <AnswerList list={answerList} updated={setAnswerUpdate} />
-          )}
-          <AnswerCreate updated={setAnswerUpdate} questionId={info.id} />
+          {answerList && <AnswerList list={answerList} />}
+          <AnswerCreate questionId={info.id} />
         </div>
+      ) : (
+        ''
       )}
-      {isModalOpen ? <QuestionDeleteModal /> : null}
+      {isModalOpen ? (
+        <QuestionDeleteModal postId={info.id} hideModal={hideModalDelete} />
+      ) : null}
     </div>
   );
 }

@@ -11,16 +11,16 @@ const Pagination = ({
   const PageItem = (page) => {
     return Array.from({ length: page }).map((el, i) => {
       return (
-        <li key={i} className="page-item">
+        <li key={i + 1} className="page-item">
           <button
-            data-page={i}
+            data-page={i + 1}
             onClick={onChangePagination}
             className={`py-1 px-2 font-regular
              bg-white rounded border border-soGray-normal hover:bg-soGray-light ${
                i === currentPage && 'text-white bg-primary-400'
              }`}
           >
-            {i}
+            {i + 1}
           </button>
         </li>
       );

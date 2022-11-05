@@ -20,7 +20,7 @@ const QuestionFilter = ({ filter, handler }) => {
     handler([...sort]);
   };
   return (
-    <div>
+    <div className="filter">
       <div
         className="inline-flex object-right rounded-md shadow-sm"
         role="group"

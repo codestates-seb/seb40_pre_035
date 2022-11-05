@@ -14,11 +14,18 @@ function QuestionList() {
   const [currPage, setCurrPage] = useState(1);
   const [pageInfo, setPageInfo] = useState({});
   const [isUpdate, setIsUpdate] = useState(true);
-  const [currFilter, setCurrFilter] = useState('Newest');
+  const [currFilter, setCurrFilter] = useState('newest');
+
+  function onFilterClick(e) {
+    setCurrFilter(e.target.value);
+    console.log(e.target.value);
+    setIsUpdate(true);
+  }
 
   useEffect(() => {
     if (isUpdate) {
       fetchQuestionList(currPage, currFilter).then((res) => {
+        console.log(res.content);
         setQuestionList(res.content);
         setPageInfo(res);
         setIsPending(false);
@@ -48,7 +55,44 @@ function QuestionList() {
           </Link>
         </div>
         <div>
-          <QuestionFilter />
+          {/* <QuestionFilter /> */}
+          <div className="filter">
+            <div
+              className="inline-flex object-right rounded-md shadow-sm"
+              role="group"
+            >
+              <div>
+                <button
+                  type="button"
+                  value="newest"
+                  onClick={onFilterClick}
+                  className="px-4 py-2 text-sm text-black bg-white border rounded-l font-regular border-soGray-normal hover:bg-soGray-light focus:z-10 focus:bg-soGray-normal"
+                >
+                  Newest
+                </button>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  value="vote"
+                  onClick={onFilterClick}
+                  className="px-4 py-2 text-sm text-black bg-white border font-regular rounded-lr border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal focus:z-10 "
+                >
+                  Vote
+                </button>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  value="unanswered"
+                  onClick={onFilterClick}
+                  className="px-4 py-2 text-sm text-black bg-white border rounded-r font-regular focus:z-10 border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal"
+                >
+                  Unanswered
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="mr-8 border-t border-soGray-light">
           {questionList && (

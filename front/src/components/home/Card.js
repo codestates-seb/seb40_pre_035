@@ -14,7 +14,7 @@ function Card({ item }) {
             <Link to={`/question/detail/${item.id}`}>{item.title}</Link>
           </div>
           <div className="w-full mb-4 text-sm break-all line-clamp-2">
-            {console.log(item.content)}
+            {/* {console.log(item.content)} */}
             {item.content
               .split('')
               .map((el) => el.match(/^[a-zA-Zㄱ-힣0-9]*$/))

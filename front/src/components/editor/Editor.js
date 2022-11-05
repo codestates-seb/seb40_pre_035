@@ -1,8 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Editor as Writer } from '@toast-ui/react-editor';
 import prism from 'prismjs';
 import 'prismjs/themes/prism.css';
-import { fetchUploadImage } from '../../util/api';
+import { fetchUploadImage } from '../../util/fetchFile';
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -19,12 +19,21 @@ function Editor({ onChange, height = '300px' }) {
   };
 
   const onUploadImage = async (blob, callback) => {
-    console.log(blob);
-    let path = await fetchUploadImage(blob);
-    console.log(`${path}`);
-    callback(path, blob.name);
+    await fetchUploadImage(blob).then((path) => {
+      console.log(path);
+      callback(path, blob.name);
+    });
     return false;
   };
+
+  // useEffect(() => {
+  //   if (isEditorClear) {
+  //     editorRef.current
+  //       .getInstance()
+  //       .setMarkdown('## *Your* **markdown** here');
+  //     setIsEditorClear(false);
+  //   }
+  // }, [isEditorClear]);
 
   return (
     <div className="mb-4 editor-wrapper">
@@ -41,6 +50,13 @@ function Editor({ onChange, height = '300px' }) {
         hooks={{
           addImageBlobHook: onUploadImage,
         }}
+        toolbarItems={[
+          ['heading', 'bold', 'strike'],
+          ['hr', 'quote'],
+          ['ul', 'ol', 'task'],
+          ['table', 'image', 'link'],
+          ['code', 'codeblock'],
+        ]}
       />
     </div>
   );

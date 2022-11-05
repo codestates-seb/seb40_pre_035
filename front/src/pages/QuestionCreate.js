@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Editor from '../components/editor/Editor';
-import '../components/common.css';
 import { useNavigate } from 'react-router-dom';
-import { ShowToast } from '../components/toast/Toast';
-import { fetchCreateQuestion } from '../util/api';
+import Editor from '../components/editor/Editor';
+import { fetchCreateQuestion } from '../util/fetchQuestion';
+import { showToast } from '../components/toast/Toast';
+import '../components/common.css';
 
 function QuestionCreate() {
   const [title, setTitle] = useState('');
@@ -24,9 +24,9 @@ function QuestionCreate() {
 
   const onClickSubmit = () => {
     if (title.length < 10) {
-      ShowToast('제목을 10자 이상 작성해 주세요.');
+      showToast('Minimum 10 characters.');
     } else if (content.length < 50) {
-      ShowToast('내용은 50자 이상이어야 합니다.');
+      showToast('Minimum 50 characters.');
     } else {
       fetchCreateQuestion({ title, content });
     }

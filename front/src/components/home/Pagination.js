@@ -1,46 +1,70 @@
-const Pagination = ({ postsPerPage, totalPosts }) => {
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+import { ReactDOM } from 'react';
+import { Link } from 'react-router-dom';
+
+const Pagination = ({
+  pageInfo,
+  currentPage,
+  onPageChange,
+  setCurrPage,
+  setIsUpdate,
+}) => {
+  const PageItem = (page) => {
+    return Array.from({ length: page }).map((el, i) => {
+      return (
+        <li key={i} className="page-item">
+          <button
+            data-page={i}
+            onClick={onChangePagination}
+            className={`py-1 px-2 font-regular
+             bg-white rounded border border-soGray-normal hover:bg-soGray-light ${
+               i === currentPage && 'text-white bg-primary-400'
+             }`}
+          >
+            {i}
+          </button>
+        </li>
+      );
+    });
+  };
+
+  const onNext = () => {
+    onPageChange(currentPage - 1);
+  };
+  const onPrev = () => {
+    onPageChange(currentPage + 1);
+  };
+
+  const onChangePagination = (e) => {
+    console.log(e.target.dataset.page);
+    setCurrPage(e.target.dataset.page);
+    setIsUpdate(true);
+  };
   return (
-    <nav>
-      <div className="box-content flex w-[14rem] space-x-1 bg-white rounded gap-1">
-        <button
-          onClick={() => postsPerPage(pageNumbers - 1)}
-          className={`inline-flex items-center py-1 px-2 text-sm font-regular
-           text-gray-500 bg-white rounded border border-soGray-normal hover:bg-soGray-normal
-           ${pageNumbers === 1 && 'hidden'}
+    <div className="w-full flex items-center flex-row  justify-start ml-5 mt-2.5 mr-auto mb-7 space-x-2">
+      <button
+        onClick={onNext}
+        className={`items-center px-2 text-sm font-regular h-[30px]
+           text-gray-500 bg-white rounded border border-soGray-normal hover:bg-soGray-light
+           ${currentPage === 1 && 'hidden'}
             `}
-        >
-          Prev
-        </button>
-        <ul className="pagination">
-          {pageNumbers.map((number) => (
-            <li key={number} className="page-item">
-              <a
-                href="!#"
-                className={`flex-auto items-center py-1 px-2 font-regular
-           text-gray-500  bg-white rounded box-content border border-soGray-normal hover:bg-soGray-normal ${
-             number === postsPerPage && 'text-white bg-primary-400'
-           }`}
-              >
-                {number}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <button
-          onClick={() => postsPerPage(pageNumbers + 1)}
-          disabled={pageNumbers === totalPosts}
-          className={`inline-flex items-center py-1 px-2 text-sm font-regular
-           text-gray-500 bg-white rounded border border-soGray-normal hover:bg-soGray-normal
-           ${pageNumbers === totalPosts && 'hidden'}`}
-        >
-          Next
-        </button>
-      </div>
-    </nav>
+      >
+        Prev
+      </button>
+      <ul className="flex flex-row items-center space-x-2 ">
+        {PageItem(pageInfo.totalPages)}
+      </ul>
+      <button
+        onClick={onPrev}
+        className={`items-center px-2 text-sm font-regular h-[30px]
+        text-gray-500 bg-white rounded border border-soGray-normal hover:bg-soGray-light
+        
+        `}
+        // ${currentPage === pageNumbers.length && 'hidden'}
+      >
+        Next
+      </button>
+    </div>
   );
 };
+
 export default Pagination;

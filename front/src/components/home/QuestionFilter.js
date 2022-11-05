@@ -1,33 +1,24 @@
-import { useState, useEffect } from 'react';
-import { BASE_URL } from '../../util/api';
+const QuestionFilter = ({ filter, handler }) => {
+  const clickNewest = () => {
+    let sort = filter.sort((a, b) => {
+      return a.createdAt < b.createdAt ? -1 : 1;
+    });
+    handler([...sort]);
+  };
 
-function QuestionFilter() {
-  const [questionList, setQuestionList] = useState([]);
-  const [isPending, setIsPending] = useState(true);
+  const clickVotes = () => {
+    let sort = filter.sort((a, b) => {
+      return a.totalVote < b.totalVote ? 1 : -1;
+    });
+    handler([...sort]);
+  };
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/questions?page=1&size=10&sort=id%2Cdesc`)
-      .then((response) => {
-        if (!response.ok) {
-          throw Error('could not fetch the data for that resource');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setIsPending(false);
-        setQuestionList(data.content);
-      })
-      //통신이 되면 json을 스테이츠로 변환
-      .catch((error) => {
-        setIsPending(false);
-        throw Error(error.message);
-      });
-  }, []);
-
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
+  const clickUnAnswered = () => {
+    let sort = filter.sort((a, b) => {
+      return a.answerCount < b.answerCount ? -1 : 1;
+    });
+    handler([...sort]);
+  };
   return (
     <div>
       <div
@@ -37,11 +28,7 @@ function QuestionFilter() {
         <div>
           <button
             type="button"
-            onClick={() =>
-              questionList.sort(function (a, b) {
-                return a.createdAt - b.createdAt;
-              })
-            }
+            onClick={clickNewest}
             className="px-4 py-2 text-sm text-black bg-white border rounded-l font-regular border-soGray-normal hover:bg-soGray-light focus:z-10 focus:bg-soGray-normal"
           >
             Newest
@@ -50,11 +37,7 @@ function QuestionFilter() {
         <div>
           <button
             type="button"
-            onClick={() =>
-              questionList.sort(function (a, b) {
-                return a.totalVote - b.totalVote;
-              })
-            }
+            onClick={clickVotes}
             className="px-4 py-2 text-sm text-black bg-white border font-regular rounded-lr border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal focus:z-10 "
           >
             Vote
@@ -63,11 +46,7 @@ function QuestionFilter() {
         <div>
           <button
             type="button"
-            onClick={() =>
-              questionList.sort(function (a, b) {
-                return a.answerCount - b.answerCount;
-              })
-            }
+            onClick={clickUnAnswered}
             className="px-4 py-2 text-sm text-black bg-white border rounded-r font-regular focus:z-10 border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal"
           >
             Unanswered
@@ -76,6 +55,6 @@ function QuestionFilter() {
       </div>
     </div>
   );
-}
+};
 
 export default QuestionFilter;

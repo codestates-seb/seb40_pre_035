@@ -4,7 +4,8 @@ import {
   IconTags,
   IconSpeechBubbleQuestion,
 } from '@stackoverflow/stacks-icons';
-import ReactHtmlParser from 'react-html-parser';
+import { Icon } from '../../util/Icon';
+
 const SOInfo = () => {
   return (
     <div className="mb-[100px] mr-[80px]">
@@ -12,26 +13,20 @@ const SOInfo = () => {
 
       <div className="flex my-5">
         <div className="items-center mx-2 my-1">
-          {ReactHtmlParser(IconSpeechBubbleQuestion)}
+          {Icon(IconSpeechBubbleQuestion)}
         </div>
         <div>Get unstuck — ask a question</div>
       </div>
       <div className="flex my-5">
-        <div className="items-center mx-2 my-1">
-          {ReactHtmlParser(IconArrowUpDown)}
-        </div>
+        <div className="items-center mx-2 my-1">{Icon(IconArrowUpDown)}</div>
         <div>Unlock new privileges like voting and commenting</div>
       </div>
       <div className="flex my-5">
-        <div className="items-center mx-2 my-1">
-          {ReactHtmlParser(IconTags)}
-        </div>
+        <div className="items-center mx-2 my-1">{Icon(IconTags)}</div>
         <div>Save your favorite tags, filters, and jobs</div>
       </div>
       <div className="flex my-5">
-        <div className="items-center mx-2 my-1 ">
-          {ReactHtmlParser(IconAchievements)}
-        </div>
+        <div className="items-center mx-2 my-1 ">{Icon(IconAchievements)}</div>
         <div>Earn reputation and badges</div>
       </div>
 

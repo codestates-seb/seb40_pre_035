@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Editor from '../editor/Editor';
 import { fetchCreateAnswer } from '../../util/fetchAnswer';
 import { showToast } from '../toast/Toast';
-import '../../components/common.css';
 
 function AnswerCreate({ questionId, updated }) {
   const [content, setContent] = useState('');
@@ -16,7 +15,7 @@ function AnswerCreate({ questionId, updated }) {
       showToast('Minimum 50 characters.');
     } else {
       fetchCreateAnswer({ questionId, content }).then(() => {
-        window.location.reload();
+        updated(true);
       });
     }
   };

@@ -21,16 +21,20 @@ function Card({ item }) {
           </div>
 
           <div className="w-full flex items-center flex-row text-[13px] text-soGray-darker space-x-2">
-            <div className="w-[24px] h-[24px]">
-              <img
-                className="w-full h-auto"
-                src={item.account.profile}
-                alt={`${item.account.nickname}'s Avatar`}
-              />
-            </div>
-            <div className="font-semibold text-soGray-darker">
-              {item.account.nickname}
-            </div>
+            <Link to={`/mypage/${item.account.id}`}>
+              <div className="w-[24px] h-[24px]">
+                {item.account.profile && (
+                  <img
+                    className="w-full h-auto"
+                    src={item.account.profile}
+                    alt={`${item.account.nickname}'s Avatar`}
+                  />
+                )}
+              </div>
+              <div className="font-semibold text-soGray-darker">
+                {item.account.nickname}
+              </div>
+            </Link>
             <time className="mr-4 s-user-card--time">
               <span className="mr-1 text-soGray-normal">Asked</span>
               <span

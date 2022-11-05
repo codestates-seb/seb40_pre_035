@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 
 const TOAST_ID = 'toast';
-const TOAST_MS = 1000;
+const TOAST_MS = 1500;
 
-export const ShowToast = (message = 'default message') => {
+export const showToast = (message = 'default message', type = 'confirm') => {
   let container = document.getElementById(TOAST_ID);
   if (!container) {
     container = document.createElement('div');
@@ -13,14 +13,14 @@ export const ShowToast = (message = 'default message') => {
   }
 
   const root = createRoot(container);
-  root.render(<Toast message={message} target={root} />);
+  root.render(<Toast message={message} target={root} type={type} />);
 };
 
 export const HideToast = (target) => {
   target.unmount();
 };
 
-const Toast = ({ message, target }) => {
+const Toast = ({ message, target, type }) => {
   const toast = useRef();
   let timer = -1;
 
@@ -37,7 +37,12 @@ const Toast = ({ message, target }) => {
 
   console.log(message);
   return (
-    <div className="so-toast" ref={toast}>
+    <div
+      className={`so-toast ${
+        type === 'danger' ? 'so-toast-danger' : 'so-toast-confirm'
+      }`}
+      ref={toast}
+    >
       {message}
     </div>
   );

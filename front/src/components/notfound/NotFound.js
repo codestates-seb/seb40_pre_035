@@ -6,7 +6,7 @@ const NotFound = ({ code = 404 }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center w-full bg-soGray-bg h-[600px]">
+    <div className="flex flex-col items-center justify-center w-full bg-soGray-bg">
       <div className="flex flex-row items-center">
         <div className="mr-4">{Icon(SpotAlertXL)}</div>
         <h2 className="leading-10 text-left">

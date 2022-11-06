@@ -1,6 +1,14 @@
-# seb40_pre_035
+# Team. 3355
+안녕하세요. 삼삼오오 모인 3355팀입니다!😉
 
-  ## **✨서비스 소개**
+## 😋 **팀원 소개**
+
+|![노민하](https://avatars.githubusercontent.com/u/53070295?v=4)|![김예현](https://avatars.githubusercontent.com/u/107603123?v=4)|![신병규](https://avatars.githubusercontent.com/u/94808683?v=4)|![김민아](https://avatars.githubusercontent.com/u/36831218?v=4)|![김동진](https://avatars.githubusercontent.com/u/94734089?v=4)|![백승필](https://avatars.githubusercontent.com/u/71927001?v=4)|![박성우](https://avatars.githubusercontent.com/u/77265289?v=4)|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|[노민하](https://github.com/MinaRoh)|[김예현](https://github.com/roxpray)|[신병규](https://github.com/byeonggyu-shin)|[김민아](https://github.com/rmaomina)|[김동진](https://github.com/PNUHCT)|[백승필](https://github.com/philE22)|[박성우](https://github.com/hipopotamus)|
+|FE|FE|FE|FE|BE|BE|BE|
+
+## **✨서비스 소개**
 Stack Overflow Clone Coding
 스택 오버플로우 클론 코딩입니다.
 
@@ -31,16 +39,7 @@ Stack Overflow Clone Coding
   - 🎸 에디터 이미지 업로드, form-data를 사용하여 서버에 이미지를 전달한다.
 
 
-<br><br>
------
-  ## 😋 **팀원 소개**
-
-|![노민하](https://avatars.githubusercontent.com/u/53070295?v=4)|![김예현](https://avatars.githubusercontent.com/u/107603123?v=4)|![신병규](https://avatars.githubusercontent.com/u/94808683?v=4)|![김민아](https://avatars.githubusercontent.com/u/36831218?v=4)|![김동진](https://avatars.githubusercontent.com/u/94734089?v=4)|![백승필](https://avatars.githubusercontent.com/u/71927001?v=4)|![박성우](https://avatars.githubusercontent.com/u/77265289?v=4)|
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|노민하|김예현|신병규|김민아|김동진|백승필|박성우|
-|FE|FE|FE|FE|BE|BE|BE|
-<br><br>
-## **👩‍💻🧑‍💻기술 스택**
+## **👩‍💻기술 스택**
 
 ### **Front-end**
 
@@ -64,4 +63,5 @@ Stack Overflow Clone Coding
 
 <img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f07c2597-04f1-4195-8352-1e7298363e76/Homescreen.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221106%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221106T080443Z&X-Amz-Expires=86400&X-Amz-Signature=da50c37dc9e74f1353f2dbbec0b346083e6a3a39321429f0b5b0d228a1a9d69d&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Homescreen.png%22&x-id=GetObject">
 
+ 
  

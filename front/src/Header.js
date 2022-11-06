@@ -73,8 +73,8 @@ const Header = () => {
           onClick={onLogoutClick}
           className="px-3 py-1 mx-1 text-gray hover:bg-[#eee] rounded"
         >
-          {/* //TODO: 여기는 main으로 보내기 */}
-          <Link to="/login">Logout</Link>
+          {/* 로그아웃 클릭시 home으로 이동 */}
+          <Link to="/home">Logout</Link>
         </button>
         <div className="items-center p-2 hover:bg-soGray-light">
           <Link to={userProfileImageLink}>

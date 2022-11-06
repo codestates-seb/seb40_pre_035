@@ -19,20 +19,28 @@ export const fetchQuestionList = async (page, filter, searchText) => {
   console.log(searchText);
   let url = null;
   if (filter === 'unanswered') {
-    url = `/questions/unAnswered?page=${page}&size=10&sort=createdAt%2Cdesc`;
-    console.log('url: ' + url);
-  } else if (filter === 'newest' && searchText !== searchTemp) {
-    url = `/questions/unAnswered?page=${page}&size=10&sort=id%2Cdesc&keyword=${searchText}`;
-    // vote
-    console.log(searchText);
-    console.log('url:' + url);
+    if (searchText !== searchTemp && searchText !== null) {
+      url = `/questions/unAnswered?page=${page}&size=10&sort=createdAt%2Cdesc&keyword=${searchText}`;
+    } else if (searchText === null) {
+      url = `/questions/unAnswered?page=${page}&size=10&sort=createdAt%2Cdesc`;
+      console.log('url: ' + url);
+    }
   } else if (filter === 'newest') {
-    url = `/questions?page=${page}&size=10&sort=createdAt%2Cdesc`;
-    console.log('url: ' + url);
+    if (searchText !== searchTemp && searchText !== null) {
+      url = `/questions/unAnswered?page=${page}&size=10&sort=id%2Cdesc&keyword=${searchText}`;
+    } else {
+      url = `/questions?page=${page}&size=10&sort=createdAt%2Cdesc`;
+      console.log('url: ' + url);
+    }
   } else if (filter === 'vote') {
-    url = `/questions/totalVote?page=${page}&size=10&`;
+    if (searchText !== searchTemp && searchText !== null) {
+      url = `questions/totalVote?page=${page}&size=10&keyword=${searchText}`;
+      console.log('stringvoteurl:' + url);
+    } else {
+      url = `questions/totalVote?page=${page}&size=10`;
+      console.log('url: ' + url);
+    }
   }
-
   return fetch(url)
     .then((response) => {
       if (!response.ok) {

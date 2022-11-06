@@ -15,7 +15,7 @@ function QuestionList() {
   const [currFilter, setCurrFilter] = useState('newest');
   const [search, setSearch] = useState('');
 
-  const searchText = localStorage.getItem('searchText');
+  const searchText = sessionStorage.getItem('searchText');
   const [isUpdate, setIsUpdate] = useState(true);
 
   function onFilterClick(e) {

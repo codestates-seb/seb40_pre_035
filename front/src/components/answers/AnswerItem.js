@@ -4,9 +4,10 @@ import { Viewer } from '@toast-ui/react-editor';
 import AnswerDeleteModal from '../modal/AnswerDeleteModal';
 import { relTimeFormat } from '../../util/convertor';
 import { fetchAnswerVote } from '../../util/fetchVote';
+import { fetchSelectAnswer } from '../../util/fetchAnswer';
 import { showToast } from '../toast/Toast';
 
-function AnswerItem({ item, updated }) {
+function AnswerItem({ item, author, updated, selected }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClickAUpVote, setIsClickAUpVote] = useState(false);
   const [isClickADownVote, setIsClickADownVote] = useState(false);
@@ -21,16 +22,14 @@ function AnswerItem({ item, updated }) {
     setIsModalOpen(!flag);
   };
 
-  const checkIfAuthor = (userInfo) => {
+  const checkIfAuthorForDelete = (userInfo) => {
     if (token && currUser) {
       const author = userInfo.email;
       if (author !== currUser) return '';
       return (
-        <div>
-          <button onClick={showModalDelete} className="ml-2">
-            Delete
-          </button>
-        </div>
+        <button onClick={showModalDelete} className="ml-2 text-soGray-darker">
+          Delete
+        </button>
       );
     }
   };
@@ -73,8 +72,55 @@ function AnswerItem({ item, updated }) {
     });
   };
 
+  const checkIfAuthorForSelect = (item, author) => {
+    if (token && currUser) {
+      if (author !== currUser) return '';
+      return (
+        <button
+          className="seleted-answer"
+          onClick={() => onClickSelectAnswer(item)}
+        >
+          <svg
+            aria-hidden="true"
+            className="svg-icon iconCheckmarkLg"
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill={selected?.id === item.id ? '#2E7044' : '#fff'}
+            stroke="#ccc"
+          >
+            <path d="m6 14 8 8L30 6v8L14 30l-8-8v-8Z"></path>
+          </svg>
+        </button>
+      );
+    }
+  };
+
+  const onClickSelectAnswer = (item) => {
+    fetchSelectAnswer(item.id).then((data) => {
+      if (data?.status === 400) {
+        showToast('Please cancel the selected answer first.', 'danger');
+        return;
+      }
+
+      if (data?.data === 'success select answer') {
+        updated(true);
+
+        if (!selected) {
+          showToast('Success selected answer. ✅');
+        } else if (item.id === selected.id) {
+          showToast('Canceled selected answer. 🤔');
+        }
+      }
+    });
+  };
+
   return (
-    <div className="flex flex-row px-1 py-5 mx-5 mb-3 border-t answer-item border-soGray-light">
+    <div
+      className={`flex flex-row px-4 py-5 mx-4 border-soGray-light rounded-md ${
+        selected?.id === item.id ? 'bg-soGray-headerbg' : ''
+      }`}
+    >
       <div className="flex flex-col mr-8 vote-group">
         <button
           className="flex justify-center"
@@ -113,27 +159,29 @@ function AnswerItem({ item, updated }) {
             <path d="M2 11h32L18 27 2 11Z"></path>
           </svg>
         </button>
+        {item && checkIfAuthorForSelect(item, author)}
       </div>
       <div className="flex-auto question-item">
-        <div className="flex flex-row mb-6 text-sm user-info align-center">
+        <Viewer initialValue={item.content} />
+        <div className="flex flex-row mt-4 text-sm user-info align-center justify-end">
           <Link
             to={`/mypage/${item.account.id}`}
-            className="flex items-center mr-4"
+            className="flex items-center mr-2"
           >
             {item.account.profile && item.account.profile !== 'test/path' ? (
               <img
-                className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"
+                className="border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"
                 src={item.account.profile}
                 alt={`${item.account.nickname}'s Avatar`}
               />
             ) : (
-              <span className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"></span>
+              <span className="border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"></span>
             )}
             <span className="font-semibold text-soGray-darker">
               {item.account.nickname}
             </span>
           </Link>
-          <time className="mr-4 s-user-card--time">
+          <time className="mr-3 s-user-card--time">
             <span className="mr-1 text-soGray-normal">Asked</span>
             <span
               className="text-soGray-darker"
@@ -144,9 +192,8 @@ function AnswerItem({ item, updated }) {
               {relTimeFormat(item.createdAt)}
             </span>
           </time>
-          {item && checkIfAuthor(item.account)}
+          {item && checkIfAuthorForDelete(item.account)}
         </div>
-        <Viewer initialValue={item.content} />
       </div>
       {isModalOpen ? (
         <AnswerDeleteModal

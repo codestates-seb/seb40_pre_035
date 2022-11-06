@@ -1,12 +1,18 @@
 import AnswerItem from './AnswerItem';
 
-function AnswerList({ list, updated }) {
+function AnswerList({ list, author, updated, selected }) {
   return (
     list && (
       <div className="answers-group">
-        <h3 className="px-6 mb-3 text-2xl">{`${list.length} Answers`}</h3>
+        <h3 className="px-6 mb-5 pb-4 text-2xl border-b border-soGray-light">{`${list.length} Answers`}</h3>
         {list.map((anItem) => (
-          <AnswerItem key={anItem.id} item={anItem} updated={updated} />
+          <AnswerItem
+            key={anItem.id}
+            item={anItem}
+            author={author}
+            updated={updated}
+            selected={selected}
+          />
         ))}
       </div>
     )

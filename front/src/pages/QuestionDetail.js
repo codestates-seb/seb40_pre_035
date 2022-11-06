@@ -22,6 +22,7 @@ function QuestionDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClickQUpVote, setIsClickQUpVote] = useState(false);
   const [isClickQDownVote, setIsClickQDownVote] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState({});
   const token = sessionStorage.getItem('access_token');
   const currUser = sessionStorage.getItem('userEmail');
 
@@ -49,8 +50,25 @@ function QuestionDetail() {
 
   const getAnswer = (id) => {
     fetchAnswerList(id).then((res) => {
-      setAnswerList(res.content);
+      sortBySelected(res);
     });
+  };
+
+  const sortBySelected = (res) => {
+    let selectedItem = res.content.filter((el) => {
+      return el.selected === true;
+    })[0];
+    let unSelectedItem = res.content.filter((el) => {
+      return el.selected === false;
+    });
+
+    if (!selectedItem) {
+      setSelectedAnswer({});
+      setAnswerList(unSelectedItem);
+    } else {
+      setSelectedAnswer(selectedItem);
+      setAnswerList([selectedItem, ...unSelectedItem]);
+    }
   };
 
   const needUpdate = (flag) => {
@@ -157,17 +175,17 @@ function QuestionDetail() {
             <div className="flex flex-row text-sm user-info align-center">
               <Link
                 to={`/mypage/${info.account.id}`}
-                className="flex items-center mr-4"
+                className="flex items-center mr-2"
               >
                 {info.account.profile &&
                 info.account.profile !== 'test/path' ? (
                   <img
-                    className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"
+                    className="border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"
                     src={info.account.profile}
                     alt={`${info.account.nickname}'s Avatar`}
                   />
                 ) : (
-                  <span className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"></span>
+                  <span className="border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"></span>
                 )}
                 <span className="font-semibold text-soGray-darker">
                   {info.account.nickname}
@@ -236,7 +254,14 @@ function QuestionDetail() {
               </div>
             </div>
           </div>
-          {answerList && <AnswerList list={answerList} updated={needUpdate} />}
+          {answerList && (
+            <AnswerList
+              list={answerList}
+              author={info.account.email}
+              updated={needUpdate}
+              selected={selectedAnswer}
+            />
+          )}
           <AnswerCreate questionId={info.id} updated={needUpdate} />
         </div>
       ) : (

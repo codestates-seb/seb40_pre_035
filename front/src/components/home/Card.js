@@ -23,7 +23,7 @@ function Card({ item }) {
           <div className="w-full flex flex-row justify-end text-[13px] text-soGray-darker space-x-2">
             <Link
               to={`/mypage/${item.account.id}`}
-              className="flex items-center mr-4"
+              className="flex items-center mr-2"
             >
               {item.account.profile && item.account.profile !== 'test/path' ? (
                 <img

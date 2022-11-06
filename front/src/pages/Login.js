@@ -1,6 +1,6 @@
 import { IconLogoGlyphMd } from '@stackoverflow/stacks-icons';
 import LoginInfo from '../components/login/LoginInfo';
-import { Icon } from '../util/Icon';
+import { Icon } from '../util/convertor';
 
 const Login = () => {
   return (

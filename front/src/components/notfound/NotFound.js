@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { SpotAlertXL } from '@stackoverflow/stacks-icons';
-import { Icon } from '../../util/Icon';
+import { Icon } from '../../util/convertor';
 
 const NotFound = ({ code = 404 }) => {
   const navigate = useNavigate();

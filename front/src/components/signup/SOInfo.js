@@ -4,7 +4,7 @@ import {
   IconTags,
   IconSpeechBubbleQuestion,
 } from '@stackoverflow/stacks-icons';
-import { Icon } from '../../util/Icon';
+import { Icon } from '../../util/convertor';
 
 const SOInfo = () => {
   return (

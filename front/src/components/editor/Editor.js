@@ -6,15 +6,23 @@ import { fetchUploadImage } from '../../util/fetchFile';
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 
-function Editor({ onChange, height = '300px' }) {
+export function Editor({
+  onChange,
+  height = '300px',
+  isEditorClear,
+  setIsEditorClear,
+  isEditorEdit,
+  setIsEditorEdit,
+  initValue,
+}) {
   const editorRef = useRef();
 
   const onChangeHandle = () => {
-    const markdown = editorRef.current.getInstance().getMarkdown();
-    const json = JSON.stringify(markdown);
+    const htmlElement = editorRef.current.getInstance().getHTML();
+    const json = JSON.stringify(htmlElement);
     return onChange(json);
   };
 
@@ -26,14 +34,25 @@ function Editor({ onChange, height = '300px' }) {
     return false;
   };
 
-  // useEffect(() => {
-  //   if (isEditorClear) {
-  //     editorRef.current
-  //       .getInstance()
-  //       .setMarkdown('## *Your* **markdown** here');
-  //     setIsEditorClear(false);
-  //   }
-  // }, [isEditorClear]);
+  const onClearEditor = () => {
+    editorRef.current.getInstance().setMarkdown('## *Your* **markdown** here');
+  };
+
+  const onChangeContent = () => {
+    editorRef.current.getInstance().setHTML(initValue);
+  };
+
+  useEffect(() => {
+    if (isEditorClear) {
+      onClearEditor();
+      setIsEditorClear(false);
+    }
+
+    if (isEditorEdit) {
+      onChangeContent();
+      setIsEditorEdit(false);
+    }
+  }, [isEditorClear, isEditorEdit]);
 
   return (
     <div className="mb-4 editor-wrapper">
@@ -61,5 +80,3 @@ function Editor({ onChange, height = '300px' }) {
     </div>
   );
 }
-
-export default Editor;

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 const TOAST_ID = 'toast';
 const TOAST_MS = 1500;
+let isRunning = false;
 
 export const showToast = (message = 'default message', type = 'confirm') => {
   let container = document.getElementById(TOAST_ID);
@@ -11,14 +12,14 @@ export const showToast = (message = 'default message', type = 'confirm') => {
     container = document.createElement('div');
     container.setAttribute('id', TOAST_ID);
     document.body.appendChild(container);
-
-    const root = createRoot(container);
-    root.render(
-      <React.StrictMode>
-        <Toast message={message} target={root} type={type} />
-      </React.StrictMode>
-    );
   }
+
+  const root = createRoot(container);
+  root.render(
+    <React.StrictMode>
+      <Toast message={message} target={root} type={type} />
+    </React.StrictMode>
+  );
 };
 
 export const HideToast = (target) => {
@@ -40,7 +41,9 @@ const Toast = ({ message, target, type }) => {
     toast.current?.focus();
   });
 
-  console.log(message);
+  if (type === 'default') console.log(`✅ ${message}`);
+  else if (type === 'danger') console.log(`🛑 ${message}`);
+
   return (
     <div
       className={`so-toast ${

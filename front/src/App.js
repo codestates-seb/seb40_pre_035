@@ -11,6 +11,7 @@ import QuestionCreate from './pages/QuestionCreate';
 import QuestionUpdate from './pages/QuestionUpdate';
 import QuestionDetail from './pages/QuestionDetail';
 import NotFound from './components/notfound/NotFound';
+import './components/common.css';
 
 function App() {
   return (
@@ -19,12 +20,12 @@ function App() {
       <main className="flex flex-auto min-h-[calc(100vh-180px)]">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/question" element={<QuestionList />} />
-          <Route path="/mypage/:id/*" element={<MyPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/mypage/:id/*" element={<MyPage />} />
+          <Route path="/question" element={<QuestionList />} />
+          <Route path="/question/:id" element={<QuestionDetail />} />
           <Route path="/question/create" element={<QuestionCreate />} />
-          <Route path="/question/detail/:id" element={<QuestionDetail />} />
           <Route path="/question/update/:id" element={<QuestionUpdate />} />
 
           {/* 잘못된 주소로 접근한 경우 */}
@@ -32,6 +33,7 @@ function App() {
         </Routes>
       </main>
       <Footer />
+      <div id="toast"></div>
     </BrowserRouter>
   );
 }

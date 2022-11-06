@@ -1,8 +1,9 @@
 import { IconLogo, IconSearch } from '@stackoverflow/stacks-icons';
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Icon } from './util/Icon';
 import { fetchUserInfo } from './util/fetchLogin';
+import { Icon } from './util/convertor';
+import { data } from 'autoprefixer';
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -12,6 +13,7 @@ const Header = () => {
   const [searchText, setSearchText] = useState('');
   const search = useRef();
   const navigator = useNavigate();
+
   useEffect(() => {
     checkLoginState();
   });
@@ -66,10 +68,10 @@ const Header = () => {
   };
   const LoginGNB = () => {
     return (
-      <div className="flex">
+      <div className="flex items-center">
         <button
           onClick={onLogoutClick}
-          className="px-3 py-1 mx-2 text-gray hover:bg-soGray-light"
+          className="px-3 py-1 mx-1 text-gray hover:bg-[#eee] rounded"
         >
           {/* //TODO: 여기는 main으로 보내기 */}
           <Link to="/login">Logout</Link>

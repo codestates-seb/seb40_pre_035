@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import SidebarRight from '../components/home/SidebarRight';
+import SidebarRight from '../components/aside/SidebarRight';
 import Loading from '../components/loading/Loading';
-import Sidebar from '../components/sidebar/Sidebar';
+import Sidebar from '../components/aside/Sidebar';
 import Card from '../components/home/Card';
 
 function Home() {

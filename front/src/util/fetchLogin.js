@@ -59,7 +59,7 @@ export const checkIfLogined = async () => {
     if (!data) {
       setTimeout(() => {
         window.location.href = '/login';
-      }, 2000);
+      }, 1500);
       showToast('Please log in.', 'danger');
     }
   });

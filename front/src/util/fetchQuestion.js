@@ -2,8 +2,7 @@ export const fetchQuestionDetail = async (id) => {
   return fetch(`/questions/${id}`)
     .then((response) => {
       if (!response.ok) {
-        console.log(response.statusText);
-        throw Error('could not fetch the question data');
+        throw Error('유효하지 않은 요청입니다.');
       }
       return response.json();
     })
@@ -37,7 +36,7 @@ export const fetchQuestionList = async (page, filter, searchText) => {
   return fetch(url)
     .then((response) => {
       if (!response.ok) {
-        throw Error('could not fetch the data for that resource');
+        throw Error('유효하지 않은 요청입니다.');
       }
       return response.json();
     })
@@ -47,7 +46,7 @@ export const fetchQuestionList = async (page, filter, searchText) => {
 };
 
 export const fetchCreateQuestion = async (fetchData) => {
-  fetch(`/questions`, {
+  return fetch(`/questions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -56,15 +55,36 @@ export const fetchCreateQuestion = async (fetchData) => {
     body: JSON.stringify(fetchData),
   })
     .then((response) => {
-      console.log(response);
       if (!response.ok) {
-        console.log(response.statusText);
         throw Error('유효하지 않은 요청입니다.');
       }
       return response.json();
     })
     .then((data) => {
-      window.location.href = `/question/detail/${data.id}`;
+      return data.id;
+    })
+    .catch((error) => {
+      throw Error(error.message);
+    });
+};
+
+export const fetchUpdateQuestion = async (fetchData, id) => {
+  fetch(`/questions/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: sessionStorage.getItem('access_token'),
+    },
+    body: JSON.stringify(fetchData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw Error('유효하지 않은 요청입니다.');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      return data.data;
     })
     .catch((error) => {
       throw Error(error.message);
@@ -79,39 +99,15 @@ export const fetchDeleteQuestion = async (id) => {
     },
   })
     .then((response) => {
-      console.log(response);
       if (!response.ok) {
         throw Error('유효하지 않은 요청입니다.');
       }
       return response.json();
     })
     .then((data) => {
-      window.location.href = `/question`;
+      return data.data;
     })
     .catch((error) => {
       throw Error(error.message);
     });
 };
-
-// export const fetchQuestionListUnanswered = async (page, filter) => {
-//   console.log('Question 리스트가 조회됩니다.');
-//   console.log('page: ' + page);
-
-//   let url = null;
-//   if (filter !== 'vote') {
-//     url = `/questions/unAnswered?page=${page}&size=10&sort=id%2Cdesc`;
-//   } else {
-//     url = '';
-//   }
-
-//   return fetch(url)
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw Error('could not fetch the data for that resource');
-//       }
-//       return response.json();
-//     })
-//     .catch((error) => {
-//       throw Error(error.message);
-//     });
-// };

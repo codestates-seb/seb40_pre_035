@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import SidebarRight from '../components/home/SidebarRight';
+import SidebarRight from '../components/aside/SidebarRight';
 import Loading from '../components/loading/Loading';
-import Sidebar from '../components/sidebar/Sidebar';
+import Sidebar from '../components/aside/Sidebar';
 import Card from '../components/home/Card';
 import Pagination from '../components/home/Pagination';
 import { fetchQuestionList } from '../util/fetchQuestion';
 
 function QuestionList() {
   const [questionList, setQuestionList] = useState([]);
+  const [pageInfo, setPageInfo] = useState({});
   const [isPending, setIsPending] = useState(true);
   const [currPage, setCurrPage] = useState(1);
-  const [pageInfo, setPageInfo] = useState({});
-  const [isUpdate, setIsUpdate] = useState(true);
   const [currFilter, setCurrFilter] = useState('newest');
   const [search, setSearch] = useState('');
 
   const searchText = localStorage.getItem('searchText');
+  const [isUpdate, setIsUpdate] = useState(true);
 
   function onFilterClick(e) {
     setCurrFilter(e.target.value);
@@ -48,6 +48,17 @@ function QuestionList() {
     );
   }
 
+  const onClickPage = (target) => {
+    if (target === 'Prev') {
+      setCurrPage(currPage - 1);
+    } else if (target === 'Next') {
+      setCurrPage(currPage + 1);
+    } else {
+      setCurrPage(+target);
+    }
+    setIsUpdate(true);
+  };
+
   return (
     <div className="so-main-wrapper">
       <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px] flex-grow-0 flex-shrink-0 basis-[164px]">
@@ -60,46 +71,37 @@ function QuestionList() {
             Ask Question
           </Link>
         </div>
-        <div>
-          {/* <QuestionFilter /> */}
-          <div className="flex flex-row items-center justify-between px-6 py-8">
-            <div className="flex pr-80">Question 총 개수</div>
-            <div className="filter flex">
-              <div
-                className="inline-flex object-right rounded-md shadow-sm"
-                role="group"
+        <div className="flex items-center px-4 flex-nowrap justify-between mb-4 ">
+          <div className="flex">Question 총 개수</div>
+          <div className="filter flex">
+            <div
+              className="inline-flex object-right rounded-md shadow-sm"
+              role="group"
+            >
+              <button
+                type="button"
+                value="newest"
+                onClick={onFilterClick}
+                className="mr-[-1px] px-3 py-1.5 text-sm text-black bg-white border rounded-l font-regular border-soGray-light hover:bg-soGray-light focus:z-10 focus:bg-soGray-light"
               >
-                <div>
-                  <button
-                    type="button"
-                    value="newest"
-                    onClick={onFilterClick}
-                    className="px-4 py-2 text-sm text-black bg-white border rounded-l font-regular border-soGray-normal hover:bg-soGray-light focus:z-10 focus:bg-soGray-normal"
-                  >
-                    Newest
-                  </button>
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    value="vote"
-                    onClick={onFilterClick}
-                    className="px-4 py-2 text-sm text-black bg-white border font-regular rounded-lr border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal focus:z-10 "
-                  >
-                    Vote
-                  </button>
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    value="unanswered"
-                    onClick={onFilterClick}
-                    className="px-4 py-2 text-sm text-black bg-white border rounded-r font-regular focus:z-10 border-soGray-normal hover:bg-soGray-light focus:bg-soGray-normal"
-                  >
-                    Unanswered
-                  </button>
-                </div>
-              </div>
+                Newest
+              </button>
+              <button
+                type="button"
+                value="vote"
+                onClick={onFilterClick}
+                className="mr-[-1px] px-3 py-1.5 text-sm text-black bg-white border font-regular rounded-lr border-soGray-light hover:bg-soGray-light focus:bg-soGray-light focus:z-10 "
+              >
+                Vote
+              </button>
+              <button
+                type="button"
+                value="unanswered"
+                onClick={onFilterClick}
+                className="px-3 py-1.5 text-sm text-black bg-white border rounded-r font-regular focus:z-10 border-soGray-light hover:bg-soGray-light focus:bg-soGray-light"
+              >
+                Unanswered
+              </button>
             </div>
           </div>
         </div>
@@ -112,15 +114,16 @@ function QuestionList() {
             </div>
           )}
         </div>
-        <div>
+        {pageInfo && (
           <Pagination
             currentPage={currPage}
             pageInfo={pageInfo}
             setCurrPage={setCurrPage}
             setIsUpdate={setIsUpdate}
             onPageChange={onPageChange}
+            onClickPage={onClickPage}
           />
-        </div>
+        )}
       </div>
       <aside className="w-[280px] flex-grow-0 flex-shrink-0 basis-[280px]">
         <SidebarRight />

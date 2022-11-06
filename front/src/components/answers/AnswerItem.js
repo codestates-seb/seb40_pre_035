@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Viewer } from '@toast-ui/react-editor';
-import AnswerDeleteModal from '../answers/AnswerDeleteModal';
-import relTimeFormat from '../../util/relativeTimeFormat';
-import renderToMarkdown from '../../util/renderMarkdown';
+import AnswerDeleteModal from '../modal/AnswerDeleteModal';
+import { relTimeFormat } from '../../util/convertor';
 import { fetchAnswerVote } from '../../util/fetchVote';
 import { showToast } from '../toast/Toast';
 
@@ -39,6 +38,7 @@ function AnswerItem({ item, updated }) {
   const onClickAUpVote = (id) => {
     if (!token) {
       showToast('Please Login first.', 'danger');
+      return;
     }
     setIsClickAUpVote(true);
     fetchAnswerVote(id, 'UP').then((message) => {
@@ -57,6 +57,7 @@ function AnswerItem({ item, updated }) {
   const onClickADownVote = (id) => {
     if (!token) {
       showToast('Please Login first.', 'danger');
+      return;
     }
     setIsClickADownVote(true);
     fetchAnswerVote(id, 'DOWN').then((message) => {
@@ -74,7 +75,7 @@ function AnswerItem({ item, updated }) {
 
   return (
     <div className="flex flex-row px-1 py-5 mx-5 mb-3 border-t answer-item border-soGray-light">
-      <div className="flex flex-col mr-4 vote-group">
+      <div className="flex flex-col mr-8 vote-group">
         <button
           className="flex justify-center"
           aria-label="Up vote"
@@ -114,18 +115,23 @@ function AnswerItem({ item, updated }) {
         </button>
       </div>
       <div className="flex-auto question-item">
-        <div className="flex flex-row mb-3 text-sm user-info align-center">
-          <Link to={`/mypage/${item.account.id}`} className="flex mr-4">
-            {item.account.profile && (
+        <div className="flex flex-row mb-6 text-sm user-info align-center">
+          <Link
+            to={`/mypage/${item.account.id}`}
+            className="flex items-center mr-4"
+          >
+            {item.account.profile && item.account.profile !== 'test/path' ? (
               <img
-                src={`${item.account.profile}`}
-                alt={`${item.account.nickname}'s user avatar`}
-                width="16"
-                height="16"
-                className="mr-2"
+                className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"
+                src={item.account.profile}
+                alt={`${item.account.nickname}'s Avatar`}
               />
+            ) : (
+              <span className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"></span>
             )}
-            <span className="text-soGray-darker">{item.account.nickname}</span>
+            <span className="font-semibold text-soGray-darker">
+              {item.account.nickname}
+            </span>
           </Link>
           <time className="mr-4 s-user-card--time">
             <span className="mr-1 text-soGray-normal">Asked</span>
@@ -140,7 +146,7 @@ function AnswerItem({ item, updated }) {
           </time>
           {item && checkIfAuthor(item.account)}
         </div>
-        <Viewer initialValue={renderToMarkdown(item.content)} />
+        <Viewer initialValue={item.content} />
       </div>
       {isModalOpen ? (
         <AnswerDeleteModal

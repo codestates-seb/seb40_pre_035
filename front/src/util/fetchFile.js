@@ -10,7 +10,6 @@ export const fetchUploadImage = async (blob) => {
     body: formData,
   })
     .then((response) => {
-      console.log(response.ok);
       if (!response.ok) {
         throw Error('유효하지 않은 요청입니다.');
       } else {
@@ -18,7 +17,6 @@ export const fetchUploadImage = async (blob) => {
       }
     })
     .then((data) => {
-      console.log(data);
       return data.data;
     })
     .catch((error) => {

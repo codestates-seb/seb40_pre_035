@@ -52,10 +52,18 @@
   }
 
   .so-toast-danger {
-    @apply  text-danger-700 bg-danger-100 border-danger-700;
+    @apply text-danger-700 bg-danger-100 border-danger-700;
   }
 
   .so-toast-confirm {
-    @apply   text-secondary-700 bg-secondary-50 border-secondary-700;
+    @apply text-secondary-700 bg-secondary-50 border-secondary-700;
+  }
+
+  .so-page-item {
+    @apply items-center px-2 text-xs py-2 text-soGray-darker bg-white rounded border border-soGray-light hover:bg-soGray-bg;
+  }
+
+  .so-filter-item {
+    @apply px-3 py-1 text-sm border border-soGray-light hover:bg-soGray-bg;
   }
 }

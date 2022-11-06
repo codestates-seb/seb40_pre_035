@@ -90,13 +90,15 @@ const EditProfile = () => {
 
     fetch(`/accounts/${id}`, {
       method: 'POST',
-      'Content-Type': 'multipart/form-data;charset=UTF-8',
-      Authorization: `${sessionStorage.access_token}`,
+      headers: {
+        // 'Content-Type': 'multipart/form-data;charset=UTF-8',
+        Authorization: `${sessionStorage.access_token}`,
+      },
       body: formData,
     })
       .then((res) => {
         if (!res.ok) {
-          if (res.status === 400) showToast('Email already exists');
+          if (res.status === 400) showToast('Fill in the blanks');
           throw Error('could not fetch the data for that resource');
         }
 
@@ -222,18 +224,20 @@ const EditProfile = () => {
             </p>
           </div>
           <div>
-            {/* <Link to={`/mypage/${id}`}> */}
-            <button
-              className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium"
-              onClick={onSubmit}
-            >
-              Save profile
-            </button>
-            {/* </Link> */}
-            <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
-              Cancel
-            </button>
-          </div>{' '}
+            <Link to={`/mypage/${id}`}>
+              <button
+                className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium"
+                onClick={onSubmit}
+              >
+                Save profile
+              </button>
+            </Link>
+            <Link to={`/mypage/${id}`}>
+              <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
+                Cancel
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </>

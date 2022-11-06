@@ -20,8 +20,8 @@ const Header = () => {
 
   function handleSearch(e) {
     setSearchText(e.target.value);
-    // 로컬스토리지에 검색어 저장
-    localStorage.setItem('searchText', searchText);
+    // 세션스토리지에 검색어 저장
+    sessionStorage.setItem('searchText', searchText);
 
     if (e.key === 'Enter' && searchText) {
       if (window.location.pathname === '/question') window.location.reload();
@@ -103,12 +103,18 @@ const Header = () => {
     );
   };
 
+  const onClickremove = () => {
+    sessionStorage.removeItem('searchText');
+  };
+
   return (
     <div className="sticky top-0 z-20 flex-col w-full drop-shadow h-[60px] flex-nowrap">
       <div className="h-1 bg-primary-300"></div>
       <div className="flex justify-center px-2 py-3 bg-soGray-headerbg">
         <div className="items-center mx-2 my-1">
-          <Link to="/">{Icon(IconLogo)}</Link>
+          <Link to="/" onClick={onClickremove}>
+            {Icon(IconLogo)}
+          </Link>
         </div>
         <div className="flex items-center px-2 py-1 mx-2 mr-10 bg-white border rounded-md grow border-soGray-light focus:ring-secondary-300">
           <div className="flex mx-2 my-1 text-soGray-icon">

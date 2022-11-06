@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-const Questions = () => {
+const Questions = ({ idData }) => {
   const { id } = useParams();
   const [data, setData] = useState(null);
 
@@ -23,7 +23,7 @@ const Questions = () => {
   }, []);
 
   const login = () => {
-    return sessionStorage.userEmail === data?.email;
+    return sessionStorage.userEmail === idData?.email;
   };
 
   const isLogin = {
@@ -79,11 +79,11 @@ const Questions = () => {
         ) : (
           ''
         )}
-        <div className={isLogin[login() ?? false]}>
+        {/* <div className={isLogin[login() ?? false]}>
           <Link to="/" className="text-secondary-500">
             Deleted answers
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { fetchUploadImage } from '../../util/fetchFile';
 import { showToast } from '../toast/Toast';
 
 const EditProfile = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [idData, setIdData] = useState(null);
   const [userProfile, setUserProfile] = useState(idData?.profile);
@@ -14,9 +15,9 @@ const EditProfile = () => {
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
 
-  const [usernameError, setUsernameError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordCheckError, setPasswordCheckError] = useState(false);
+  const [usernameError, setUsernameError] = useState(true);
+  const [passwordError, setPasswordError] = useState(true);
+  const [passwordCheckError, setPasswordCheckError] = useState(true);
 
   function handleUserName(e) {
     setUsername(e.target.value);
@@ -35,14 +36,11 @@ const EditProfile = () => {
   }
   function checkPassword() {
     const passwordRegexp = /(?=.\d)(?=.[a-zA-ZS]).{8,}$/;
-    console.log(password);
     if (password.length === 0 || passwordRegexp.test(password)) {
       setPasswordError(true);
     } else setPasswordError(false);
   }
   function checkPasswordCheck() {
-    console.log(password !== passwordCheck);
-    console.log(passwordCheck);
     if (password !== passwordCheck) {
       setPasswordCheckError(true);
     } else setPasswordCheckError(false);
@@ -52,9 +50,20 @@ const EditProfile = () => {
     checkUsername();
     checkPassword();
     checkPasswordCheck();
-    if (!usernameError && !passwordError && !passwordCheckError)
-      return onEdit();
-    else return false;
+    console.log(usernameError);
+    console.log(passwordError);
+    console.log(passwordCheckError);
+    if (!usernameError && !passwordError && !passwordCheckError) {
+      onEdit();
+      navigate(`/mypage/${id}`);
+      return location.reload();
+
+      // return true;
+    }
+    // return ;
+    else {
+      return false;
+    }
   }
 
   useEffect(() => {
@@ -83,6 +92,8 @@ const EditProfile = () => {
       setUserProfile(path);
     });
   };
+
+  console.log(profileFile);
 
   const onEdit = () => {
     const formData = new FormData();
@@ -208,7 +219,7 @@ const EditProfile = () => {
               onChange={handlePasswordCheck}
               className="w-3/6 p-1 border rounded border-soGray-normal"
             />
-            {passwordError && (
+            {passwordCheckError && (
               <p className="text-sm text-danger-500">
                 The passwords do not match.
               </p>
@@ -226,7 +237,11 @@ const EditProfile = () => {
               Save profile
             </button>
 
-            <Link to={`/mypage/${id}`}>
+            <Link
+              to={`/mypage/${id}`}
+              disable={true}
+              // disable={!usernameError && !passwordError && !passwordCheckError}
+            >
               <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
                 Cancel
               </button>

@@ -167,7 +167,7 @@ const Summary = () => {
               <p className="p-6 m-2 text-center ">
                 You have not{' '}
                 <Link to="/" className="text-secondary-500">
-                  answered
+                  asked
                 </Link>{' '}
                 any questions
               </p>

@@ -74,7 +74,7 @@ const Header = () => {
           className="px-3 py-1 mx-1 text-gray hover:bg-[#eee] rounded"
         >
           {/* 로그아웃 클릭시 home으로 이동 */}
-          <Link to="/home">Logout</Link>
+          <Link to="/">Logout</Link>
         </button>
         <div className="items-center p-2 hover:bg-soGray-light">
           <Link to={userProfileImageLink}>

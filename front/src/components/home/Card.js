@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import relTimeFormat from '../../util/relativeTimeFormat';
+import { relTimeFormat } from '../../util/convertor';
 
 function Card({ item }) {
   return (
@@ -11,7 +11,7 @@ function Card({ item }) {
         </div>
         <div className="flex flex-col flex-wrap shrink-1 grow-1 w-[calc(100%-105px)] basis-auto pl-1.5">
           <div className="text-[1.2rem] line-clamp-2 break-all w-full text-buttonPrimary font-semibold mb-2">
-            <Link to={`/question/detail/${item.id}`}>{item.title}</Link>
+            <Link to={`/question/${item.id}`}>{item.title}</Link>
           </div>
           <div className="w-full mb-4 text-sm break-all line-clamp-2">
             {item.content
@@ -21,19 +21,22 @@ function Card({ item }) {
           </div>
 
           <div className="w-full flex items-center flex-row text-[13px] text-soGray-darker space-x-2">
-            <Link to={`/mypage/${item.account.id}`}>
-              <div className="w-[24px] h-[24px]">
-                {item.account.profile && (
-                  <img
-                    className="w-full h-auto"
-                    src={item.account.profile}
-                    alt={`${item.account.nickname}'s Avatar`}
-                  />
-                )}
-              </div>
-              <div className="font-semibold text-soGray-darker">
+            <Link
+              to={`/mypage/${item.account.id}`}
+              className="flex items-center mr-4"
+            >
+              {item.account.profile && item.account.profile !== 'test/path' ? (
+                <img
+                  className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"
+                  src={item.account.profile}
+                  alt={`${item.account.nickname}'s Avatar`}
+                />
+              ) : (
+                <span className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"></span>
+              )}
+              <span className="font-semibold text-soGray-darker">
                 {item.account.nickname}
-              </div>
+              </span>
             </Link>
             <time className="mr-4 s-user-card--time">
               <span className="mr-1 text-soGray-normal">Asked</span>

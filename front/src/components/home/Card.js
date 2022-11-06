@@ -23,16 +23,16 @@ function Card({ item }) {
           <div className="w-full flex items-center flex-row text-[13px] text-soGray-darker space-x-2">
             <Link
               to={`/mypage/${item.account.id}`}
-              className="flex items-center mr-4"
+              className="flex items-center mr-2"
             >
               {item.account.profile && item.account.profile !== 'test/path' ? (
                 <img
-                  className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"
+                  className="border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"
                   src={item.account.profile}
                   alt={`${item.account.nickname}'s Avatar`}
                 />
               ) : (
-                <span className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"></span>
+                <span className="border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"></span>
               )}
               <span className="font-semibold text-soGray-darker">
                 {item.account.nickname}

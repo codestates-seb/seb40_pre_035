@@ -51,3 +51,14 @@ export const fetchDeleteAnswer = async (id) => {
       throw Error(error.message);
     });
 };
+
+export const fetchSelectAnswer = async (id) => {
+  return fetch(`/answers/select/${id}`, {
+    method: 'POST',
+    headers: {
+      authorization: sessionStorage.getItem('access_token'),
+    },
+  }).then((response) => {
+    return response.json();
+  });
+};

@@ -114,17 +114,19 @@ function QuestionList() {
             </div>
           )}
         </div>
-        <div className="mt-12">
-          {pageInfo && (
-            <Pagination
-              currentPage={currPage}
-              pageInfo={pageInfo}
-              setCurrPage={setCurrPage}
-              setIsUpdate={setIsUpdate}
-              onPageChange={onPageChange}
-              onClickPage={onClickPage}
-            />
-          )}
+        <div className="border-t border-soGray-light">
+          <div className="mt-12">
+            {pageInfo && (
+              <Pagination
+                currentPage={currPage}
+                pageInfo={pageInfo}
+                setCurrPage={setCurrPage}
+                setIsUpdate={setIsUpdate}
+                onPageChange={onPageChange}
+                onClickPage={onClickPage}
+              />
+            )}
+          </div>
         </div>
       </div>
       <aside className="w-[280px] flex-grow-0 flex-shrink-0 basis-[280px]">

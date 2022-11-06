@@ -1,5 +1,5 @@
 import { IconLogoGlyphMd } from '@stackoverflow/stacks-icons';
-import { Icon } from '../../util/Icon';
+import { Icon } from '../../util/convertor';
 
 const Footer = () => {
   return (

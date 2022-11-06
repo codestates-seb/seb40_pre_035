@@ -1,15 +1,13 @@
-import '../../components/common.css';
 import { useState, useEffect } from 'react';
 import { fetchLogin } from './../../util/fetchLogin';
 import { useNavigate } from 'react-router-dom';
+
 const LoginInfo = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-
   const [isValidate, setIsValidate] = useState(false);
 
   function handleEmail(e) {
@@ -38,31 +36,32 @@ const LoginInfo = () => {
     }
   }
 
-  // 동적으로 tailwindcss 추가
   const borderColor = {
     true: 'w-full px-2 py-1 border rounded border-danger-500',
     false: 'w-full px-2 py-1 border rounded border-soGray-light',
   };
 
   function validation() {
-    console.log('로그인 유효성 검사');
-    checkEmail()
-      ? console.log('email 유효')
-      : console.log('email 유효하지않음');
-    checkPassword()
-      ? console.log('password 유효')
-      : console.log('password 유효하지않음');
+    // console.log('로그인 유효성 검사');
+    checkEmail();
+    // ? console.log('email 유효')
+    // : console.log('email 유효하지않음');
+    checkPassword();
+    // ? console.log('password 유효')
+    // : console.log('password 유효하지않음');
 
-    console.log('passwordError: ' + passwordError);
-    console.log('emailError: ' + emailError);
+    // console.log('passwordError: ' + passwordError);
+    // console.log('emailError: ' + emailError);
     if (checkEmail() && checkPassword()) {
-      console.log('login ready');
+      // console.log('login ready');
       return true;
     } else return false;
   }
-  function onSubmit() {
+
+  function onSubmit(e) {
     // validation() ? setIsValidate(true) : setIsValidate(false);
-    console.log('현재 Login isvalidate:', isValidate);
+    // console.log('현재 Login isvalidate:', isValidate);
+    e.preventDefault();
 
     if (validation()) {
       onLoginData();
@@ -89,7 +88,7 @@ const LoginInfo = () => {
   return (
     <div className="flex-col justify-center my-5 align-middle min-w-[280px]">
       <div className="px-5 pt-3 pb-10 bg-white rounded-md drop-shadow-xl">
-        <div className="form">
+        <form className="form" onSubmit={onSubmit}>
           <div className="flex-col justify-center my-3">
             <div className="font-bold">Email</div>
             <input
@@ -97,7 +96,7 @@ const LoginInfo = () => {
               value={email}
               onChange={handleEmail}
               className={borderColor[emailError ?? false]}
-            ></input>
+            />
             {emailError && (
               <p className="text-xxs text-danger-500">Email cannot be empty.</p>
             )}
@@ -118,7 +117,7 @@ const LoginInfo = () => {
               value={password}
               onChange={handlePassword}
               className={borderColor[passwordError ?? false]}
-            ></input>
+            />
             {passwordError && (
               <p className="text-xxs text-danger-500">
                 Password cannot be empty.
@@ -126,12 +125,12 @@ const LoginInfo = () => {
             )}
           </div>
           <button
-            onClick={onSubmit}
+            type="submit"
             className="flex justify-center w-full mt-10 text-center so-button-primary"
           >
             Log in
           </button>
-        </div>
+        </form>
       </div>
       <div className="flex justify-between mx-3 my-10 text-sm">
         <p>Don&apos;t have an account?</p>
@@ -145,4 +144,5 @@ const LoginInfo = () => {
     </div>
   );
 };
+
 export default LoginInfo;

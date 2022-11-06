@@ -1,13 +1,12 @@
-import { Icon } from '../../util/Icon';
 import { IconClearSm } from '@stackoverflow/stacks-icons';
 import { fetchDeleteAnswer } from '../../util/fetchAnswer';
 import { showToast } from '../toast/Toast';
+import { Icon } from '../../util/convertor';
 
 function AnswerDelete({ answerId, hideModal, updated }) {
   const onClickDelete = (id) => {
     fetchDeleteAnswer(id).then((res) => {
       hideModal(true);
-      console.log(res);
       if (res) {
         showToast('Your answer has been deleted successfully.');
         updated(true);
@@ -33,7 +32,6 @@ function AnswerDelete({ answerId, hideModal, updated }) {
             className="mr-3 so-button-danger"
             type="button"
             autoComplete="off"
-            disabled=""
             onClick={() => onClickDelete(answerId)}
           >
             Delete Answer
@@ -41,7 +39,6 @@ function AnswerDelete({ answerId, hideModal, updated }) {
 
           <button
             className="so-button-dismiss text-secondary-400"
-            data-action="s-modal#show"
             type="button"
             onClick={() => hideModal(true)}
           >

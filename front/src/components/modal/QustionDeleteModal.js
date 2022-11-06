@@ -1,11 +1,13 @@
-import { Icon } from '../../util/Icon';
-import { IconClearSm } from '@stackoverflow/stacks-icons';
+import { useNavigate } from 'react-router-dom';
 import { fetchDeleteQuestion } from '../../util/fetchQuestion';
+import { IconClearSm } from '@stackoverflow/stacks-icons';
+import { Icon } from '../../util/convertor';
 
 function QuestionDelete({ postId, hideModal }) {
+  const navigate = useNavigate();
   const onClickDelete = (id) => {
     fetchDeleteQuestion(id).then((res) => {
-      console.log(res);
+      navigate('/question');
     });
   };
 
@@ -25,7 +27,6 @@ function QuestionDelete({ postId, hideModal }) {
             className="mr-3 so-button-danger"
             type="button"
             autoComplete="off"
-            disabled=""
             onClick={() => onClickDelete(postId)}
           >
             Delete Question
@@ -33,7 +34,6 @@ function QuestionDelete({ postId, hideModal }) {
 
           <button
             className="so-button-dismiss text-secondary-400"
-            data-action="s-modal#show"
             type="button"
             onClick={() => hideModal(true)}
           >

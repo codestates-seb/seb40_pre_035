@@ -22,7 +22,11 @@ const Header = () => {
     localStorage.setItem('searchText', searchText);
 
     if (e.key === 'Enter' && searchText) {
-      navigator('/question');
+      if (window.location.pathname === '/question') window.location.reload();
+      else {
+        navigator('/question');
+      }
+      setSearchText('');
     }
   }
 
@@ -110,6 +114,7 @@ const Header = () => {
           </div>
           <input
             type="text"
+            value={searchText}
             className="w-[calc(100%-40px)] focus:outline-none focus-visible:outline-none"
             placeholder="Search..."
             onChange={handleSearch}

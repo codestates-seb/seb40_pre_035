@@ -37,8 +37,7 @@ const SignupInfo = () => {
     }
   }
   function checkEmail() {
-    const emailRegexp =
-      /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,}$/;
+    const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     if (!email || !emailRegexp.test(email)) {
       setEmailError(true);
       return false;
@@ -48,7 +47,8 @@ const SignupInfo = () => {
     }
   }
   function checkPassword() {
-    const passwordRegexp = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,}$/;
+    const passwordRegexp =
+      /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,}$/;
     if (!password || !passwordRegexp.test(password)) {
       setPasswordError(true);
       return false;

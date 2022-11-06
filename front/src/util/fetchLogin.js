@@ -13,7 +13,7 @@ export const fetchLogin = async (data) => {
     .then((res) => {
       if (!res.ok) {
         console.log(res);
-        if (res.status === 401) showToast('Wrong Email or Password');
+        if (res.status === 401) showToast('Wrong Email or Password', 'danger');
         throw Error('could not fetch the data for that resource');
       }
       if (res.status === 200) {

@@ -8,7 +8,7 @@ export const fetchSignup = async (data) => {
   })
     .then((res) => {
       if (!res.ok) {
-        if (res.status === 400) showToast('Email already exists');
+        if (res.status === 400) showToast('Email already exists', 'danger');
         throw Error('could not fetch the data for that resource');
       }
 

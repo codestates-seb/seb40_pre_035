@@ -1,10 +1,8 @@
-import { IconLogo, IconSearch, IconPerson } from '@stackoverflow/stacks-icons';
-import ReactHtmlParser from 'react-html-parser';
+import { IconLogo, IconSearch } from '@stackoverflow/stacks-icons';
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Icon } from './util/Icon';
 import { fetchUserInfo } from './util/fetchLogin';
-import { data } from 'autoprefixer';
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -24,7 +22,6 @@ const Header = () => {
     localStorage.setItem('searchText', searchText);
 
     if (e.key === 'Enter' && searchText) {
-      // 검색어 존재 & 엔터키 누르면 /question으로 이동
       navigator('/question');
     }
   }
@@ -75,7 +72,6 @@ const Header = () => {
         </button>
         <div className="items-center p-2 hover:bg-soGray-light">
           <Link to={userProfileImageLink}>
-            {/* //TODO: 임시로 1번으로 이동 */}
             <img
               src={userProfileImage}
               alt="userProfile"

@@ -22,9 +22,9 @@ const Answers = () => {
       });
   }, []);
 
-  const login = () => {
-    return sessionStorage.userEmail === data?.email;
-  };
+  // const login = () => {
+  //   return sessionStorage.userEmail === idData?.email;
+  // };
 
   const isLogin = {
     true: 'p-3 border-t border-soGray-normal',
@@ -56,7 +56,7 @@ const Answers = () => {
             >
               <div className="text-xs font-medium">{el.totalVote} votes</div>
               <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis text-secondary-500">
-                <a href={`../question/${el.id}`}>{el.content}</a>
+                <a href={`../question/${el.questionId}`}>{el.content}</a>
               </div>
               <div className="text-xs text-right">
                 anwsered{' '}
@@ -80,11 +80,11 @@ const Answers = () => {
         ) : (
           ''
         )}
-        <div className={isLogin[login() ?? false]}>
+        {/* <div className={isLogin[login() ?? false]}>
           <Link to="/" className="text-secondary-500">
             Deleted answers
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

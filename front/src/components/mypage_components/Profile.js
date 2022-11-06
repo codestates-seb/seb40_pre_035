@@ -22,10 +22,8 @@ const Profile = () => {
       });
   }, []);
 
-  console.log(idData);
-
   const logout = () => {
-    sessionStorage.access_token = '';
+    sessionStorage.clear();
   };
 
   const login = () => {

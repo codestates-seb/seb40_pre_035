@@ -1,16 +1,40 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { BASE_URL } from '../../util/fetchLogin';
 
 const DeleteProfile = () => {
   const { id } = useParams();
+  // const [data, setData] = useState(null);
 
-  const accesstoken = sessionStorage.access_token;
+  // useEffect(() => {
+  //   fetch(`/accounts/user`, {
+  //     method: 'GET',
+  //     'Content-Type': 'multipart/form-data;charset=UTF-8',
+  //     Accept: 'application/json',
+  //     Authorization: `${sessionStorage.access_token}`,
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         // error coming back from server
+  //         throw Error('could not fetch the data for that resource');
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setData(data);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err.message);
+  //     });
+  // }, []);
+
+  // const id = data?.id;
+
+  console.log(sessionStorage.access_token);
   const onRemove = () => {
     fetch(`/accounts/${id}`, {
       method: 'DELETE',
       header: {
-        Authorization: accesstoken,
+        Authorization: sessionStorage.getItem('access_token'),
       },
     }).then();
   };
@@ -25,6 +49,10 @@ const DeleteProfile = () => {
   };
 
   const disabled = !(checkBox.length === 1);
+
+  const logout = () => {
+    sessionStorage.clear();
+  };
 
   return (
     <>

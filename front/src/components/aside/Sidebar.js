@@ -4,6 +4,10 @@ function Sidebar() {
   const location = useLocation();
   const path = location.pathname.split('/')[1];
 
+  const onClick = () => {
+    sessionStorage.removeItem('searchText');
+  };
+
   return (
     <ol className="flex flex-col w-full text-[15px]">
       <li
@@ -13,7 +17,9 @@ function Sidebar() {
             : ''
         } pl-5 py-2 mt-9 mb-2 font-normal`}
       >
-        <Link to="/">Home</Link>
+        <Link to="/" onClick={onClick}>
+          Home
+        </Link>
       </li>
       <li className="mt-3 mb-2">
         <ul>
@@ -38,7 +44,9 @@ function Sidebar() {
                 clipRule="evenodd"
               />
             </svg>
-            <Link to="/question">Questions</Link>
+            <Link to="/question" onClick={onClick}>
+              Questions
+            </Link>
           </li>
         </ul>
       </li>

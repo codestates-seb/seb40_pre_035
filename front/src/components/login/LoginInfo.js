@@ -2,7 +2,9 @@ import '../../components/common.css';
 import { useState, useEffect } from 'react';
 import { fetchLogin, fetchUserInfo } from '../../util/fetchLogin';
 import { useNavigate } from 'react-router-dom';
+import { showToast } from '../toast/Toast';
 const LoginInfo = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -68,30 +70,21 @@ const LoginInfo = () => {
     }
   }
 
-  const navigate = useNavigate();
-  const goHome = () => {
-    navigate('/');
-  };
   // 로그인 데이터 fetch
   const onLoginData = async (callback) => {
     const loginData = JSON.stringify({
       email: email,
       password: password,
     });
-    console.log('inputData:', loginData);
-    await fetchLogin(loginData).then((data) => {
-      console.log(data);
-      console.log('로그인 성공');
+    const goHome = () => {
+      navigate('/');
+    };
+    let login = await fetchLogin(loginData).then((data) => {
+      if (data.status === 200) {
+        goHome();
+        window.location.reload();
+      }
     });
-    goHome();
-    // let userdata = await fetchUserInfo().then((data) => {
-    //   console.log(data);
-    //   console.log('유저데이터얻기 성공');
-    //   // console.log(data.profile);
-    //   // 원하는 페이지에서 data 가져다 사용하기
-    //   goHome();
-    // });
-    // console.log(userdata);
   };
 
   return (

@@ -1,15 +1,14 @@
-import { IconLogo, IconSearch, IconPerson } from '@stackoverflow/stacks-icons';
-import ReactHtmlParser from 'react-html-parser';
+import { IconLogo, IconSearch } from '@stackoverflow/stacks-icons';
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Icon } from './util/Icon';
 import { fetchUserInfo } from './util/fetchLogin';
-import { data } from 'autoprefixer';
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [userProfileImage, setUserProfileImage] = useState('');
+  const [userProfileImageLink, setUserProfileImageLink] = useState('');
   const [searchText, setSearchText] = useState('');
   const search = useRef();
   const navigator = useNavigate();
@@ -23,7 +22,6 @@ const Header = () => {
     localStorage.setItem('searchText', searchText);
 
     if (e.key === 'Enter' && searchText) {
-      // 검색어 존재 & 엔터키 누르면 /question으로 이동
       navigator('/question');
     }
   }
@@ -37,6 +35,7 @@ const Header = () => {
     if (sessionStorage.getItem('access_token') && !isLoginPath) {
       setIsLogin(true);
       getUserProfile();
+      setUserProfileImageLink(`/mypage/${sessionStorage.getItem('accountId')}`);
     } else {
       setIsLogin(false);
     }
@@ -56,9 +55,9 @@ const Header = () => {
     return await fetchUserInfo().then((data) => {
       setUserProfileImage(data.profile);
 
-      // 유저이메일 저장
-      const userEmail = data.email;
-      sessionStorage.setItem('userEmail', userEmail);
+      // 유저이메일, account ID 저장
+      sessionStorage.setItem('userEmail', data.email);
+      sessionStorage.setItem('accountId', data.accountId);
     });
   };
   const LoginGNB = () => {
@@ -72,8 +71,7 @@ const Header = () => {
           <Link to="/login">Logout</Link>
         </button>
         <div className="items-center p-2 hover:bg-soGray-light">
-          <Link to="/mypage/1">
-            {/* //TODO: 임시로 1번으로 이동 */}
+          <Link to={userProfileImageLink}>
             <img
               src={userProfileImage}
               alt="userProfile"

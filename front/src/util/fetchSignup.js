@@ -1,3 +1,5 @@
+import { showToast } from '../components/toast/Toast';
+
 export const fetchSignup = async (data) => {
   return fetch(`/accounts`, {
     method: 'POST',
@@ -6,12 +8,15 @@ export const fetchSignup = async (data) => {
   })
     .then((res) => {
       if (!res.ok) {
+        if (res.status === 400) showToast('Email already exists');
         throw Error('could not fetch the data for that resource');
       }
-      // if (response.data) {
-      //   return response.json();
-      // }
-      alert('회원가입 성공');
+
+      if (res.status === 201)
+        showToast(
+          'Congratulations! Your account has been successfully created!'
+        );
+      return res;
     })
     .catch((error) => {
       console.log(error.message);

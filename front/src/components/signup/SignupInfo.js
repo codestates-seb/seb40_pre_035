@@ -126,14 +126,8 @@ const SignupInfo = () => {
     };
     let path = await fetchSignup(formData).then((data) => {
       console.log(data);
-      // console.log('회원가입 성공');
-      goLogin();
+      if (data.status === 201) goLogin();
     });
-    // fetch 성공하면 Main으로 navigate
-
-    // console.log(path);
-    // callback(path, 'alt text');
-    return false;
   };
 
   // 동적으로 tailwindcss 추가
@@ -192,7 +186,10 @@ const SignupInfo = () => {
               least 1 letter and 1 number.
             </p>
           </div>
-          <button onClick={onSubmit} className="w-full mt-10 so-button-primary">
+          <button
+            onClick={onSubmit}
+            className="flex justify-center w-full mt-10 so-button-primary"
+          >
             Sign up
           </button>
 

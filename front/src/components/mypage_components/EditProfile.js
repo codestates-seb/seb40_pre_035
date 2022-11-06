@@ -10,6 +10,7 @@ const EditProfile = () => {
   const [idData, setIdData] = useState(null);
   const [userProfile, setUserProfile] = useState(idData?.profile);
   const [profileFile, setProfileFile] = useState(null);
+  const [uploadImg, setUploadImg] = useState(false);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -53,7 +54,8 @@ const EditProfile = () => {
     console.log(usernameError);
     console.log(passwordError);
     console.log(passwordCheckError);
-    if (!usernameError && !passwordError && !passwordCheckError) {
+    if (!uploadImg) showToast('plz upload img');
+    if (!usernameError && !passwordError && !passwordCheckError && uploadImg) {
       onEdit();
       navigate(`/mypage/${id}`);
       return location.reload();
@@ -87,6 +89,7 @@ const EditProfile = () => {
   const userName = idData?.nickname;
 
   const onChange = async (e) => {
+    setUploadImg(true);
     setProfileFile(e.target.files[0]);
     await fetchUploadImage(e.target.files[0]).then((path) => {
       setUserProfile(path);

@@ -1,58 +1,76 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { showToast } from '../toast/Toast';
 
 const DeleteProfile = () => {
   const { id } = useParams();
-  // const [data, setData] = useState(null);
+  const [checkBox, setCheckBox] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const navigator = useNavigate();
 
-  // useEffect(() => {
-  //   fetch(`/accounts/user`, {
-  //     method: 'GET',
-  //     'Content-Type': 'multipart/form-data;charset=UTF-8',
-  //     Accept: 'application/json',
-  //     Authorization: `${sessionStorage.access_token}`,
-  //   })
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         // error coming back from server
-  //         throw Error('could not fetch the data for that resource');
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setData(data);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err.message);
-  //     });
-  // }, []);
-
-  // const id = data?.id;
-
-  console.log(sessionStorage.access_token);
-  const onRemove = () => {
-    fetch(`/accounts/${id}`, {
-      method: 'DELETE',
-      header: {
-        Authorization: sessionStorage.getItem('access_token'),
-      },
-    }).then();
+  const changeHandler = (e) => {
+    setCheckBox(e.target.checked);
+    setDisabled(false);
   };
-
-  const [checkBox, setCheckBox] = useState([]);
-  const changeHandler = (checked, id) => {
-    if (checked) {
-      setCheckBox([...checkBox, id]);
-    } else {
-      setCheckBox(checkBox.filter((button) => button !== id));
-    }
-  };
-
-  const disabled = !(checkBox.length === 1);
 
   const logout = () => {
     sessionStorage.clear();
   };
+
+  const onRemove = (e) => {
+    e.preventDefault();
+    if (disabled) return;
+
+    fetch(`/accounts/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: sessionStorage.getItem('access_token'),
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+
+        if (data) {
+          logout();
+          navigator('/');
+        }
+      })
+      .catch((error) => {
+        throw Error(error.message);
+      });
+  };
+
+  // const onRemove = async (e) => {
+  //   e.preventDefault();
+  //   if (disabled) return;
+
+  //   fetch(`/accounts/${id}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       Authorization: sessionStorage.getItem('access_token'),
+  //     },
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw Error('유효하지 않은 요청입니다.');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       if (data) {
+  //         showToast(data);
+  //         logout();
+  //         navigator('/');
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       throw Error(error.message);
+  //     });
+  // };
 
   return (
     <>
@@ -118,10 +136,8 @@ const DeleteProfile = () => {
                 type="checkbox"
                 id="check"
                 className="my-3 mx-1.5 flex"
-                onChange={(e) => {
-                  changeHandler(e.currentTarget.checked, 'check');
-                }}
-                checked={checkBox.includes('check') ? true : false}
+                onChange={changeHandler}
+                checked={checkBox}
               />
               <p className="p-0.5 m-1">
                 I have read the information stated above and understand the
@@ -129,19 +145,17 @@ const DeleteProfile = () => {
                 with the deletion of my profile.
               </p>
             </div>
-            {/* <Link to="/"> */}
             <button
               className={
-                !disabled
-                  ? ' bg-danger-400 text-white p-2.5 rounded'
-                  : ' bg-danger-700 text-white p-2.5 rounded '
+                disabled
+                  ? 'bg-danger-700 text-white p-2.5 rounded'
+                  : 'bg-danger-400 text-white p-2.5 rounded'
               }
               disabled={disabled}
               onClick={onRemove}
             >
               Delete profile
             </button>
-            {/* </Link> */}
           </form>
         </div>
       </div>

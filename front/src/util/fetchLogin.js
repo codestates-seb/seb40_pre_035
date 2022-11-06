@@ -1,6 +1,5 @@
 import { showToast } from '../components/toast/Toast';
 export const BASE_URL = 'http://13.125.238.70:8080'; // 다른페이지에서 아직 참조중이라 남겨둡니다
-import { showToast } from '../components/toast/Toast';
 
 export const fetchLogin = async (data) => {
   return fetch(`/auth/login`, {

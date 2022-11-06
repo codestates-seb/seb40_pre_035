@@ -75,6 +75,8 @@ const EditProfile = () => {
       });
   }, []);
 
+  const userName = idData?.nickname;
+
   const onChange = async (e) => {
     setProfileFile(e.target.files[0]);
     await fetchUploadImage(e.target.files[0]).then((path) => {
@@ -112,14 +114,6 @@ const EditProfile = () => {
         console.log(error.message);
       });
   };
-
-  // const onUploadImage = async (blob, callback) => {
-  //   await fetchUploadImage(blob).then((path) => {
-  //     console.log(path);
-  //     callback(path, blob.name);
-  //   });
-  //   return false;
-  // };
 
   return (
     <>
@@ -182,8 +176,9 @@ const EditProfile = () => {
             <input
               type="text"
               value={username}
+              placeholder={userName}
               onChange={handleUserName}
-              className="w-3/6 p-1 border rounded border-soGray-normal"
+              className="w-3/6 p-1 pl-1.5 border rounded border-soGray-normal"
             />
             {usernameError && (
               <p className="text-sm text-danger-500">
@@ -224,14 +219,13 @@ const EditProfile = () => {
             </p>
           </div>
           <div>
-            <Link to={`/mypage/${id}`}>
-              <button
-                className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium"
-                onClick={onSubmit}
-              >
-                Save profile
-              </button>
-            </Link>
+            <button
+              className="m-1.5 p-2.5 bg-buttonPrimary rounded text-white font-medium"
+              onClick={onSubmit}
+            >
+              Save profile
+            </button>
+
             <Link to={`/mypage/${id}`}>
               <button className="m-1.5 p-2.5 rounded text-blue-600 font-medium text-buttonPrimary">
                 Cancel

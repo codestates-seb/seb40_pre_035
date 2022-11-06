@@ -25,7 +25,7 @@ const Summary = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`/answers/account/${id}?page=1&size=3&sort=id%2Cdesc`)
+    fetch(`/answers/account/${id}?page=1&size=5&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -44,7 +44,7 @@ const Summary = () => {
   const answersContent = answers?.content;
 
   useEffect(() => {
-    fetch(`/questions/account/${id}?page=1&size=3&sort=id%2Cdesc`)
+    fetch(`/questions/account/${id}?page=1&size=5&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -107,7 +107,7 @@ const Summary = () => {
                     </p>
                   </div>
                   <div className="mb-0.5 pl-1 text-secondary-500 grow overflow-hidden whitespace-nowrap text-ellipsis">
-                    <a href={`../question/${el.id}`}>{el.content}</a>
+                    <a href={`../question/${el.questionId}`}>{el.content}</a>
                   </div>
                   <div className="flex items-center justify-center text-xs text-right">
                     {new Date(el.createdAt).toLocaleDateString(

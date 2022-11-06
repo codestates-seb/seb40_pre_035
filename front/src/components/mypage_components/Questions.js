@@ -22,6 +22,10 @@ const Questions = () => {
       });
   }, []);
 
+  const login = () => {
+    return sessionStorage.userEmail === data?.email;
+  };
+
   const isLogin = {
     true: 'p-3 border-t border-soGray-normal',
     false: 'p-3 hidden border-t border-soGray-normal',
@@ -75,7 +79,7 @@ const Questions = () => {
         ) : (
           ''
         )}
-        <div className={isLogin[true ?? false]}>
+        <div className={isLogin[login() ?? false]}>
           <Link to="/" className="text-secondary-500">
             Deleted answers
           </Link>

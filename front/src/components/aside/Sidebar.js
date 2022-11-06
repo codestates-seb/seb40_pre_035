@@ -15,7 +15,7 @@ function Sidebar() {
           path === ''
             ? 'bg-soGray-bg border-r-4 border-solid border-primary-400 font-semibold'
             : ''
-        } pl-5 py-2 mt-9 mb-2 font-normal`}
+        } pl-5 py-2 mt-9 mb-2 font-normal hover:font-semibold`}
       >
         <Link to="/" onClick={onClick}>
           Home
@@ -29,7 +29,7 @@ function Sidebar() {
               path === 'question'
                 ? 'bg-soGray-bg border-r-4 border-solid border-primary-400 font-semibold'
                 : ''
-            } flex justify-start flex-row pl-5 py-2 my-2 text-[15px] font-normal`}
+            } flex justify-start flex-row pl-5 py-2 my-2 hover:font-semibold text-[15px] font-normal`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

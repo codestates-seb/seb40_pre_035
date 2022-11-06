@@ -64,7 +64,7 @@ function QuestionList() {
       <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px] flex-grow-0 flex-shrink-0 basis-[164px]">
         <Sidebar />
       </nav>
-      <div className="so-main-content so-with-both-side">
+      <div className="so-main-content so-with-both-side border-r-white">
         <div className="flex flex-row items-center justify-between px-6 py-8">
           <h2 className="text-xxl">Questions</h2>
           <Link to="/question/create" className="so-button-primary">
@@ -72,10 +72,10 @@ function QuestionList() {
           </Link>
         </div>
         <div className="flex items-center px-4 flex-nowrap justify-between mb-4 ">
-          <div className="flex">Question 총 개수</div>
+          <div className="flex px-3 xl">{pageInfo.totalElements} questions</div>
           <div className="filter flex">
             <div
-              className="inline-flex object-right rounded-md shadow-sm"
+              className="inline-flex object-right rounded-md shadow-sm pr-2"
               role="group"
             >
               <button
@@ -114,16 +114,20 @@ function QuestionList() {
             </div>
           )}
         </div>
-        {pageInfo && (
-          <Pagination
-            currentPage={currPage}
-            pageInfo={pageInfo}
-            setCurrPage={setCurrPage}
-            setIsUpdate={setIsUpdate}
-            onPageChange={onPageChange}
-            onClickPage={onClickPage}
-          />
-        )}
+        <div className="border-t border-soGray-light">
+          <div className="mt-12">
+            {pageInfo && (
+              <Pagination
+                currentPage={currPage}
+                pageInfo={pageInfo}
+                setCurrPage={setCurrPage}
+                setIsUpdate={setIsUpdate}
+                onPageChange={onPageChange}
+                onClickPage={onClickPage}
+              />
+            )}
+          </div>
+        </div>
       </div>
       <aside className="w-[280px] flex-grow-0 flex-shrink-0 basis-[280px]">
         <SidebarRight />

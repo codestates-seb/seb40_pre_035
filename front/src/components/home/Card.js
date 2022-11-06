@@ -3,7 +3,7 @@ import { relTimeFormat } from '../../util/convertor';
 
 function Card({ item }) {
   return (
-    <div className="w-auto p-4 pr-0 leading-7 text-left border-b text-md border-soGray-light">
+    <div className="w-auto p-4 pr-0 leading-7 text-left border-t text-md border-soGray-light">
       <div className="flex w-full">
         <div className="text-[13px] text-right mt-1 mr-6 shrink-0 grow-0 basis-[80px]">
           <div className="Vote">{item.totalVote} votes</div>

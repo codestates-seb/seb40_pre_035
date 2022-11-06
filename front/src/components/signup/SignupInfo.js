@@ -37,7 +37,8 @@ const SignupInfo = () => {
     }
   }
   function checkEmail() {
-    const emailRegexp = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    const emailRegexp =
+      /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,}$/;
     if (!email || !emailRegexp.test(email)) {
       setEmailError(true);
       return false;
@@ -47,7 +48,7 @@ const SignupInfo = () => {
     }
   }
   function checkPassword() {
-    const passwordRegexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegexp = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,}$/;
     if (!password || !passwordRegexp.test(password)) {
       setPasswordError(true);
       return false;
@@ -77,17 +78,9 @@ const SignupInfo = () => {
       return true;
     }
     return false;
-    // if (!usernameError && !passwordError && !emailError) {
-    //   console.log('signup ready');
-    //   return true;
-    // }
-    // return false;
   }
 
   function onSubmit(event) {
-    // validation()
-    //   ? setIsValidate((check) => (check = true))
-    //   : setIsValidate((check) => (check = false));
     event.preventDefault();
 
     if (validation()) {
@@ -113,10 +106,6 @@ const SignupInfo = () => {
     const b64data = defaultImage.current.currentSrc;
     let imagefile = dataURLtoFile(b64data, 'defaultImage.jpeg');
     return imagefile;
-  };
-
-  const goLogin = () => {
-    navigate('/login');
   };
 
   const onUpload = async (callback) => {

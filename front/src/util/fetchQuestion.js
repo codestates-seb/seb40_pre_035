@@ -11,20 +11,27 @@ export const fetchQuestionDetail = async (id) => {
       throw Error(error.message);
     });
 };
+const searchTemp = '';
 
-export const fetchQuestionList = async (page, filter) => {
+export const fetchQuestionList = async (page, filter, searchText) => {
   console.log('Question 리스트가 조회됩니다.');
   console.log('page: ' + page);
   console.log('filter: ' + filter);
+  console.log(searchText);
   let url = null;
   if (filter === 'unanswered') {
     url = `/questions/unAnswered?page=${page}&size=10&sort=createdAt%2Cdesc`;
     console.log('url: ' + url);
+  } else if (filter === 'newest' && searchText !== searchTemp) {
+    url = `/questions/unAnswered?page=${page}&size=10&sort=id%2Cdesc&keyword=${searchText}`;
+    // vote
+    console.log(searchText);
+    console.log('url:' + url);
   } else if (filter === 'newest') {
     url = `/questions?page=${page}&size=10&sort=createdAt%2Cdesc`;
     console.log('url: ' + url);
-  } else {
-    // vote
+  } else if (filter === 'vote') {
+    url = `/questions/totalVote?page=${page}&size=10&`;
   }
 
   return fetch(url)

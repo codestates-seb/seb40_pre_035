@@ -17,7 +17,7 @@ const Pagination = ({
             onClick={onChangePagination}
             className={`py-1 px-2 font-regular
              bg-white rounded border border-soGray-normal hover:bg-soGray-light ${
-               i === currentPage && 'text-white bg-primary-400'
+               i + 1 === currentPage && 'text-white bg-primary-400'
              }`}
           >
             {i + 1}

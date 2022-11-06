@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Viewer } from '@toast-ui/react-editor';
-import Sidebar from '../components/sidebar/Sidebar';
-import QuestionDeleteModal from '../components/questions/QustionDeleteModal';
+import Sidebar from '../components/aside/Sidebar';
+import QuestionDeleteModal from '../components/modal/QustionDeleteModal';
 import AnswerList from '../components/answers/AnswerList';
 import AnswerCreate from '../components/answers/AnswerCreate';
 import Loading from '../components/loading/Loading';
-import renderToMarkdown from '../util/renderMarkdown';
-import relTimeFormat from '../util/relativeTimeFormat';
+import { relTimeFormat } from '../util/convertor';
 import { fetchQuestionDetail } from '../util/fetchQuestion';
 import { fetchQuestionVote } from '../util/fetchVote';
 import { fetchAnswerList } from '../util/fetchAnswer';
@@ -58,13 +57,13 @@ function QuestionDetail() {
     setUpdate(flag);
   };
 
-  const checkIfAuthor = (userInfo) => {
+  const checkIfAuthor = (info) => {
     if (token && currUser) {
-      const author = userInfo.email;
+      const author = info.account.email;
       if (author !== currUser) return '';
       return (
         <div>
-          <button onClick={onClickEdit} data-target={info.id} className="mr-2">
+          <button onClick={() => onClickEdit(info.id)} className="mr-2">
             Edit
           </button>
           |
@@ -79,6 +78,7 @@ function QuestionDetail() {
   const onClickQUpVote = (id) => {
     if (!token) {
       showToast('Please Login first.', 'danger');
+      return;
     }
     setIsClickQUpVote(true);
     fetchQuestionVote(id, 'UP').then((message) => {
@@ -98,6 +98,7 @@ function QuestionDetail() {
   const onClickQDownVote = (id) => {
     if (!token) {
       showToast('Please Login first.', 'danger');
+      return;
     }
     setIsClickQDownVote(true);
     fetchQuestionVote(id, 'DOWN').then((message) => {
@@ -154,18 +155,22 @@ function QuestionDetail() {
             </div>
 
             <div className="flex flex-row text-sm user-info align-center">
-              <Link className="flex mr-4" to={`/mypage/${info.account.id}`}>
-                {info.account.profile && (
+              <Link
+                to={`/mypage/${info.account.id}`}
+                className="flex items-center mr-4"
+              >
+                {info.account.profile &&
+                info.account.profile !== 'test/path' ? (
                   <img
+                    className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"
                     src={info.account.profile}
-                    alt={`${info.account?.nickname}'s user avatar`}
-                    width="16"
-                    height="16"
-                    className="mr-2"
+                    alt={`${info.account.nickname}'s Avatar`}
                   />
+                ) : (
+                  <span className="w-full h-full border border-buttonSecondary rounded w-[20px] h-[20px] mr-2"></span>
                 )}
-                <span className="text-soGray-darker">
-                  {info.account?.nickname}
+                <span className="font-semibold text-soGray-darker">
+                  {info.account.nickname}
                 </span>
               </Link>
               <time className="mr-4 s-user-card--time">
@@ -179,7 +184,7 @@ function QuestionDetail() {
                   {relTimeFormat(info.createdAt)}
                 </span>
               </time>
-              {info && checkIfAuthor(info.account)}
+              {info && checkIfAuthor(info)}
             </div>
           </div>
           <div className="mb-10 question-body">
@@ -187,52 +192,47 @@ function QuestionDetail() {
               aria-label="question and answers"
               className="flex flex-row p-6"
             >
-              <div className="flex justify-center mr-4 question-votes">
-                <div className="flex flex-col mr-4 vote-group">
-                  <button
-                    className="flex justify-center"
-                    aria-label="Up vote"
-                    data-status="UP"
-                    onClick={() => onClickQUpVote(info.id)}
+              <div className="flex flex-col mr-8 vote-group">
+                <button
+                  className="flex justify-center"
+                  aria-label="Up vote"
+                  data-status="UP"
+                  onClick={() => onClickQUpVote(info.id)}
+                >
+                  <svg
+                    aria-hidden="true"
+                    className="svg-icon iconArrowUpLg"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill={isClickQUpVote ? '#f48225' : '#BABFC3'}
                   >
-                    <svg
-                      aria-hidden="true"
-                      className="svg-icon iconArrowUpLg"
-                      width="36"
-                      height="36"
-                      viewBox="0 0 36 36"
-                      fill={isClickQUpVote ? '#f48225' : '#BABFC3'}
-                    >
-                      <path d="M2 25h32L18 9 2 25Z"></path>
-                    </svg>
-                  </button>
-                  <div className="flex justify-center my-3">
-                    {info ? info.totalVote : ''}
-                  </div>
-                  <button
-                    className="flex justify-center"
-                    aria-label="Down vote"
-                    data-status="DOWN"
-                    onClick={() => onClickQDownVote(info.id)}
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="svg-icon iconArrowDownLg"
-                      width="36"
-                      height="36"
-                      viewBox="0 0 36 36"
-                      fill={isClickQDownVote ? '#f48225' : '#BABFC3'}
-                    >
-                      <path d="M2 11h32L18 27 2 11Z"></path>
-                    </svg>
-                  </button>
+                    <path d="M2 25h32L18 9 2 25Z"></path>
+                  </svg>
+                </button>
+                <div className="flex justify-center my-3">
+                  {info ? info.totalVote : ''}
                 </div>
+                <button
+                  className="flex justify-center"
+                  aria-label="Down vote"
+                  data-status="DOWN"
+                  onClick={() => onClickQDownVote(info.id)}
+                >
+                  <svg
+                    aria-hidden="true"
+                    className="svg-icon iconArrowDownLg"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill={isClickQDownVote ? '#f48225' : '#BABFC3'}
+                  >
+                    <path d="M2 11h32L18 27 2 11Z"></path>
+                  </svg>
+                </button>
               </div>
               <div className="flex-auto question-content">
-                <Viewer
-                  viewer="true"
-                  initialValue={renderToMarkdown(info.content)}
-                />
+                <Viewer viewer="true" initialValue={info.content} />
               </div>
             </div>
           </div>

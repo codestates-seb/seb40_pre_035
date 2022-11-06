@@ -1,14 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Editor from '../components/editor/Editor';
 import { fetchCreateQuestion } from '../util/fetchQuestion';
 import { checkIfLogined } from '../util/fetchLogin';
 import { showToast } from '../components/toast/Toast';
+import { Editor } from '../components/editor/Editor';
 
 function QuestionCreate() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const navigator = useNavigate();
+
+  useEffect(() => {
+    try {
+      checkIfLogined().then(() => {
+        console.log(`✅ 로그인 성공`);
+      });
+    } catch (error) {
+      console.log(`🛑 ${error}`);
+    }
+  }, []);
 
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -22,19 +33,18 @@ function QuestionCreate() {
     navigator('/question');
   };
 
-  const onClickSubmit = () => {
+  const onClickSubmit = async () => {
     if (title.length < 10) {
       showToast('Minimum 10 characters.');
     } else if (content.length < 50) {
       showToast('Minimum 50 characters.');
     } else {
-      fetchCreateQuestion({ title, content });
+      await fetchCreateQuestion({ title, content }).then((id) => {
+        console.log(id);
+        navigate(`/question/${id}`);
+      });
     }
   };
-
-  useEffect(() => {
-    checkIfLogined();
-  }, []);
 
   return (
     <div className="so-askQuestion">
@@ -112,7 +122,6 @@ function QuestionCreate() {
           className="mr-3 so-button-primary"
           type="button"
           autoComplete="off"
-          disabled=""
           onClick={onClickSubmit}
         >
           Review your question
@@ -121,7 +130,6 @@ function QuestionCreate() {
         <div className="flex--item">
           <button
             className="so-button-dismiss text-danger-700"
-            data-action="s-modal#show"
             type="button"
             onClick={onClickDiscard}
           >

@@ -1,8 +1,7 @@
 import '../../components/common.css';
 import { useState, useEffect } from 'react';
-import { fetchLogin, fetchUserInfo } from '../../util/fetchLogin';
+import { fetchLogin } from './../../util/fetchLogin';
 import { useNavigate } from 'react-router-dom';
-import { showToast } from '../toast/Toast';
 const LoginInfo = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');

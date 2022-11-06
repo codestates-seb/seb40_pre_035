@@ -109,7 +109,7 @@ const SignupInfo = () => {
 
     return new File([u8arr], fileName, { type: mime });
   };
-  const getRandomImage = async () => {
+  const getImage = async () => {
     const b64data = defaultImage.current.currentSrc;
     let imagefile = dataURLtoFile(b64data, 'defaultImage.jpeg');
     return imagefile;
@@ -121,7 +121,7 @@ const SignupInfo = () => {
 
   const onUpload = async (callback) => {
     const formData = new FormData();
-    const finalImage = await getRandomImage();
+    const finalImage = await getImage();
     formData.append('profile', finalImage);
     formData.append('email', email);
     formData.append('password', password);

@@ -105,6 +105,7 @@ const LoginInfo = () => {
             <div className="flex items-center">
               <div className="font-bold">Password</div>
               <a
+                tabIndex="-1"
                 href="./login"
                 className="ml-auto align-bottom text-xxs text-secondary-500 hover:text-secondary-300"
               >

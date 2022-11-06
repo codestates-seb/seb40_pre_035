@@ -52,7 +52,7 @@ const Answers = () => {
             >
               <div className="text-xs font-medium">{el.totalVote} votes</div>
               <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis text-secondary-500">
-                <a href={`../question/detail/${el.id}`}>{el.content}</a>
+                <a href={`../question/${el.id}`}>{el.content}</a>
               </div>
               <div className="text-xs text-right">
                 anwsered{' '}

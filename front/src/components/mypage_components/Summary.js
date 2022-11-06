@@ -107,7 +107,7 @@ const Summary = () => {
                     </p>
                   </div>
                   <div className="mb-0.5 pl-1 text-secondary-500 grow overflow-hidden whitespace-nowrap text-ellipsis">
-                    <a href={`../question/detail/${el.id}`}>{el.content}</a>
+                    <a href={`../question/${el.id}`}>{el.content}</a>
                   </div>
                   <div className="flex items-center justify-center text-xs text-right">
                     {new Date(el.createdAt).toLocaleDateString(
@@ -152,7 +152,7 @@ const Summary = () => {
                     </p>
                   </div>
                   <div className="mb-0.5 pl-1 text-secondary-500 grow overflow-hidden whitespace-nowrap text-ellipsis">
-                    <a href={`../question/detail/${el.id}`}>{el.content}</a>
+                    <a href={`../question/${el.id}`}>{el.content}</a>
                   </div>
                   <div className="flex items-center justify-center text-xs text-right">
                     {new Date(el.createdAt).toLocaleDateString(

@@ -1,7 +1,7 @@
 // import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Profile from '../components/mypage_components/Profile';
-import Sidebar from '../components/sidebar/Sidebar';
+import Sidebar from '../components/aside/Sidebar';
 import Activitise from '../components/mypage_components/Activities';
 import Settings from '../components/mypage_components/Settings';
 

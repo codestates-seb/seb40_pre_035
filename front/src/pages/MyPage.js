@@ -8,11 +8,11 @@ import Settings from '../components/mypage_components/Settings';
 function MyPage() {
   return (
     <div className="so-main-wrapper">
-      <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px]">
+      <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px] flex-grow-0 flex-shrink-0 basis-[164px]">
         <Sidebar />
       </nav>
       <div className="so-main-content so-with-one-side">
-        <div className="p-6">
+        <div className="p-6 w-[1051px]">
           <Profile />
           <Routes>
             <Route exact path="/" element={<Activitise />} />

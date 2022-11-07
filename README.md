@@ -50,6 +50,75 @@ Stack Overflow Clone Coding
 
 ### **Back-end**
 
+<img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=Java&logoColor=white" width="125" height="50"> <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white" width="175" height="50"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white" width="225" height="50"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white" width="175" height="50"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white" width="225" height="50"> <img src="https://img.shields.io/badge/Mysql-4479A1?style=for-the-badge&logo=Mysql&logoColor=white" width="175" height="50"> <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json web tokens&logoColor=white" width="175" height="50">
+
+## **💻local 실행 방법**
+
+### **Back-end**
+
+#### 1. java 설치
+
+`sudo apt update`
+
+`sudo apt install openjdk-11-jre-headless`
+
+위 명령어를 터미널에서 실행
+
+#### 2. git clone 해오기
+
+```bash
+git clone git@github.com:codestates-seb/seb40_pre_035.git
+```
+
+![image](https://user-images.githubusercontent.com/77265289/200238459-5df44229-4011-4dfd-a03f-c6af1201b5be.png)
+
+- local 브랜치 생성 및 이동
+
+![image](https://user-images.githubusercontent.com/77265289/200238547-9c434644-6a2c-40f3-b095-8adc9dfdcb48.png)
+
+- local 브랜치 pull
+
+![image](https://user-images.githubusercontent.com/77265289/200238620-2a35f9fe-7174-4f56-af99-7c6e905e626a.png)
+
+#### 3. application.yml 파일 설정
+
+- application.yml에 파일이 저장될 경로를 지정
+
+설정 예시)
+
+![image](https://user-images.githubusercontent.com/77265289/200238651-8e5bb297-4566-40a8-a113-f13f7def32b0.png)
+
+![image](https://user-images.githubusercontent.com/77265289/200238689-1f96510e-c344-484e-b128-173ed87f4ebd.png)
+
+local 경로에서 파일이 저장될 위치를 지정해주어야 합니다.
+
+#### 4. build
+
+back 폴더로 가서 build를 실행합니다.
+
+![image](https://user-images.githubusercontent.com/77265289/200238740-c61c704c-ed57-49c0-bfb8-c018d10c99c2.png)
+
+#### 5. 실행
+
+back폴더에서 다음 명령어 실행
+
+![image](https://user-images.githubusercontent.com/77265289/200238782-d2685809-2361-44ea-8b37-e3b427a3b202.png)
+
+- 백그라운드에서 실행하는 방법
+
+![image](https://user-images.githubusercontent.com/77265289/200238862-80960451-415b-407f-80f9-5a875d57ddd8.png)
+
+- 백그라운드에서 실행되고있는 spring 끄기
+
+다음 명령어로 PID 찾기
+
+![image](https://user-images.githubusercontent.com/77265289/200238921-4847a27b-5479-42e3-b46c-5e68ec3e29cd.png)
+
+![image](https://user-images.githubusercontent.com/77265289/200238966-2915c166-bee4-4ad7-af69-753f7c01fef5.png)
+
+삭제
+
+![image](https://user-images.githubusercontent.com/77265289/200239005-1e2d0d94-2e9a-4035-8597-22729c03e000.png)
 
 ### **Common**
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white" width="125" height="50"> 

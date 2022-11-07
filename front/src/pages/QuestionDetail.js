@@ -250,7 +250,7 @@ function QuestionDetail() {
                 </button>
               </div>
               <div className="flex-auto question-content">
-                <Viewer viewer="true" initialValue={info.content} />
+                <Viewer viewer="true" initialValue={JSON.parse(info.content)} />
               </div>
             </div>
           </div>

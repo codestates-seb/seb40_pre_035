@@ -162,7 +162,8 @@ function AnswerItem({ item, author, updated, selected }) {
         {item && checkIfAuthorForSelect(item, author)}
       </div>
       <div className="flex-auto question-item">
-        <Viewer initialValue={item.content} />
+        {console.log()}
+        <Viewer initialValue={JSON.parse(item.content)} />
         <div className="flex flex-row mt-4 text-sm user-info align-center justify-end">
           <Link
             to={`/mypage/${item.account.id}`}

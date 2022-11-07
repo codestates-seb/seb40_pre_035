@@ -22,14 +22,20 @@ const Questions = ({ idData }) => {
       });
   }, []);
 
-  const login = () => {
-    return sessionStorage.userEmail === idData?.email;
+  const answerType = (count, selected) => {
+    if (selected) return 'so-answers-type3';
+    if (+count > 0) return 'so-answers-type2';
+    else return 'font-medium text-soGray-light';
   };
 
-  const isLogin = {
-    true: 'p-3 border-t border-soGray-normal',
-    false: 'p-3 hidden border-t border-soGray-normal',
-  };
+  // const login = () => {
+  //   return sessionStorage.userEmail === idData?.email;
+  // };
+
+  // const isLogin = {
+  //   true: 'p-3 border-t border-soGray-normal',
+  //   false: 'p-3 hidden border-t border-soGray-normal',
+  // };
   const options = {
     month: 'short',
     day: 'numeric',
@@ -53,7 +59,28 @@ const Questions = ({ idData }) => {
               key={index}
               className="p-4 border-t border-soGray-normal first:border-none"
             >
-              <div className="text-xs font-medium">{el.totalVote} votes</div>
+              <div className="flex items-center text-[13px] mt-1 mr-6 basis-[100px]">
+                <div className="pr-2 font-medium">{el.totalVote} votes</div>
+                <div
+                  className={`${answerType(el.answerCount, el.selectedAnswer)}`}
+                >
+                  {el.selectedAnswer ? (
+                    <svg
+                      aria-hidden="true"
+                      className="mr-2 svg-icon iconCheckmarkSm"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="#fff"
+                    >
+                      <path d="M13 3.41 11.59 2 5 8.59 2.41 6 1 7.41l4 4 8-8Z"></path>
+                    </svg>
+                  ) : (
+                    ''
+                  )}
+                  <span>{el.answerCount} answers</span>
+                </div>
+              </div>
               <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis text-secondary-500 ">
                 <a href={`../question/${el.id}`}>{el.content}</a>
               </div>

@@ -82,7 +82,11 @@ const Questions = ({ idData }) => {
                 </div>
               </div>
               <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis text-secondary-500 ">
-                <a href={`../question/${el.id}`}>{el.content}</a>
+                <a href={`../question/${el.id}`}>
+                  {' '}
+                  {el.content &&
+                    el.content.replace(/"/g, '').replace(/<[^>]*>?/g, '')}
+                </a>
               </div>
               <div className="text-sm text-right">
                 asked{' '}

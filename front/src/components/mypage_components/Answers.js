@@ -79,7 +79,11 @@ const Answers = () => {
                 </div>
               </div>
               <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis text-secondary-500">
-                <a href={`../question/${el.questionId}`}>{el.content}</a>
+                <a href={`../question/${el.questionId}`}>
+                  {' '}
+                  {el.content &&
+                    el.content.replace(/"/g, '').replace(/<[^>]*>?/g, '')}
+                </a>
               </div>
               <div className="text-xs text-right">
                 anwsered{' '}

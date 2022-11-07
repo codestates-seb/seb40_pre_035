@@ -5,7 +5,7 @@
 
 |![노민하](https://avatars.githubusercontent.com/u/53070295?v=4)|![김예현](https://avatars.githubusercontent.com/u/107603123?v=4)|![신병규](https://avatars.githubusercontent.com/u/94808683?v=4)|![김민아](https://avatars.githubusercontent.com/u/36831218?v=4)|![김동진](https://avatars.githubusercontent.com/u/94734089?v=4)|![백승필](https://avatars.githubusercontent.com/u/71927001?v=4)|![박성우](https://avatars.githubusercontent.com/u/77265289?v=4)|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|[노민하](https://github.com/MinaRoh)|[김예현](https://github.com/roxpray)|[신병규](https://github.com/byeonggyu-shin)|[김민아](https://github.com/rmaomina)|[김동진](https://github.com/PNUHCT)|[백승필](https://github.com/philE22)|[박성우](https://github.com/hipopotamus)|
+|[노민하](https://github.com/MinaRoh)|[김예현](https://github.com/roxpray)|[신병규](https://github.com/byeonggyu-shin)|[김민아](https://github.com/rmaomina)|[김동진](https://github.com/PNUHCT)|[백승필](https://github.com/philE22)|👑팀장 [박성우](https://github.com/hipopotamus)|
 |FE|FE|FE|FE|BE|BE|BE|
 
 ## **✨서비스 소개**

@@ -36,7 +36,8 @@ const EditProfile = () => {
     } else setUsernameError(false);
   }
   function checkPassword() {
-    const passwordRegexp = /(?=.\d)(?=.[a-zA-ZS]).{8,}$/;
+    const passwordRegexp =
+      /^(?=.[A-Za-z])(?=.\d)[a-zA-Z\d`~!@#$%^&*()-_=+]{8,}$/;
     if (password.length === 0 || passwordRegexp.test(password)) {
       setPasswordError(true);
     } else setPasswordError(false);
@@ -96,7 +97,7 @@ const EditProfile = () => {
     });
   };
 
-  console.log(profileFile);
+  // console.log(profileFile);
 
   const onEdit = () => {
     const formData = new FormData();

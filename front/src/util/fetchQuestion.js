@@ -27,7 +27,7 @@ export const fetchQuestionList = async (page, filter, searchText) => {
     }
   } else if (filter === 'newest') {
     if (searchText !== searchTemp && searchText !== null) {
-      url = `/questions/unAnswered?page=${page}&size=10&sort=id%2Cdesc&keyword=${searchText}`;
+      url = `/questions?page=${page}&size=10&sort=id%2Cdesc&keyword=${searchText}`;
     } else {
       url = `/questions?page=${page}&size=10&sort=createdAt%2Cdesc`;
       console.log('url: ' + url);

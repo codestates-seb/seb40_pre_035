@@ -181,7 +181,10 @@ const SignupInfo = () => {
               least 1 letter and 1 number.
             </p>
           </div>
-          <button type="submit" className="w-full mt-10 so-button-primary">
+          <button
+            type="submit"
+            className="justify-center w-full mt-10 so-button-primary"
+          >
             Sign up
           </button>
 

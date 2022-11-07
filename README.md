@@ -1,6 +1,7 @@
 # Team. 3355
 안녕하세요. 삼삼오오 모인 3355팀입니다!😉
 
+
 ## 😋 **팀원 소개**
 
 |![노민하](https://avatars.githubusercontent.com/u/53070295?v=4)|![김예현](https://avatars.githubusercontent.com/u/107603123?v=4)|![신병규](https://avatars.githubusercontent.com/u/94808683?v=4)|![김민아](https://avatars.githubusercontent.com/u/36831218?v=4)|![김동진](https://avatars.githubusercontent.com/u/94734089?v=4)|![백승필](https://avatars.githubusercontent.com/u/71927001?v=4)|![박성우](https://avatars.githubusercontent.com/u/77265289?v=4)|
@@ -43,19 +44,41 @@ Stack Overflow Clone Coding
 
 ### **Front-end**
 
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" width="225" height="50"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black" width="175" height="50"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white" width="150" height="50"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white" width="125" height="50"> <img src="https://img.shields.io/badge/redux toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white" width="225" height="50"> <img src="https://img.shields.io/badge/tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" width="200" height="50"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white" width="125" height="50">
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" width="225" height="50"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black" width="175" height="50"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white" width="150" height="50"> <img src="https://img.shields.io/badge/tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" width="200" height="50"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white" width="125" height="50">
 
 
 
 ### **Back-end**
 
+
+### **Common**
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white" width="125" height="50"> 
+
 ## **🏄‍♀️User Flow**
 
 <img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/7ce2d043-7dcc-4e3c-96cb-ec49591f0bce/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221106%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221106T075704Z&X-Amz-Expires=86400&X-Amz-Signature=c3d087601e8dc4abdc792044c1bcd7e910555ad560ff5a2fde1a94a80bbe3c77&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
 
-## **Demo**
+## **👍Demo**
 
-### 📍**Home**
+
+###  📍**Home**
 
 <img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f07c2597-04f1-4195-8352-1e7298363e76/Homescreen.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221106%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221106T080443Z&X-Amz-Expires=86400&X-Amz-Signature=da50c37dc9e74f1353f2dbbec0b346083e6a3a39321429f0b5b0d228a1a9d69d&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Homescreen.png%22&x-id=GetObject">
+
+### 📍**Question Detail**
+
+<img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/97349071-d69c-4cad-bca0-a1f25f8c0460/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221107%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221107T062021Z&X-Amz-Expires=86400&X-Amz-Signature=c57160b5d60a1ab5813cef8bf32463e76ea26b9c43d3ff97f4273ca6f47d86b1&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
+
+### 📍**Question Create**
+![Kapture 2022-11-07 at 15 39 53](https://user-images.githubusercontent.com/53070295/200242000-dab5f8a7-690f-4a83-9568-6c93b11a5c78.gif)
+
+### 📍**Question Search**
+
+<img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2809d97-4c68-4d0f-aed4-6d9c105fb426/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221107%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221107T063330Z&X-Amz-Expires=86400&X-Amz-Signature=5f7050fe4ecf777e92b2b6cdbf7496af11c4340b1c9f4f3e058832691c910832&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
+
+### 📍**Mypage**
+
+<img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0192d707-3b2e-4683-aad5-dd782ac36b43/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221107%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221107T063157Z&X-Amz-Expires=86400&X-Amz-Signature=0888dab9327f79d4f5f37d8c7b1d5b6e03d176fbd1da02f75e364238ea94a1cb&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
+
+
 

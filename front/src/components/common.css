@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
 
@@ -65,5 +65,17 @@
 
   .so-filter-item {
     @apply px-3 py-1 text-sm border border-soGray-light hover:bg-soGray-bg;
+  }
+
+  .so-answers-type1 {
+    @apply inline-flex items-center justify-end px-2 h-[28px] mr-[-8px] bg-soGray-headerbg rounded-sm border border-soGray-headerbg
+  }
+
+  .so-answers-type2 {
+    @apply inline-flex items-center justify-end px-2 h-[28px] mr-[-8px] bg-white rounded-sm border border-select text-select
+  }
+
+  .so-answers-type3 {
+    @apply inline-flex items-center justify-end px-2 h-[28px] mr-[-8px] bg-select rounded-[4px] border text-white
   }
 }

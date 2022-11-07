@@ -5,5 +5,7 @@ export function Icon(icon) {
 }
 
 export function relTimeFormat(createdAt) {
-  return moment(createdAt).fromNow();
+  const changed = moment(createdAt) + 33193666;
+
+  return moment(changed).fromNow();
 }

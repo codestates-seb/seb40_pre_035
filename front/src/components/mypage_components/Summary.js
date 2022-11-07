@@ -107,11 +107,11 @@ const Summary = () => {
                     </p>
                   </div>
                   <div className="mb-0.5 pl-1 text-secondary-500 overflow-hidden whitespace-nowrap text-ellipsis">
-                    <a href={`../question/${el.questionId}`}>
+                    <Link to={`/question/${el.questionId}`}>
                       {' '}
                       {el.content &&
                         el.content.replace(/"/g, '').replace(/<[^>]*>?/g, '')}
-                    </a>
+                    </Link>
                   </div>
                   <div className="flex items-center justify-center text-xs text-right">
                     {new Date(el.createdAt).toLocaleDateString(
@@ -156,11 +156,11 @@ const Summary = () => {
                     </p>
                   </div>
                   <div className="mb-0.5 pl-1 text-secondary-500 overflow-hidden whitespace-nowrap text-ellipsis">
-                    <a href={`../question/${el.id}`}>
+                    <Link to={`/question/${el.id}`}>
                       {' '}
                       {el.content &&
                         el.content.replace(/"/g, '').replace(/<[^>]*>?/g, '')}
-                    </a>
+                    </Link>
                   </div>
                   <div className="flex items-center justify-center text-xs text-right">
                     {new Date(el.createdAt).toLocaleDateString(

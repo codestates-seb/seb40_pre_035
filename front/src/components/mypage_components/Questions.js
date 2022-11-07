@@ -50,7 +50,7 @@ const Questions = ({ idData }) => {
   return (
     <div className="w-full m-3">
       <p className="mb-2 text-2xl font-medium">
-        {data?.content.length} Answers
+        {data?.content.length} Questions
       </p>{' '}
       <div className="w-full border rounded border-soGray-normal">
         {data?.content.map((el, index) => {
@@ -82,11 +82,11 @@ const Questions = ({ idData }) => {
                 </div>
               </div>
               <div className="block max-w-3xl py-0.5 overflow-hidden whitespace-nowrap text-ellipsis text-secondary-500 ">
-                <a href={`../question/${el.id}`}>
+                <Link to={`/question/${el.id}`}>
                   {' '}
                   {el.content &&
                     el.content.replace(/"/g, '').replace(/<[^>]*>?/g, '')}
-                </a>
+                </Link>
               </div>
               <div className="text-sm text-right">
                 asked{' '}

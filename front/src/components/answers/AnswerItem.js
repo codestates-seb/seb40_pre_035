@@ -73,46 +73,49 @@ function AnswerItem({ item, author, updated, selected }) {
   };
 
   const checkIfAuthorForSelect = (item, author) => {
-    if (token && currUser) {
-      if (author !== currUser) return '';
-      return (
-        <button
-          className="seleted-answer"
-          onClick={() => onClickSelectAnswer(item)}
+    return (
+      <button
+        className="seleted-answer"
+        onClick={() => onClickSelectAnswer(item)}
+      >
+        <svg
+          aria-hidden="true"
+          className="svg-icon iconCheckmarkLg"
+          width="36"
+          height="36"
+          viewBox="0 0 36 36"
+          fill={selected?.id === item.id ? '#2E7044' : '#fff'}
+          stroke="#ccc"
         >
-          <svg
-            aria-hidden="true"
-            className="svg-icon iconCheckmarkLg"
-            width="36"
-            height="36"
-            viewBox="0 0 36 36"
-            fill={selected?.id === item.id ? '#2E7044' : '#fff'}
-            stroke="#ccc"
-          >
-            <path d="m6 14 8 8L30 6v8L14 30l-8-8v-8Z"></path>
-          </svg>
-        </button>
-      );
-    }
+          <path d="m6 14 8 8L30 6v8L14 30l-8-8v-8Z"></path>
+        </svg>
+      </button>
+    );
   };
 
   const onClickSelectAnswer = (item) => {
-    fetchSelectAnswer(item.id).then((data) => {
-      if (data?.status === 400) {
-        showToast('Please cancel the selected answer first.', 'danger');
-        return;
+    if (token && currUser) {
+      if (author !== currUser) {
+        showToast('The author can be select only 🤔', 'danger');
+        return false;
       }
-
-      if (data?.data === 'success select answer') {
-        updated(true);
-
-        if (!selected) {
-          showToast('Success selected answer. ✅');
-        } else if (item.id === selected.id) {
-          showToast('Canceled selected answer. 🤔');
+      fetchSelectAnswer(item.id).then((data) => {
+        if (data?.status === 400) {
+          showToast('Please cancel the selected answer first.', 'danger');
+          return;
         }
-      }
-    });
+
+        if (data?.data === 'success select answer') {
+          updated(true);
+
+          if (!selected) {
+            showToast('Success selected answer. ✅');
+          } else if (item.id === selected.id) {
+            showToast('Canceled selected answer. 🤔');
+          }
+        }
+      });
+    }
   };
 
   return (
@@ -162,9 +165,8 @@ function AnswerItem({ item, author, updated, selected }) {
         {item && checkIfAuthorForSelect(item, author)}
       </div>
       <div className="flex-auto question-item">
-        {console.log()}
         <Viewer initialValue={JSON.parse(item.content)} />
-        <div className="flex flex-row mt-4 text-sm user-info align-center justify-end">
+        <div className="flex flex-row justify-end mt-4 text-sm user-info align-center">
           <Link
             to={`/mypage/${item.account.id}`}
             className="flex items-center mr-2"
@@ -183,7 +185,7 @@ function AnswerItem({ item, author, updated, selected }) {
             </span>
           </Link>
           <time className="mr-3 s-user-card--time">
-            <span className="mr-1 text-soGray-normal">Asked</span>
+            <span className="mr-1 text-soGray-normal">Answered</span>
             <span
               className="text-soGray-darker"
               title={`${item.createdAt.split('T')[0]} ${

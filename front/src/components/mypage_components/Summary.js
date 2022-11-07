@@ -66,8 +66,8 @@ const Summary = () => {
   // console.log(data.content.reduce((pre, cur) => pre.totalVote + cur.totalVote));
 
   return (
-    <div className="flex w-full">
-      <div className="w-4/12 m-3">
+    <div className="flex w-[1051px] overflow-hidden ">
+      <div className="w-4/12 m-3 ">
         <p className="text-2xl font-medium">Stats</p>
         <div className="p-3 m-2 border rounded border-soGray-light">
           <div className="m-3 ">
@@ -85,7 +85,7 @@ const Summary = () => {
         </div>
       </div>
       <div className="flex flex-col justify-between w-8/12 m-3">
-        <div>
+        <div className="">
           <p className="text-2xl font-medium">Answers</p>
 
           <div className="m-2 border rounded border-soGray-light">
@@ -106,7 +106,7 @@ const Summary = () => {
                       {el.totalVote}{' '}
                     </p>
                   </div>
-                  <div className="mb-0.5 pl-1 text-secondary-500 grow overflow-hidden whitespace-nowrap text-ellipsis">
+                  <div className="mb-0.5 pl-1 text-secondary-500 overflow-hidden whitespace-nowrap text-ellipsis">
                     <a href={`../question/${el.questionId}`}>{el.content}</a>
                   </div>
                   <div className="flex items-center justify-center text-xs text-right">
@@ -151,7 +151,7 @@ const Summary = () => {
                       {el.totalVote}
                     </p>
                   </div>
-                  <div className="mb-0.5 pl-1 text-secondary-500 grow overflow-hidden whitespace-nowrap text-ellipsis">
+                  <div className="mb-0.5 pl-1 text-secondary-500 overflow-hidden whitespace-nowrap text-ellipsis">
                     <a href={`../question/${el.id}`}>{el.content}</a>
                   </div>
                   <div className="flex items-center justify-center text-xs text-right">

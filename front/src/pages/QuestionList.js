@@ -60,78 +60,82 @@ function QuestionList() {
   };
 
   return (
-    <div className="so-main-wrapper">
-      <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px] flex-grow-0 flex-shrink-0 basis-[164px]">
-        <Sidebar />
-      </nav>
-      <div className="so-main-content so-with-both-side border-r-white">
-        <div className="flex flex-row items-center justify-between px-6 py-8">
-          <h2 className="text-xxl">Questions</h2>
-          <Link to="/question/create" className="so-button-primary">
-            Ask Question
-          </Link>
-        </div>
-        <div className="flex items-center px-4 flex-nowrap justify-between mb-4 ">
-          <div className="flex px-3 xl">{pageInfo.totalElements} questions</div>
-          <div className="filter flex">
-            <div
-              className="inline-flex object-right rounded-md shadow-sm pr-2"
-              role="group"
-            >
-              <button
-                type="button"
-                value="newest"
-                onClick={onFilterClick}
-                className="mr-[-1px] px-3 py-1.5 text-sm text-black bg-white border rounded-l font-regular border-soGray-light hover:bg-soGray-light focus:z-10 focus:bg-soGray-light"
+    <div className="so-main-wrapper flex flex-col">
+      <div className="flex mx-auto my-0 w-[1400px]">
+        <nav className="sticky max-h-[calc(100vh-180px)] top-[60px] w-[164px] flex-grow-0 flex-shrink-0 basis-[164px]">
+          <Sidebar />
+        </nav>
+        <div className="so-main-content so-with-both-side border-r-white">
+          <div className="flex flex-row items-center justify-between px-6 py-8">
+            <h2 className="text-xxl">Questions</h2>
+            <Link to="/question/create" className="so-button-primary">
+              Ask Question
+            </Link>
+          </div>
+          <div className="flex items-center px-4 flex-nowrap justify-between mb-4 ">
+            <div className="flex px-3 xl">
+              {pageInfo.totalElements} questions
+            </div>
+            <div className="filter flex">
+              <div
+                className="inline-flex object-right rounded-md shadow-sm pr-2"
+                role="group"
               >
-                Newest
-              </button>
-              <button
-                type="button"
-                value="vote"
-                onClick={onFilterClick}
-                className="mr-[-1px] px-3 py-1.5 text-sm text-black bg-white border font-regular rounded-lr border-soGray-light hover:bg-soGray-light focus:bg-soGray-light focus:z-10 "
-              >
-                Vote
-              </button>
-              <button
-                type="button"
-                value="unanswered"
-                onClick={onFilterClick}
-                className="px-3 py-1.5 text-sm text-black bg-white border rounded-r font-regular focus:z-10 border-soGray-light hover:bg-soGray-light focus:bg-soGray-light"
-              >
-                Unanswered
-              </button>
+                <button
+                  type="button"
+                  value="newest"
+                  onClick={onFilterClick}
+                  className="mr-[-1px] px-3 py-1.5 text-sm text-black bg-white border rounded-l font-regular border-soGray-light hover:bg-soGray-light focus:z-10 focus:bg-soGray-light"
+                >
+                  Newest
+                </button>
+                <button
+                  type="button"
+                  value="vote"
+                  onClick={onFilterClick}
+                  className="mr-[-1px] px-3 py-1.5 text-sm text-black bg-white border font-regular rounded-lr border-soGray-light hover:bg-soGray-light focus:bg-soGray-light focus:z-10 "
+                >
+                  Vote
+                </button>
+                <button
+                  type="button"
+                  value="unanswered"
+                  onClick={onFilterClick}
+                  className="px-3 py-1.5 text-sm text-black bg-white border rounded-r font-regular focus:z-10 border-soGray-light hover:bg-soGray-light focus:bg-soGray-light"
+                >
+                  Unanswered
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="mr-8 border-t border-soGray-light">
-          {questionList && (
-            <div className="questionList">
-              {questionList.map((card) => (
-                <Card key={card.id} item={card} />
-              ))}
-            </div>
-          )}
-        </div>
-        <div className="border-t border-soGray-light">
-          <div className="mt-12">
-            {pageInfo && (
-              <Pagination
-                currentPage={currPage}
-                pageInfo={pageInfo}
-                setCurrPage={setCurrPage}
-                setIsUpdate={setIsUpdate}
-                onPageChange={onPageChange}
-                onClickPage={onClickPage}
-              />
+          <div className="mr-8 border-t border-soGray-light">
+            {questionList && (
+              <div className="questionList">
+                {questionList.map((card) => (
+                  <Card key={card.id} item={card} />
+                ))}
+              </div>
             )}
           </div>
+          <div className="border-t border-soGray-light">
+            <div className="mt-12">
+              {pageInfo && (
+                <Pagination
+                  currentPage={currPage}
+                  pageInfo={pageInfo}
+                  setCurrPage={setCurrPage}
+                  setIsUpdate={setIsUpdate}
+                  onPageChange={onPageChange}
+                  onClickPage={onClickPage}
+                />
+              )}
+            </div>
+          </div>
         </div>
+        <aside className="w-[280px] flex-grow-0 flex-shrink-0 basis-[280px]">
+          <SidebarRight />
+        </aside>
       </div>
-      <aside className="w-[280px] flex-grow-0 flex-shrink-0 basis-[280px]">
-        <SidebarRight />
-      </aside>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Summary from './Summary';
 import Answers from './Answers';
 import Questions from './Questions';
+import { EC2 } from '../../util/fetchLogin';
 
 const Activitise = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const Activitise = () => {
   };
 
   useEffect(() => {
-    fetch(`/accounts/${id}`)
+    fetch(`${EC2}/accounts/${id}`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server

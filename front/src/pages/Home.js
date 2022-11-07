@@ -4,13 +4,14 @@ import SidebarRight from '../components/aside/SidebarRight';
 import Loading from '../components/loading/Loading';
 import Sidebar from '../components/aside/Sidebar';
 import Card from '../components/home/Card';
+import { EC2 } from '../util/fetchLogin';
 
 function Home() {
   const [questionList, setQuestionList] = useState([]);
   const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
-    fetch(`/questions?page=1&size=10&sort=id%2Cdesc`)
+    fetch(`${EC2}/questions?page=1&size=10&sort=id%2Cdesc`)
       .then((response) => {
         if (!response.ok) {
           throw Error('could not fetch the data for that resource');

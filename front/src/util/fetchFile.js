@@ -1,8 +1,10 @@
+import { EC2 } from './fetchLogin';
+
 export const fetchUploadImage = async (blob) => {
   let formData = new FormData();
   formData.append('file', blob);
 
-  return fetch(`/file`, {
+  return fetch(`${EC2}/file`, {
     method: 'POST',
     headers: {
       authorization: sessionStorage.getItem('access_token'),

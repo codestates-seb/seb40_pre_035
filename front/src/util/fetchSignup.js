@@ -1,7 +1,8 @@
 import { showToast } from '../components/toast/Toast';
+import { EC2 } from './fetchLogin';
 
 export const fetchSignup = async (data) => {
-  return fetch(`/accounts`, {
+  return fetch(`${EC2}/accounts`, {
     method: 'POST',
     header: { 'Content-Type': 'multipart/form-data;charset=UTF-8' },
     body: data,

@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { fetchUploadImage } from '../../util/fetchFile';
 import { showToast } from '../toast/Toast';
+import { EC2 } from '../../util/fetchLogin';
 
 const EditProfile = () => {
   const { id } = useParams();
@@ -65,7 +66,7 @@ const EditProfile = () => {
   }
 
   useEffect(() => {
-    fetch(`/accounts/${id}`)
+    fetch(`${EC2}/accounts/${id}`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -100,7 +101,7 @@ const EditProfile = () => {
     formData.append('password', password);
     formData.append('nickname', username);
 
-    fetch(`/accounts/${id}`, {
+    fetch(`${EC2}/accounts/${id}`, {
       method: 'POST',
       headers: {
         // 'Content-Type': 'multipart/form-data;charset=UTF-8',

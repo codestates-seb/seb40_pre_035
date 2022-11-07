@@ -1,5 +1,7 @@
+import { EC2 } from './fetchLogin';
+
 export const fetchAnswerList = async (id) => {
-  return fetch(`/answers/question/${id}?size=100`)
+  return fetch(`${EC2}/answers/question/${id}?size=100`)
     .then((response) => {
       if (!response.ok) {
         throw Error('유효하지 않은 요청입니다.');
@@ -12,7 +14,7 @@ export const fetchAnswerList = async (id) => {
 };
 
 export const fetchCreateAnswer = async (fetchData) => {
-  return fetch(`/answers`, {
+  return fetch(`${EC2}/answers`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -32,7 +34,7 @@ export const fetchCreateAnswer = async (fetchData) => {
 };
 
 export const fetchDeleteAnswer = async (id) => {
-  return fetch(`/answers/${id}`, {
+  return fetch(`${EC2}/answers/${id}`, {
     method: 'DELETE',
     headers: {
       authorization: sessionStorage.getItem('access_token'),
@@ -53,7 +55,7 @@ export const fetchDeleteAnswer = async (id) => {
 };
 
 export const fetchSelectAnswer = async (id) => {
-  return fetch(`/answers/select/${id}`, {
+  return fetch(`${EC2}/answers/select/${id}`, {
     method: 'POST',
     headers: {
       authorization: sessionStorage.getItem('access_token'),

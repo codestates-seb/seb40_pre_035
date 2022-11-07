@@ -1,7 +1,8 @@
 import { showToast } from '../components/toast/Toast';
+import { EC2 } from './fetchLogin';
 
 export const fetchQuestionVote = async (id, status) => {
-  return fetch(`/questions/questionVote/${id}`, {
+  return fetch(`${EC2}/questions/questionVote/${id}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -27,7 +28,7 @@ export const fetchQuestionVote = async (id, status) => {
 };
 
 export const fetchAnswerVote = async (id, status) => {
-  return fetch(`/answers/answerVote/${id}`, {
+  return fetch(`${EC2}/answers/answerVote/${id}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

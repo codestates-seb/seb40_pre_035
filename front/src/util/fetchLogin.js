@@ -1,8 +1,8 @@
 import { showToast } from '../components/toast/Toast';
-export const BASE_URL = 'http://13.125.238.70:8080'; // 다른페이지에서 아직 참조중이라 남겨둡니다
+export const EC2 = process.env.REACT_APP_EC2_HOST;
 
 export const fetchLogin = async (data) => {
-  return fetch(`/auth/login`, {
+  return fetch(`${EC2}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -34,7 +34,7 @@ export const fetchLogin = async (data) => {
 
 // 로그인한 Account 조회
 export const fetchUserInfo = async () => {
-  return fetch(`/accounts/user`, {
+  return fetch(`${EC2}/accounts/user`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',

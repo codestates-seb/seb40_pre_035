@@ -1,5 +1,7 @@
+import { EC2 } from './fetchLogin';
+
 export const fetchQuestionDetail = async (id) => {
-  return fetch(`/questions/${id}`)
+  return fetch(`${EC2}/questions/${id}`)
     .then((response) => {
       if (!response.ok) {
         throw Error('유효하지 않은 요청입니다.');
@@ -34,14 +36,14 @@ export const fetchQuestionList = async (page, filter, searchText) => {
     }
   } else if (filter === 'vote') {
     if (searchText !== searchTemp && searchText !== null) {
-      url = `questions/totalVote?page=${page}&size=10&keyword=${searchText}`;
+      url = `/questions/totalVote?page=${page}&size=10&keyword=${searchText}`;
       console.log('stringvoteurl:' + url);
     } else {
-      url = `questions/totalVote?page=${page}&size=10`;
+      url = `/questions/totalVote?page=${page}&size=10`;
       console.log('url: ' + url);
     }
   }
-  return fetch(url)
+  return fetch(`${EC2}${url}`)
     .then((response) => {
       if (!response.ok) {
         throw Error('유효하지 않은 요청입니다.');
@@ -54,7 +56,7 @@ export const fetchQuestionList = async (page, filter, searchText) => {
 };
 
 export const fetchCreateQuestion = async (fetchData) => {
-  return fetch(`/questions`, {
+  return fetch(`${EC2}/questions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -77,7 +79,7 @@ export const fetchCreateQuestion = async (fetchData) => {
 };
 
 export const fetchUpdateQuestion = async (fetchData, id) => {
-  fetch(`/questions/${id}`, {
+  fetch(`${EC2}/questions/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -100,7 +102,7 @@ export const fetchUpdateQuestion = async (fetchData, id) => {
 };
 
 export const fetchDeleteQuestion = async (id) => {
-  fetch(`/questions/${id}`, {
+  fetch(`${EC2}/questions/${id}`, {
     method: 'DELETE',
     headers: {
       authorization: sessionStorage.getItem('access_token'),

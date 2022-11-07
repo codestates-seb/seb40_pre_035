@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { showToast } from '../toast/Toast';
+import { EC2 } from '../../util/fetchLogin';
 
 const DeleteProfile = () => {
   const { id } = useParams();
@@ -21,7 +21,7 @@ const DeleteProfile = () => {
     e.preventDefault();
     if (disabled) return;
 
-    fetch(`/accounts/${id}`, {
+    fetch(`${EC2}/accounts/${id}`, {
       method: 'DELETE',
       headers: {
         authorization: sessionStorage.getItem('access_token'),
@@ -42,35 +42,6 @@ const DeleteProfile = () => {
         throw Error(error.message);
       });
   };
-
-  // const onRemove = async (e) => {
-  //   e.preventDefault();
-  //   if (disabled) return;
-
-  //   fetch(`/accounts/${id}`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       Authorization: sessionStorage.getItem('access_token'),
-  //     },
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw Error('유효하지 않은 요청입니다.');
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       if (data) {
-  //         showToast(data);
-  //         logout();
-  //         navigator('/');
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       throw Error(error.message);
-  //     });
-  // };
 
   return (
     <>

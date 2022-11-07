@@ -1,12 +1,13 @@
 import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { EC2 } from '../../util/fetchLogin';
 
 const Profile = () => {
   const { id } = useParams();
   const [idData, setIdData] = useState(null);
 
   useEffect(() => {
-    fetch(`/accounts/${id}`)
+    fetch(`${EC2}/accounts/${id}`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { EC2 } from '../../util/fetchLogin';
 
 const Summary = () => {
   const { id } = useParams();
@@ -8,7 +9,7 @@ const Summary = () => {
   const [questions, setQuestions] = useState(null);
 
   useEffect(() => {
-    fetch(`/accounts/${id}`)
+    fetch(`${EC2}/accounts/${id}`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -25,7 +26,7 @@ const Summary = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`/answers/account/${id}?page=1&size=5&sort=id%2Cdesc`)
+    fetch(`${EC2}/answers/account/${id}?page=1&size=5&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server
@@ -44,7 +45,7 @@ const Summary = () => {
   const answersContent = answers?.content;
 
   useEffect(() => {
-    fetch(`/questions/account/${id}?page=1&size=5&sort=id%2Cdesc`)
+    fetch(`${EC2}/questions/account/${id}?page=1&size=5&sort=id%2Cdesc`)
       .then((res) => {
         if (!res.ok) {
           // error coming back from server

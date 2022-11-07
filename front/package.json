@@ -2,7 +2,6 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://codestates-seb.github.io/seb40_pre_035/docs/",
   "dependencies": {
     "@stackoverflow/stacks-editor": "^0.8.2",
     "@stackoverflow/stacks-icons": "^4.0.0",

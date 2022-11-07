@@ -77,14 +77,14 @@ const Header = () => {
           <Link to="/">Logout</Link>
         </button>
         <div className="items-center p-2 hover:bg-soGray-light">
-          <Link to={userProfileImageLink}>
+          <a href={userProfileImageLink}>
             <img
               src={userProfileImage}
               alt="userProfile"
               width={25}
               height={25}
             ></img>
-          </Link>
+          </a>
         </div>
       </div>
     );

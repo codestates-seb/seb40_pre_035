@@ -182,9 +182,14 @@ back폴더에서 다음 명령어 실행
 
 <img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2809d97-4c68-4d0f-aed4-6d9c105fb426/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221107%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221107T063330Z&X-Amz-Expires=86400&X-Amz-Signature=5f7050fe4ecf777e92b2b6cdbf7496af11c4340b1c9f4f3e058832691c910832&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
 
+
+
+### 📍**Sign up**
+![Kapture 2022-11-07 at 19 53 36](https://user-images.githubusercontent.com/53070295/200293732-11000632-5338-4076-9952-39dd29387425.gif)
+
+### 📍**Login**
+![Kapture 2022-11-07 at 19 53 36](https://user-images.githubusercontent.com/53070295/200294021-9496470c-6913-413d-8422-c988bcfab561.gif)
+
 ### 📍**Mypage**
 
 <img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0192d707-3b2e-4683-aad5-dd782ac36b43/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221107%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221107T063157Z&X-Amz-Expires=86400&X-Amz-Signature=0888dab9327f79d4f5f37d8c7b1d5b6e03d176fbd1da02f75e364238ea94a1cb&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
-
-
-

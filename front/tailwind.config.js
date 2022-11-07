@@ -65,6 +65,7 @@ module.exports = {
       buttonPrimary: '#0A95FF',
       buttonSecondary: '#E1ECF4',
       select: '#2E7044',
+      selected: '#5eba7d',
     },
     fontSize: {
       xxs: '0.7rem',

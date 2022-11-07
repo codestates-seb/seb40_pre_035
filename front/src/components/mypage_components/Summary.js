@@ -97,8 +97,8 @@ const Summary = () => {
                 >
                   <div
                     className={
-                      el.selectedAnswer
-                        ? 'text-sm px-1.5 font-medium border  border-soGray-light rounded mx-1.5 bg-secondary-150'
+                      el.selected
+                        ? 'text-sm px-1.5 font-medium border  rounded mx-1.5 bg-selected text-white'
                         : 'text-sm px-1.5 font-medium border  border-soGray-light rounded mx-1.5 '
                     }
                   >
@@ -143,7 +143,7 @@ const Summary = () => {
                   <div
                     className={
                       el.selectedAnswer
-                        ? 'text-sm px-1.5 font-medium border  border-soGray-light rounded mx-1.5 bg-secondary-150'
+                        ? 'text-sm px-1.5 font-medium border  rounded mx-1.5 bg-selected text-white'
                         : 'text-sm px-1.5 font-medium border  border-soGray-light rounded mx-1.5 '
                     }
                   >

@@ -52,16 +52,11 @@ const EditProfile = () => {
     checkUsername();
     checkPassword();
     checkPasswordCheck();
-    console.log(usernameError);
-    console.log(passwordError);
-    console.log(passwordCheckError);
     if (!uploadImg) showToast('plz upload img');
     if (!usernameError && !passwordError && !passwordCheckError && uploadImg) {
       onEdit();
       navigate(`/mypage/${id}`);
       return location.reload();
-
-      // return true;
     }
     // return ;
     else {

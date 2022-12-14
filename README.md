@@ -12,7 +12,6 @@
 ## **✨서비스 소개**
 Stack Overflow Clone Coding
 스택 오버플로우 클론 코딩입니다.
-[👉배포 링크👈](http://seb40-pre-035.s3-website.ap-northeast-2.amazonaws.com/)
 
 ![image](https://user-images.githubusercontent.com/53070295/200287719-dbe3935d-b0b8-42c6-9115-f7eba7dfe4ca.png)
 
@@ -160,29 +159,23 @@ back폴더에서 다음 명령어 실행
  
 
 
-## **🏄‍ ♀️User Flow**
-
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/7ce2d043-7dcc-4e3c-96cb-ec49591f0bce/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221106%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221106T075704Z&X-Amz-Expires=86400&X-Amz-Signature=c3d087601e8dc4abdc792044c1bcd7e910555ad560ff5a2fde1a94a80bbe3c77&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
+## **🏄‍ User Flow**
+![userflow2](https://user-images.githubusercontent.com/36831218/207521946-b2163f92-2bbe-4106-b380-25b8ab8b8346.png)
 
 ## **👍 Demo**
 ### 📍[API 명세서](https://3355api.netlify.app/)
 
 ###  📍**Home**
-
-<img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f07c2597-04f1-4195-8352-1e7298363e76/Homescreen.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221106%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221106T080443Z&X-Amz-Expires=86400&X-Amz-Signature=da50c37dc9e74f1353f2dbbec0b346083e6a3a39321429f0b5b0d228a1a9d69d&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Homescreen.png%22&x-id=GetObject">
+<img width="1083" alt="Homescreen" src="https://user-images.githubusercontent.com/36831218/207522267-e50915c4-edb5-42c3-a14d-2d1e1a3d523d.png">
 
 ### 📍**Question Detail**
-
-<img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/97349071-d69c-4cad-bca0-a1f25f8c0460/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221107%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221107T062021Z&X-Amz-Expires=86400&X-Amz-Signature=c57160b5d60a1ab5813cef8bf32463e76ea26b9c43d3ff97f4273ca6f47d86b1&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
+![detail](https://user-images.githubusercontent.com/36831218/207522383-b15fea36-ca64-4fb2-a410-43f9fbfbdbd4.png)
 
 ### 📍**Question Create**
 ![Kapture 2022-11-07 at 15 39 53](https://user-images.githubusercontent.com/53070295/200242000-dab5f8a7-690f-4a83-9568-6c93b11a5c78.gif)
 
 ### 📍**Question Search**
-
-<img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b2809d97-4c68-4d0f-aed4-6d9c105fb426/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221107%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221107T063330Z&X-Amz-Expires=86400&X-Amz-Signature=5f7050fe4ecf777e92b2b6cdbf7496af11c4340b1c9f4f3e058832691c910832&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
-
-
+![search](https://user-images.githubusercontent.com/36831218/207522503-3e2f9c23-63f8-4b1e-8baa-b491a31845ed.png)
 
 ### 📍**Sign up**
 ![Kapture 2022-11-07 at 19 53 36](https://user-images.githubusercontent.com/53070295/200293732-11000632-5338-4076-9952-39dd29387425.gif)
@@ -191,5 +184,4 @@ back폴더에서 다음 명령어 실행
 ![Kapture 2022-11-07 at 19 53 36](https://user-images.githubusercontent.com/53070295/200294021-9496470c-6913-413d-8422-c988bcfab561.gif)
 
 ### 📍**Mypage**
-
-<img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0192d707-3b2e-4683-aad5-dd782ac36b43/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221107%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221107T063157Z&X-Amz-Expires=86400&X-Amz-Signature=0888dab9327f79d4f5f37d8c7b1d5b6e03d176fbd1da02f75e364238ea94a1cb&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject">
+![mypage](https://user-images.githubusercontent.com/36831218/207522593-0aedc632-bd18-4265-880b-dd7cd85860c0.png)
